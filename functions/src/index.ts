@@ -438,8 +438,7 @@ export const requestVinTransfer = onCall(
     const nodemailer = await import("nodemailer");
     await nodemailer.createTransport(smtpUrl).sendMail({
       from: `Siyyarte <${fromAddr}>`,
-      // TODO: restore replyTo support@bkenaan.dev once the domain has MX
-      // records (Cloudflare Email Routing) — as of 2026-06-11 it bounces.
+      replyTo: "Siyyarte Support <support@bkenaan.dev>",
       to: owner.email,
       subject: `Siyyarte — ownership transfer request (VIN ${vin})`,
       text:
