@@ -1,0 +1,120 @@
+rules_version = '2';
+
+// Garagi — Firestore security rules.
+// Principle: a user can touch ONLY their own data; global catalogs are
+// world-readable but writable only by admins (Firebase custom claim).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.admin == true;
+    }
+
+    // Basic shape validation for a vehicle write.
+    function validVehicle() {
+      let v = request.resource.data;
+      return v.make is string
+          && v.model is string
+          && v.year is int
+          && v.odometerKm is int
+          && v.odometerKm >= 0;
+    }
+
+    function validServiceRecord() {
+      let r = request.resource.data;
+      return r.type is string
+          && r.odometerKm is int
+          && r.odometerKm >= 0
+          && r.date is string // ISO-8601
+          // Entry time must be the server's clock — the client cannot backdate
+          // when a record was logged. Makes the history tamper-evident.
+          && r.createdAt == request.time;
+    }
+
+    // --- Per-user data: strict isolation ---
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      allow create, update: if isOwner(uid);
+      allow delete: if isOwner(uid);
+
+      match /vehicles/{vehicleId} {
+        allow read: if isOwner(uid);
+        // Every NEW vehicle must carry its registration-card photo — the
+        // ownership evidence behind the resale passport. Updates stay exempt
+        // so legacy vehicles (added before the requirement) remain editable.
+        allow create: if isOwner(uid) && validVehicle()
+            && request.resource.data.registrationCardUrl is string;
+        allow update: if isOwner(uid) && validVehicle();
+        allow delete: if isOwner(uid);
+
+        // History is append-only: owners may create and delete (undo) their
+        // own records, but never mutate an existing record in place.
+        match /history/{recordId} {
+          allow read: if isOwner(uid);
+          allow create: if isOwner(uid) && validServiceRecord();
+          allow delete: if isOwner(uid);
+          allow update: if false;
+        }
+      }
+
+      match /reminders/{reminderId} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // --- VIN registry: one car ↔ one Siyyarte account ---
+    // Doc id = the VIN. Created atomically with the vehicle (client batch).
+    // A second account trying to claim the same VIN performs an UPDATE on an
+    // existing doc, which is denied — so duplicates are impossible even from
+    // a modified client. Ownership transfers (car sold) are performed only by
+    // the requestVinTransfer/resolveVinTransfer Cloud Functions (Admin SDK).
+    match /vin_registry/{vin} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn()
+          && request.resource.data.uid == request.auth.uid;
+      // Release your own claim when deleting your vehicle.
+      allow delete: if isSignedIn() && resource.data.uid == request.auth.uid;
+      allow update: if false;
+    }
+
+    // Transfer requests are function-only (created/resolved via Admin SDK,
+    // approval happens through the emailed confirmation link).
+    match /vin_transfers/{id} {
+      allow read, write: if false;
+    }
+
+    // --- Global catalogs: public read, admin-only write ---
+    match /catalog_makes/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /catalog_models/{id}    { allow read: if true; allow write: if isAdmin(); }
+    match /catalog_trims/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /maintenance_rules/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /vehicle_specs/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /default_costs/{id}     { allow read: if true; allow write: if isAdmin(); }
+    match /fx_rates/{id}          { allow read: if true; allow write: if isAdmin(); }
+
+    // Announcements: anyone signed in can read; only admins publish.
+    match /announcements/{id} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Admin-only directory of all user records (for the admin panel). Note this
+    // does NOT grant access to subcollections; per-user data stays isolated.
+    match /admin_user_index/{uid} {
+      allow read, write: if isAdmin();
+    }
+
+    // Default deny.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

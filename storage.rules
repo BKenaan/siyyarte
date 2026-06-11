@@ -1,0 +1,26 @@
+rules_version = '2';
+
+// Garagi — Cloud Storage rules for invoice photos & vehicle images.
+// Files live under users/{uid}/... and are private to that user.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{uid}/{allPaths=**} {
+      // Read your own files only.
+      allow read: if isOwner(uid);
+
+      // Write your own files, capped at 8 MB and images only (invoices/photos).
+      allow write: if isOwner(uid)
+                   && request.resource.size < 8 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

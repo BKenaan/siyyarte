@@ -1,0 +1,7 @@
+node_modules/
+lib/
+*.local
+.runtimeconfig.json
+# Never commit a service-account key (it IS a secret)
+service-account*.json
+*-firebase-adminsdk-*.json

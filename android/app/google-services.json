@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "581627690933",
+    "project_id": "garagi-prod",
+    "storage_bucket": "garagi-prod.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581627690933:android:e617246da6a97830f723fc",
+        "android_client_info": {
+          "package_name": "com.garagi.garagi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtsXRpn4EEuN6NfdhwlUX1SY-WVaMAfQU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

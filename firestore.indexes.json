@@ -1,0 +1,14 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "vin_transfers",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {"fieldPath": "vin", "order": "ASCENDING"},
+        {"fieldPath": "toUid", "order": "ASCENDING"},
+        {"fieldPath": "status", "order": "ASCENDING"}
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
