@@ -43,11 +43,11 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="garagi_reminders" />
 
-        <!-- AdMob App ID — Google's SAMPLE id (test ads). Replace with your
-             real AdMob App ID before release. -->
+        <!-- AdMob App ID (real, Siyyarte). Ad UNIT ids live in
+             lib/features/ads/admob_config.dart. -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-3233223124511595~4709068634" />
 
         <!-- flutter_local_notifications: redeliver scheduled reminders after a
              reboot / app update so offline reminders survive. -->

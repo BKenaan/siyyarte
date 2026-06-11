@@ -4,5 +4,5 @@
 ///
 /// NOTE: the AdMob *App ID* (ca-app-pub-…~…) lives separately in
 /// android/app/src/main/AndroidManifest.xml (and iOS Info.plist), not here.
-const String kAdMobAndroidBanner = ''; // e.g. ca-app-pub-1234567890123456/1234567890
+const String kAdMobAndroidBanner = 'ca-app-pub-3233223124511595/3395986964';
 const String kAdMobIosBanner = '';
