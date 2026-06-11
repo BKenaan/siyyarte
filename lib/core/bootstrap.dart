@@ -7,10 +7,10 @@ import '../firebase_options.dart';
 /// the app uses the live Firebase backend configured by `flutterfire configure`.
 const bool kUseFirebase = true;
 
-/// Cloud Storage for Firebase requires the Blaze plan on new projects, so it's
-/// off while we run on the free Spark plan. Invoice photos save to a local path
-/// instead (no error). Flip to `true` after enabling Billing + Storage.
-const bool kUseFirebaseStorage = false;
+/// Cloud Storage is live (default bucket in us-east1, rules deployed
+/// 2026-06-11). Registration-card and invoice photos upload under
+/// users/{uid}/... and survive reinstalls and phone changes.
+const bool kUseFirebaseStorage = true;
 
 /// Initializes platform services. Safe to call when Firebase isn't configured;
 /// it simply no-ops so `flutter run` works out of the box.
