@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+import 'admob_config.dart';
 
 Future<void> initAds() async {
   try {
@@ -9,11 +12,21 @@ Future<void> initAds() async {
   } catch (_) {}
 }
 
-/// Google's official TEST banner ad units — show real test ads without an
-/// AdMob account. Replace with your own unit IDs (and the App ID in the
-/// Android manifest / iOS Info.plist) before release.
+/// Google's official TEST banner ad units. Used in all debug builds and
+/// whenever no real unit id is configured in admob_config.dart.
 const _androidTestBanner = 'ca-app-pub-3940256099942544/6300978111';
 const _iosTestBanner = 'ca-app-pub-3940256099942544/2934735716';
+
+String get _bannerUnitId {
+  if (Platform.isIOS) {
+    return (kDebugMode || kAdMobIosBanner.isEmpty)
+        ? _iosTestBanner
+        : kAdMobIosBanner;
+  }
+  return (kDebugMode || kAdMobAndroidBanner.isEmpty)
+      ? _androidTestBanner
+      : kAdMobAndroidBanner;
+}
 
 /// An adaptive banner shown to free users. Renders nothing until the ad loads
 /// (and nothing at all on platforms without ads).
@@ -36,7 +49,7 @@ class _AdBannerState extends State<AdBanner> {
 
   void _load() {
     final ad = BannerAd(
-      adUnitId: Platform.isIOS ? _iosTestBanner : _androidTestBanner,
+      adUnitId: _bannerUnitId,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
