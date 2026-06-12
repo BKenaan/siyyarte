@@ -41,9 +41,10 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
   DateTime? _insurance;
   DateTime? _inspection;
 
-  // Registration card (رخصة سير) — required ownership evidence for new
-  // vehicles; the AI reads holder name + VIN off it for the cross-check.
+  // Registration card (دفتر السيارة) — required ownership evidence for new
+  // vehicles; the AI reads holder, VIN, make, model and year off it.
   String? _regCardUrl;
+  String? _regCardBackUrl;
   String? _regHolder;
   String? _regVin;
   bool _regBusy = false;
@@ -72,6 +73,7 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
       _inspection = v.inspectionExpiry;
       _vin.text = v.vin ?? '';
       _regCardUrl = v.registrationCardUrl;
+      _regCardBackUrl = v.registrationCardBackUrl;
       _regHolder = v.regHolderName;
       _regVin = v.regCardVin;
     }
@@ -130,6 +132,7 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
       photoUrl: existing?.photoUrl,
       vin: _vinNorm.isEmpty ? null : _vinNorm,
       registrationCardUrl: _regCardUrl,
+      registrationCardBackUrl: _regCardBackUrl,
       regHolderName: _regHolder,
       regCardVin: _regVin,
       regStatus: _regStatus,
@@ -196,34 +199,73 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
     );
   }
 
-  /// Attach + AI-read the registration card. Fills VIN/plate when empty so the
-  /// card is also the fastest way to enter the vehicle.
+  /// Attach + AI-read the registration card, FRONT then BACK (the Lebanese
+  /// دفتر السيارة spreads its fields across both faces). Auto-fills VIN, make,
+  /// model, year and plate from whatever the AI reads.
   Future<void> _captureRegCard() async {
     final messenger = ScaffoldMessenger.of(context);
+    final service = ref.read(registrationCardServiceProvider);
     setState(() => _regBusy = true);
     try {
-      final cap =
-          await ref.read(registrationCardServiceProvider).captureAndRead();
-      if (cap == null) return; // cancelled
-      if (cap.scanned && !cap.looksLikeCard) {
+      // FRONT (required).
+      final front = await service.captureAndRead();
+      if (front == null) return; // cancelled
+      if (front.scanned && !front.looksLikeCard) {
         messenger.showSnackBar(const SnackBar(
             content: Text(
                 "This doesn't look like a vehicle registration card — photograph "
                 'the دفتر السيارة clearly, showing the holder name and VIN.')));
         return;
       }
-      setState(() {
-        _regCardUrl = cap.url;
-        _regHolder = cap.holderName;
-        _regVin = cap.vin;
-        if (cap.vin != null && _vin.text.trim().isEmpty) _vin.text = cap.vin!;
-        if (cap.plateNumber != null && _plate.text.trim().isEmpty) {
-          _plate.text = cap.plateNumber!;
+
+      // BACK (recommended, skippable).
+      RegCardCapture? back;
+      if (mounted) {
+        final wantsBack = await showDialog<bool>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('Add the back side'),
+            content: const Text(
+                'Now photograph the BACK of the card — some details (VIN, '
+                'model, year) are printed there.'),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  child: const Text('Skip')),
+              FilledButton(
+                  onPressed: () => Navigator.pop(ctx, true),
+                  child: const Text('Add back side')),
+            ],
+          ),
+        );
+        if (wantsBack == true) {
+          back = await service.captureAndRead();
         }
+      }
+
+      final merged = front.mergeWith(back);
+      setState(() {
+        _regCardUrl = front.url;
+        _regCardBackUrl = back?.url;
+        _regHolder = merged.holderName;
+        _regVin = merged.vin;
+        // Auto-fill everything the card gave us (without clobbering edits).
+        if (merged.vin != null && _vin.text.trim().isEmpty) {
+          _vin.text = merged.vin!;
+        }
+        if (merged.plateNumber != null && _plate.text.trim().isEmpty) {
+          _plate.text = merged.plateNumber!;
+        }
+        if (merged.make != null && _make.text.trim().isEmpty) {
+          _make.text = merged.make!;
+        }
+        if (merged.model != null && _model.text.trim().isEmpty) {
+          _model.text = merged.model!;
+        }
+        if (merged.year != null && _year == null) _year = merged.year;
       });
-      if (cap.scanned && cap.vin != null && _vin.text.trim().isNotEmpty) {
-        // Card VIN now drives the cross-check shown on the tile.
-      } else if (!cap.scanned) {
+      _maybeAutoSpec();
+      if (!merged.scanned) {
         messenger.showSnackBar(const SnackBar(
             content: Text('Card saved. It will count as "on file" — AI '
                 'verification needs the backend scan service.')));
@@ -234,6 +276,28 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
     } finally {
       if (mounted) setState(() => _regBusy = false);
     }
+  }
+
+  /// When make/model/year identify exactly ONE known factory trim, adopt its
+  /// engine/fuel/transmission automatically — the "linked specs" behavior.
+  void _maybeAutoSpec() {
+    final specs =
+        ref.read(modelSpecsProvider).valueOrNull ?? VehicleSpecs.seed;
+    final trims = VehicleSpecs.trimsFrom(
+        specs, _make.text.trim(), _model.text.trim(), _year);
+    if (trims.length != 1) return;
+    final spec = trims.single;
+    setState(() {
+      if (_trim.text.trim().isEmpty) _trim.text = spec.trim;
+      if (_engine.text.trim().isEmpty) _engine.text = spec.engine;
+      if (_fuel == null && VehicleCatalog.fuelTypes.contains(spec.fuel)) {
+        _fuel = spec.fuel;
+      }
+      if (_transmission == null &&
+          VehicleCatalog.transmissions.contains(spec.transmission)) {
+        _transmission = spec.transmission;
+      }
+    });
   }
 
   /// Decode the VIN with NHTSA vPIC and fill whatever fields it returns.
@@ -260,6 +324,7 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
         if (r.fuel != null) _fuel = r.fuel;
         if (r.transmission != null) _transmission = r.transmission;
       });
+      _maybeAutoSpec();
       messenger.showSnackBar(
           const SnackBar(content: Text('Specs loaded from VIN ✓')));
     } catch (e) {
@@ -409,6 +474,7 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
                   controller: _model,
                   label: t.model,
                   options: modelOptions,
+                  onSelected: (_) => _maybeAutoSpec(),
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<int>(
@@ -423,7 +489,10 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
                     if (_year != null && (_year! > year + 1 || _year! < 1990))
                       DropdownMenuItem(value: _year, child: Text('${_year!}')),
                   ],
-                  onChanged: (v) => setState(() => _year = v),
+                  onChanged: (v) {
+                    setState(() => _year = v);
+                    _maybeAutoSpec();
+                  },
                 ),
                 const SizedBox(height: 16),
                 // Known trims → pick to auto-fill specs; otherwise free text.

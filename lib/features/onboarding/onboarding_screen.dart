@@ -15,6 +15,57 @@ class OnboardingScreen extends ConsumerStatefulWidget {
   ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
+/// EN/AR pill toggle with identical fixed-height boxes and centered labels,
+/// immune to Latin-vs-Arabic font metric differences.
+class _LangToggle extends StatelessWidget {
+  const _LangToggle({required this.selected, required this.onChanged});
+  final String selected;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    Widget pill(String code, String label) {
+      final active = selected == code;
+      return GestureDetector(
+        onTap: () => onChanged(code),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          height: 36,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: active ? cs.primary : Colors.transparent,
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 13.5,
+              height: 1.0,
+              fontWeight: FontWeight.w700,
+              color: active ? Colors.white : cs.onSurface,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      height: 42,
+      padding: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        color: cs.onSurface.withValues(alpha: 0.06),
+        borderRadius: BorderRadius.circular(21),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [pill('en', 'English'), pill('ar', 'عربي')],
+      ),
+    );
+  }
+}
+
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final _controller = PageController();
   int _page = 0;
@@ -56,18 +107,15 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Language toggle
+                // Language toggle — fixed-height pills so the Latin and
+                // Arabic labels sit on the same visual line (the segmented
+                // button let their different font metrics drift apart).
                 Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: SegmentedButton<String>(
-                    style: const ButtonStyle(visualDensity: VisualDensity.compact),
-                    segments: [
-                      ButtonSegment(value: 'en', label: Text(t.english)),
-                      ButtonSegment(value: 'ar', label: Text(t.arabic)),
-                    ],
-                    selected: {locale.languageCode},
-                    onSelectionChanged: (s) =>
-                        ref.read(localeProvider.notifier).setLocale(s.first),
+                  padding: const EdgeInsets.only(left: 16),
+                  child: _LangToggle(
+                    selected: locale.languageCode,
+                    onChanged: (code) =>
+                        ref.read(localeProvider.notifier).setLocale(code),
                   ),
                 ),
                 TextButton(onPressed: widget.onDone, child: Text(t.skip)),

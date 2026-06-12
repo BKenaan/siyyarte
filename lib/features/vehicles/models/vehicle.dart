@@ -48,8 +48,10 @@ class Vehicle {
   /// Chassis number — entered, VIN-decoded, or read off the registration card.
   final String? vin;
 
-  /// Photo of the vehicle registration card (required for new vehicles).
+  /// Photo of the vehicle registration card — front (required for new
+  /// vehicles) and back (recommended; fields are split across both faces).
   final String? registrationCardUrl;
+  final String? registrationCardBackUrl;
 
   /// Holder name as AI-read from the registration card.
   final String? regHolderName;
@@ -77,6 +79,7 @@ class Vehicle {
     this.photoUrl,
     this.vin,
     this.registrationCardUrl,
+    this.registrationCardBackUrl,
     this.regHolderName,
     this.regCardVin,
     this.regStatus = RegStatus.none,
@@ -102,6 +105,7 @@ class Vehicle {
         photoUrl: photoUrl,
         vin: vin,
         registrationCardUrl: registrationCardUrl,
+        registrationCardBackUrl: registrationCardBackUrl,
         regHolderName: regHolderName,
         regCardVin: regCardVin,
         regStatus: regStatus,
@@ -124,6 +128,7 @@ class Vehicle {
         'photoUrl': photoUrl,
         'vin': vin,
         'registrationCardUrl': registrationCardUrl,
+        'registrationCardBackUrl': registrationCardBackUrl,
         'regHolderName': regHolderName,
         'regCardVin': regCardVin,
         'regStatus': regStatus.name,
@@ -147,6 +152,7 @@ class Vehicle {
         photoUrl: m['photoUrl'] as String?,
         vin: m['vin'] as String?,
         registrationCardUrl: m['registrationCardUrl'] as String?,
+        registrationCardBackUrl: m['registrationCardBackUrl'] as String?,
         regHolderName: m['regHolderName'] as String?,
         regCardVin: m['regCardVin'] as String?,
         regStatus: RegStatusX.fromId(m['regStatus'] as String?),

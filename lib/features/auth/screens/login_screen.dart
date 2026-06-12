@@ -123,22 +123,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               // Google/Apple need native/web OAuth setup; on web (used for
               // testing here) they aren't configured, so only show on mobile.
               if (!kIsWeb) ...[
-                _SocialButton(
-                  icon: Icons.g_mobiledata,
+                _GoogleButton(
                   label: t.continueWithGoogle,
                   onPressed:
                       _busy ? null : () => _run(auth.signInWithGoogle),
                 ),
                 const SizedBox(height: 10),
-                _SocialButton(
-                  icon: Icons.apple,
+                _AppleButton(
                   label: t.continueWithApple,
                   onPressed: _busy ? null : () => _run(auth.signInWithApple),
                 ),
                 const SizedBox(height: 10),
               ],
-              _SocialButton(
-                icon: Icons.phone_outlined,
+              _PhoneButton(
                 label: t.continueWithPhone,
                 onPressed: _busy
                     ? null
@@ -160,14 +157,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 }
 
-class _SocialButton extends StatelessWidget {
-  const _SocialButton({
-    required this.icon,
-    required this.label,
-    required this.onPressed,
-  });
-
-  final IconData icon;
+/// "Continue with Google" per Google's branding: white surface, grey
+/// hairline border, dark grey label, official multicolor G.
+class _GoogleButton extends StatelessWidget {
+  const _GoogleButton({required this.label, required this.onPressed});
   final String label;
   final VoidCallback? onPressed;
 
@@ -175,12 +168,66 @@ class _SocialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton.icon(
       onPressed: onPressed,
-      icon: Icon(icon),
+      icon: Image.asset('assets/brand/google_g.png', width: 20, height: 20),
+      label: Text(label),
+      style: OutlinedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: const Color(0xFF1F1F1F),
+        side: const BorderSide(color: Color(0xFF747775)),
+        minimumSize: const Size.fromHeight(50),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        textStyle:
+            const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+}
+
+/// "Continue with Apple" per Apple's guidelines: solid black, white label
+/// and Apple mark.
+class _AppleButton extends StatelessWidget {
+  const _AppleButton({required this.label, required this.onPressed});
+  final String label;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton.icon(
+      onPressed: onPressed,
+      icon: const Icon(Icons.apple, size: 22, color: Colors.white),
+      label: Text(label),
+      style: FilledButton.styleFrom(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        minimumSize: const Size.fromHeight(50),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        textStyle:
+            const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+}
+
+/// Neutral outlined phone sign-in button.
+class _PhoneButton extends StatelessWidget {
+  const _PhoneButton({required this.label, required this.onPressed});
+  final String label;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      icon: const Icon(Icons.phone_outlined, size: 20),
       label: Text(label),
       style: OutlinedButton.styleFrom(
         minimumSize: const Size.fromHeight(50),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        textStyle:
+            const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
       ),
     );
   }

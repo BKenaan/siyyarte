@@ -17,6 +17,9 @@ class RegCardCapture {
     this.holderName,
     this.vin,
     this.plateNumber,
+    this.make,
+    this.model,
+    this.year,
   });
 
   /// Where the card photo lives (Storage URL, or local path on Spark/mock).
@@ -31,6 +34,26 @@ class RegCardCapture {
   final String? holderName;
   final String? vin;
   final String? plateNumber;
+  final String? make;
+  final String? model;
+  final int? year;
+
+  /// Merge two sides of the same card — values from [this] win, [other]
+  /// fills the gaps (Lebanese دفتر السيارة spreads fields across both faces).
+  RegCardCapture mergeWith(RegCardCapture? other) {
+    if (other == null) return this;
+    return RegCardCapture(
+      url: url,
+      scanned: scanned || other.scanned,
+      looksLikeCard: looksLikeCard || other.looksLikeCard,
+      holderName: holderName ?? other.holderName,
+      vin: vin ?? other.vin,
+      plateNumber: plateNumber ?? other.plateNumber,
+      make: make ?? other.make,
+      model: model ?? other.model,
+      year: year ?? other.year,
+    );
+  }
 }
 
 /// Captures the registration card that must accompany every new vehicle:
@@ -82,6 +105,7 @@ class RegistrationCardService {
         });
         final data = Map<String, dynamic>.from(res.data);
         final rawVin = data['vin'];
+        final rawYear = data['year'];
         return RegCardCapture(
           url: url,
           scanned: true,
@@ -91,6 +115,9 @@ class RegistrationCardService {
               ? rawVin.replaceAll(RegExp(r'\s'), '').toUpperCase()
               : null,
           plateNumber: (data['plateNumber'] as String?)?.trim(),
+          make: (data['make'] as String?)?.trim(),
+          model: (data['model'] as String?)?.trim(),
+          year: rawYear is num ? rawYear.toInt() : null,
         );
       } catch (_) {
         // Functions not deployed / offline → card on file, unverified.

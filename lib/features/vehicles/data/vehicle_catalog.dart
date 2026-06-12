@@ -148,8 +148,9 @@ abstract class VehicleCatalog {
       makes.firstWhere((m) => m.name == make,
           orElse: () => const VehicleMake('', '', ['Other'])).models;
 
+  // No Diesel: diesel passenger cars are banned from registration in Lebanon.
   static const List<String> fuelTypes = [
-    'Petrol', 'Diesel', 'Hybrid', 'Plug-in Hybrid', 'Electric', 'LPG'
+    'Petrol', 'Hybrid', 'Plug-in Hybrid', 'Electric', 'LPG'
   ];
   static const List<String> transmissions = [
     'Automatic', 'Manual', 'CVT', 'Dual-clutch'
