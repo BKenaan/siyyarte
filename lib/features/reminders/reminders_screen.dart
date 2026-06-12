@@ -6,6 +6,8 @@ import '../../core/providers.dart';
 import '../../l10n/app_localizations.dart';
 import '../maintenance/models/scheduled_service.dart';
 import '../maintenance/models/service_type.dart';
+import '../premium/premium_controller.dart';
+import '../premium/siyyarte_plus_screen.dart';
 import 'notification_service.dart';
 
 class _Reminder {
@@ -67,6 +69,11 @@ class RemindersScreen extends ConsumerWidget {
           ? null
           : FloatingActionButton.extended(
               onPressed: () async {
+                // Reminders (local + push) are a Siyyarte Plus feature.
+                if (!ref.read(isPremiumProvider)) {
+                  SiyyartePlusScreen.show(context);
+                  return;
+                }
                 final svc = NotificationService.instance;
                 await svc.requestPermissions();
                 for (var i = 0; i < reminders.length; i++) {

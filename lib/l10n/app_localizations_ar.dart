@@ -433,7 +433,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'سيّارات غير محدودة (الخطة المجانية: سيّارتان)';
 
   @override
-  String get plusBenefitPriority => 'تذكيرات ودعم بأولوية';
+  String get plusBenefitPriority => 'تذكيرات الصيانة والإشعارات';
 
   @override
   String get plusPrice => '٢٫٩٩ \$ / شهرياً';

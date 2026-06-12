@@ -434,7 +434,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get plusBenefitUnlimited => 'Unlimited cars (free plan: 2)';
 
   @override
-  String get plusBenefitPriority => 'Priority reminders & support';
+  String get plusBenefitPriority => 'Maintenance reminders & push alerts';
 
   @override
   String get plusPrice => '\$2.99 / month';

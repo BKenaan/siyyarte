@@ -163,6 +163,9 @@ export const dailyReminderSweep = onSchedule(
     const usersSnap = await db.collection("users").get();
 
     for (const userDoc of usersSnap.docs) {
+      // Push reminders are a Siyyarte Plus feature (also keeps the sweep's
+      // Firestore reads proportional to paying users).
+      if (userDoc.get("plus") !== true) continue;
       const tokens: string[] = userDoc.get("fcmTokens") ?? [];
       if (tokens.length === 0) continue;
 

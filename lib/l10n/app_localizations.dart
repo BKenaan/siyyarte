@@ -905,7 +905,7 @@ abstract class AppLocalizations {
   /// No description provided for @plusBenefitPriority.
   ///
   /// In en, this message translates to:
-  /// **'Priority reminders & support'**
+  /// **'Maintenance reminders & push alerts'**
   String get plusBenefitPriority;
 
   /// No description provided for @plusPrice.

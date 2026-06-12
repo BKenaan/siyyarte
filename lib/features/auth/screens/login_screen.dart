@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/providers.dart';
 import '../../../core/widgets/siyyarte_logo.dart';
 import '../../../l10n/app_localizations.dart';
-import 'phone_sign_in_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -135,15 +134,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 const SizedBox(height: 10),
               ],
-              _PhoneButton(
-                label: t.continueWithPhone,
-                onPressed: _busy
-                    ? null
-                    : () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (_) => const PhoneSignInScreen()),
-                        ),
-              ),
+              // Phone-OTP sign-in removed: each SMS verification costs real
+              // money; email/Google/Apple cover sign-in for free.
               const SizedBox(height: 24),
               TextButton(
                 onPressed: () => setState(() => _signUp = !_signUp),
@@ -210,25 +202,3 @@ class _AppleButton extends StatelessWidget {
   }
 }
 
-/// Neutral outlined phone sign-in button.
-class _PhoneButton extends StatelessWidget {
-  const _PhoneButton({required this.label, required this.onPressed});
-  final String label;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: onPressed,
-      icon: const Icon(Icons.phone_outlined, size: 20),
-      label: Text(label),
-      style: OutlinedButton.styleFrom(
-        minimumSize: const Size.fromHeight(50),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        textStyle:
-            const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-      ),
-    );
-  }
-}
