@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
-/// Garagi brand palette — premium automotive: charcoal instrument-cluster
-/// neutrals with a single confident "tail-light red" accent.
+/// Siyyarte brand palette — deep navy from the emblem tile with a single
+/// confident orange accent (the reminder bubble in the logo).
 abstract class AppColors {
-  // Brand accent
-  static const Color tailLightRed = Color(0xFFD32F2F);
-  static const Color tailLightRedDark = Color(0xFFB71C1C);
+  // Brand
+  static const Color brandNavy = Color(0xFF011E4B); // emblem tile
+  static const Color primaryNavy = Color(0xFF0D3573); // buttons / chrome
+  static const Color navyLight = Color(0xFF1A4E9E);
+  static const Color accentOrange = Color(0xFFF47C20);
+  static const Color accentOrangeDark = Color(0xFFD96510);
 
   // Neutrals (charcoal / brushed metal)
   static const Color charcoal = Color(0xFF1C1F22);
@@ -25,16 +28,10 @@ abstract class AppColors {
   static const Color textPrimaryDark = Color(0xFFF4F5F7);
   static const Color textSecondaryDark = Color(0xFFB0B5BB);
 
-  // Brand gradients (match the logo emblem).
-  static const Gradient charcoalGradient = LinearGradient(
+  // Brand gradient (matches the logo emblem tile).
+  static const Gradient brandGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [Color(0xFF262A2E), Color(0xFF0B0C0E)],
-  );
-
-  static const Gradient redGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [Color(0xFFFF4B3E), Color(0xFFC01209)],
+    colors: [Color(0xFF0D3573), Color(0xFF011E4B)],
   );
 }

@@ -13,9 +13,9 @@ abstract class AppTheme {
   static ThemeData _base(Brightness brightness) {
     final isDark = brightness == Brightness.dark;
     final scheme = ColorScheme.fromSeed(
-      seedColor: AppColors.tailLightRed,
+      seedColor: AppColors.primaryNavy,
       brightness: brightness,
-      primary: AppColors.tailLightRed,
+      primary: AppColors.primaryNavy,
       surface: isDark ? AppColors.charcoalSurface : AppColors.cloud,
     );
 
@@ -125,7 +125,7 @@ abstract class AppTheme {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide:
-              const BorderSide(color: AppColors.tailLightRed, width: 1.6),
+              const BorderSide(color: AppColors.primaryNavy, width: 1.6),
         ),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -134,7 +134,7 @@ abstract class AppTheme {
         backgroundColor: isDark ? AppColors.charcoalSurface : AppColors.cloud,
         elevation: 0,
         height: 68,
-        indicatorColor: AppColors.tailLightRed.withValues(alpha: 0.14),
+        indicatorColor: AppColors.primaryNavy.withValues(alpha: 0.14),
         labelTextStyle: WidgetStatePropertyAll(
           GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600),
         ),

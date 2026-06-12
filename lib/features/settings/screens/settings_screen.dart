@@ -55,7 +55,7 @@ class SettingsScreen extends ConsumerWidget {
               leading: Icon(Icons.workspace_premium_outlined,
                   color: isPremium
                       ? AppColors.healthGood
-                      : AppColors.tailLightRed),
+                      : AppColors.accentOrange),
               title: Text(t.siyyartePlus),
               subtitle:
                   Text(isPremium ? t.premiumActive : t.premiumFree),

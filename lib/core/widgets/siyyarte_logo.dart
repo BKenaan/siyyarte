@@ -42,7 +42,7 @@ class SiyyarteWordmark extends StatelessWidget {
         children: const [
           TextSpan(text: 'SIYYART'),
           TextSpan(
-              text: 'E', style: TextStyle(color: AppColors.tailLightRed)),
+              text: 'E', style: TextStyle(color: AppColors.accentOrange)),
         ],
       ),
     );
@@ -90,7 +90,7 @@ class SiyyarteLogo extends StatelessWidget {
                   TextSpan(text: 'SIYYART'),
                   TextSpan(
                     text: 'E',
-                    style: TextStyle(color: AppColors.tailLightRed),
+                    style: TextStyle(color: AppColors.accentOrange),
                   ),
                 ],
               ),

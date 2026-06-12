@@ -60,7 +60,7 @@ class CostCenterScreen extends ConsumerWidget {
         if (grand.hasAny)
           Container(
             decoration: BoxDecoration(
-              gradient: AppColors.charcoalGradient,
+              gradient: AppColors.brandGradient,
               borderRadius: BorderRadius.circular(22),
             ),
             padding: const EdgeInsets.all(20),

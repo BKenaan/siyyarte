@@ -42,10 +42,10 @@ class DashboardScreen extends ConsumerWidget {
             // Premium hero: vehicle + odometer + health gauge on charcoal.
             Container(
               decoration: BoxDecoration(
-                gradient: AppColors.charcoalGradient,
+                gradient: AppColors.brandGradient,
                 borderRadius: BorderRadius.circular(26),
                 border: Border.all(
-                    color: AppColors.tailLightRed.withValues(alpha: 0.18)),
+                    color: AppColors.accentOrange.withValues(alpha: 0.18)),
               ),
               padding: const EdgeInsets.fromLTRB(22, 22, 22, 22),
               child: Column(
@@ -56,11 +56,11 @@ class DashboardScreen extends ConsumerWidget {
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color:
-                              AppColors.tailLightRed.withValues(alpha: 0.16),
+                              AppColors.accentOrange.withValues(alpha: 0.16),
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: const Icon(Icons.directions_car_filled,
-                            color: AppColors.tailLightRed, size: 26),
+                            color: AppColors.accentOrange, size: 26),
                       ),
                       const SizedBox(width: 14),
                       Expanded(

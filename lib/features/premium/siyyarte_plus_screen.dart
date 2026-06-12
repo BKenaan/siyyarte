@@ -72,10 +72,10 @@ class SiyyartePlusScreen extends ConsumerWidget {
           // Hero
           Container(
             decoration: BoxDecoration(
-              gradient: AppColors.charcoalGradient,
+              gradient: AppColors.brandGradient,
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                  color: AppColors.tailLightRed.withValues(alpha: 0.25)),
+                  color: AppColors.accentOrange.withValues(alpha: 0.25)),
             ),
             padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 20),
             child: Column(
@@ -104,11 +104,11 @@ class SiyyartePlusScreen extends ConsumerWidget {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.tailLightRed.withValues(alpha: 0.12),
+                        color: AppColors.accentOrange.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(b.$1,
-                          color: AppColors.tailLightRed, size: 20),
+                          color: AppColors.accentOrange, size: 20),
                     ),
                     const SizedBox(width: 14),
                     Expanded(

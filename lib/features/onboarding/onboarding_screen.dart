@@ -85,7 +85,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(s.icon, size: 96, color: AppColors.tailLightRed),
+                        Icon(s.icon, size: 96, color: AppColors.accentOrange),
                         const SizedBox(height: 32),
                         Text(s.title,
                             textAlign: TextAlign.center,
@@ -114,7 +114,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     height: 8,
                     decoration: BoxDecoration(
                       color: i == _page
-                          ? AppColors.tailLightRed
+                          ? AppColors.accentOrange
                           : Colors.grey.shade400,
                       borderRadius: BorderRadius.circular(4),
                     ),
