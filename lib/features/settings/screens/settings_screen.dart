@@ -125,6 +125,11 @@ class SettingsScreen extends ConsumerWidget {
   Future<void> _exportData(
       BuildContext context, WidgetRef ref, user) async {
     if (user == null) return;
+    // Free plan can view records in-app; exporting them is part of Plus.
+    if (!ref.read(isPremiumProvider)) {
+      SiyyartePlusScreen.show(context);
+      return;
+    }
     final repo = ref.read(garageRepositoryProvider);
     final vehicles = await repo.watchVehicles().first;
     final data = <VehicleWithHistory>[];
