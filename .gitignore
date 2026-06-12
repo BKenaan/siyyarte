@@ -53,3 +53,4 @@ app.*.map.json
 !**/debug.keystore
 .env
 *.env.local
+.firebase/
