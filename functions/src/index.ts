@@ -279,7 +279,10 @@ function parseJsonObject(text: string): Record<string, unknown> {
 }
 
 const OCR_MAX_IMAGE_B64 = 7_000_000; // ~5 MB image, base64-encoded
-const OCR_DAILY_LIMIT = 40; // scans per user per day — abuse guard
+// Daily scan quotas — heavy scanning is a Plus perk and the free cap bounds
+// the worst-case AI spend per free account to ~a cent a day.
+const OCR_DAILY_FREE = 5;
+const OCR_DAILY_PLUS = 40;
 
 export const extractFromImage = onCall(
   {secrets: [ANTHROPIC_API_KEY], timeoutSeconds: 60, memory: "512MiB"},
@@ -300,26 +303,38 @@ export const extractFromImage = onCall(
     }
 
     // Per-user daily quota so a single account cannot run up the AI bill.
+    // Plus subscribers get the high tier; `plus` on users/{uid} is written
+    // ONLY by the RevenueCat webhook (clients can't set it — see rules).
+    const userSnap = await db.collection("users").doc(req.auth.uid).get();
+    const isPlus = userSnap.get("plus") === true;
+    const limit = isPlus ? OCR_DAILY_PLUS : OCR_DAILY_FREE;
+
     const usageRef = db.collection("ocr_usage").doc(req.auth.uid);
     const day = new Date().toISOString().slice(0, 10); // UTC day
     const allowed = await db.runTransaction(async (tx) => {
       const snap = await tx.get(usageRef);
       const data = snap.data();
       const count = data && data.day === day ? (data.count as number) : 0;
-      if (count >= OCR_DAILY_LIMIT) return false;
+      if (count >= limit) return false;
       tx.set(usageRef, {day, count: count + 1});
       return true;
     });
     if (!allowed) {
       throw new HttpsError(
-        "resource-exhausted", "Daily scan limit reached. Try again tomorrow.");
+        "resource-exhausted",
+        isPlus ?
+          "Daily scan limit reached. Try again tomorrow." :
+          `Daily scan limit reached (${OCR_DAILY_FREE}/day on the free ` +
+          "plan). Upgrade to Siyyarte Plus for more, or try again tomorrow.");
     }
 
     const {default: AnthropicSdk} = await import("@anthropic-ai/sdk");
     const client = new AnthropicSdk({apiKey: ANTHROPIC_API_KEY.value()});
     try {
       const message = await client.messages.create({
-        model: "claude-opus-4-8",
+        // Haiku reads receipts/odometers/cards reliably at ~1/6 the cost of
+        // Opus — the right tier for structured OCR.
+        model: "claude-haiku-4-5",
         max_tokens: 1024,
         messages: [
           {
@@ -529,3 +544,51 @@ export const resolveVinTransfer = onRequest(async (req, res) => {
     "It no longer appears in your garage; your service records remain in " +
     "your account for reference."));
 });
+
+// --- RevenueCat webhook: mirrors the Plus entitlement into Firestore -------
+// RevenueCat calls this on purchase/renewal/expiration events. The app
+// identifies users to RevenueCat by their Firebase uid (Purchases.logIn), so
+// event.app_user_id IS the uid. users/{uid}.plus is written only here (the
+// security rules block clients from touching it), which makes it safe for
+// server-side checks like the OCR quota tier.
+const REVENUECAT_WEBHOOK_AUTH = defineSecret("REVENUECAT_WEBHOOK_AUTH");
+
+const PLUS_ON = new Set([
+  "INITIAL_PURCHASE", "RENEWAL", "UNCANCELLATION", "PRODUCT_CHANGE",
+  "SUBSCRIPTION_EXTENDED", "TRANSFER",
+]);
+const PLUS_OFF = new Set(["EXPIRATION"]);
+
+export const revenuecatWebhook = onRequest(
+  {secrets: [REVENUECAT_WEBHOOK_AUTH]},
+  async (req, res) => {
+    if (req.method !== "POST") {
+      res.status(405).send("POST only");
+      return;
+    }
+    if (req.get("Authorization") !== REVENUECAT_WEBHOOK_AUTH.value()) {
+      res.status(401).send("unauthorized");
+      return;
+    }
+    const event = req.body?.event;
+    const uid = event?.app_user_id as string | undefined;
+    const type = event?.type as string | undefined;
+    if (!uid || !type) {
+      res.status(400).send("missing event");
+      return;
+    }
+    // Ignore RevenueCat anonymous ids — only Firebase-uid-identified users.
+    if (uid.startsWith("$RCAnonymousID:")) {
+      res.status(200).send("anonymous ignored");
+      return;
+    }
+    if (PLUS_ON.has(type)) {
+      await db.collection("users").doc(uid)
+        .set({plus: true}, {merge: true});
+    } else if (PLUS_OFF.has(type)) {
+      await db.collection("users").doc(uid)
+        .set({plus: false}, {merge: true});
+    }
+    res.status(200).send("ok");
+  }
+);

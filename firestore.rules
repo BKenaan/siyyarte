@@ -42,7 +42,13 @@ service cloud.firestore {
     // --- Per-user data: strict isolation ---
     match /users/{uid} {
       allow read: if isOwner(uid);
-      allow create, update: if isOwner(uid);
+      // `plus` (the paid-tier flag) is written ONLY by the RevenueCat webhook
+      // via the Admin SDK — a client granting itself Plus is rejected here.
+      allow create: if isOwner(uid)
+          && !request.resource.data.keys().hasAny(['plus']);
+      allow update: if isOwner(uid)
+          && !request.resource.data.diff(resource.data)
+              .affectedKeys().hasAny(['plus']);
       allow delete: if isOwner(uid);
 
       match /vehicles/{vehicleId} {

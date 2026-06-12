@@ -9,6 +9,7 @@ import 'core/widgets/siyyarte_logo.dart';
 import 'l10n/app_localizations.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/onboarding/onboarding_screen.dart';
+import 'features/premium/premium_controller.dart';
 import 'features/profile/profile_controller.dart';
 import 'features/profile/profile_setup_screen.dart';
 import 'features/reminders/fcm_service.dart';
@@ -143,10 +144,12 @@ class _AuthGate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Register for FCM push once a user is signed in (no-op without Firebase).
+    // On sign-in: register FCM and tie the RevenueCat identity to the uid
+    // (so subscription webhooks carry it). On sign-out: drop the identity.
     ref.listen(authStateProvider, (_, next) {
       final user = next.valueOrNull;
       if (user != null) FcmService.instance.register(user.uid);
+      ref.read(purchaseServiceProvider).identify(user?.uid);
     });
 
     final auth = ref.watch(authStateProvider);

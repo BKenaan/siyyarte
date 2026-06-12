@@ -4,6 +4,8 @@ class PurchaseService {
 
   Future<void> init(void Function(bool isPremium) onEntitlement) async {}
 
+  Future<void> identify(String? uid) async {}
+
   Future<String?> priceString() async => null;
 
   Future<bool> purchase() async => false;

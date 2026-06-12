@@ -29,6 +29,22 @@ class PurchaseService {
     }
   }
 
+  /// Ties the RevenueCat identity to the Firebase uid so server-side webhook
+  /// events carry the uid (drives the users/{uid}.plus flag). Pass null on
+  /// sign-out.
+  Future<void> identify(String? uid) async {
+    if (!available) return;
+    try {
+      if (uid != null) {
+        await Purchases.logIn(uid);
+      } else if (!(await Purchases.isAnonymous)) {
+        await Purchases.logOut();
+      }
+    } catch (e) {
+      debugPrint('RevenueCat identify failed: $e');
+    }
+  }
+
   Future<Package?> _package() async {
     final offerings = await Purchases.getOfferings();
     final packages = offerings.current?.availablePackages ?? const [];
