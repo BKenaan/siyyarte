@@ -429,7 +429,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get plusBenefitPassport => 'تصدير جواز السيّارة (PDF)';
 
   @override
-  String get plusBenefitUnlimited => 'سيّارات غير محدودة';
+  String get plusBenefitUnlimited =>
+      'سيّارات غير محدودة (الخطة المجانية: سيّارتان)';
 
   @override
   String get plusBenefitPriority => 'تذكيرات ودعم بأولوية';

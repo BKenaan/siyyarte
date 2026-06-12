@@ -431,7 +431,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get plusBenefitPassport => 'Vehicle Passport export (PDF)';
 
   @override
-  String get plusBenefitUnlimited => 'Unlimited vehicles';
+  String get plusBenefitUnlimited => 'Unlimited cars (free plan: 2)';
 
   @override
   String get plusBenefitPriority => 'Priority reminders & support';

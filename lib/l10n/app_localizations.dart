@@ -899,7 +899,7 @@ abstract class AppLocalizations {
   /// No description provided for @plusBenefitUnlimited.
   ///
   /// In en, this message translates to:
-  /// **'Unlimited vehicles'**
+  /// **'Unlimited cars (free plan: 2)'**
   String get plusBenefitUnlimited;
 
   /// No description provided for @plusBenefitPriority.

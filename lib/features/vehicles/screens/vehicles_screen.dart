@@ -4,8 +4,13 @@ import 'package:intl/intl.dart';
 
 import '../../../core/providers.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../premium/premium_controller.dart';
+import '../../premium/siyyarte_plus_screen.dart';
 import 'add_vehicle_screen.dart';
 import 'vehicle_detail_screen.dart';
+
+/// Free plan: up to this many vehicles. Siyyarte Plus: unlimited.
+const int kFreeVehicleLimit = 2;
 
 class VehiclesScreen extends ConsumerWidget {
   const VehiclesScreen({super.key});
@@ -17,9 +22,22 @@ class VehiclesScreen extends ConsumerWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const AddVehicleScreen()),
-        ),
+        onPressed: () {
+          final isPremium = ref.read(isPremiumProvider);
+          final count = ref.read(vehiclesProvider).valueOrNull?.length ?? 0;
+          if (!isPremium && count >= kFreeVehicleLimit) {
+            // Free plan is full — pitch Plus instead of opening the form.
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                    'The free plan includes $kFreeVehicleLimit cars. '
+                    'Upgrade to Siyyarte Plus for unlimited cars.')));
+            SiyyartePlusScreen.show(context);
+            return;
+          }
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const AddVehicleScreen()),
+          );
+        },
         icon: const Icon(Icons.add),
         label: Text(t.addVehicle),
       ),
