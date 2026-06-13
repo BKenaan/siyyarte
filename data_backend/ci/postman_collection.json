@@ -1,0 +1,20 @@
+{
+  "info": {"name":"Siyyarte Beta v0.1 API Smoke Tests","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "variable":[{"key":"base","value":"https://api.siyyarte.local/v1"}],
+  "item":[
+    {"name":"Vehicle Selection - Complete (Tahoe)","request":{"method":"GET","url":"{{base}}/vehicles?brand=Chevrolet&model=Tahoe&year=2023&engine=5.3L&market=North America"},
+     "event":[{"listen":"test","script":{"exec":["pm.test('200',()=>pm.response.code===200);","pm.test('Beta_Ready',()=>pm.expect(pm.response.json().available_records[0].beta_status).to.eql('Beta_Ready'));"]}}]},
+    {"name":"Fluids - Partial blocked (Rio)","request":{"method":"GET","url":"{{base}}/specs/{{rio_id}}/fluids"},
+     "event":[{"listen":"test","script":{"exec":["const f=pm.response.json().fluids;","pm.test('no unverified number',()=>f.every(x=>x.capacity===null || (x.verification_status==='Verified' && x.grade==='A')));"]}}]},
+    {"name":"Market Routing - low confidence","request":{"method":"POST","url":"{{base}}/route-market","body":{"mode":"raw","raw":"{\"make\":\"Chevrolet\",\"model\":\"Tahoe\",\"year\":2023,\"engine\":\"5.3L\",\"clues\":{}}"}},
+     "event":[{"listen":"test","script":{"exec":["const r=pm.response.json();","pm.test('asks when <0.7',()=>{ if(r.confidence_score<0.7) pm.expect(r.required_user_confirmation_fields.length).to.be.above(0);});"]}}]},
+    {"name":"Maintenance - GCC Korean (Tucson)","request":{"method":"GET","url":"{{base}}/specs/{{tucson_id}}/maintenance?service=severe"},
+     "event":[{"listen":"test","script":{"exec":["const it=pm.response.json().items;","pm.test('every interval cited',()=>it.every(x=>x.source_document && x.verification_status==='Verified'));"]}}]},
+    {"name":"Unsupported request (VIN hashed)","request":{"method":"POST","url":"{{base}}/unsupported","body":{"mode":"raw","raw":"{\"brand\":\"Changan\",\"model\":\"CS35\",\"year\":2022,\"vin\":\"LXXXXXXXXXXXX\",\"odometer_unit\":\"km\"}"}},
+     "event":[{"listen":"test","script":{"exec":["pm.test('201',()=>pm.response.code===201);","pm.test('raw VIN not echoed',()=>pm.expect(JSON.stringify(pm.response.json())).to.not.include('LXXXXXXXXXXXX'));"]}}]},
+    {"name":"EV blocked (BYD Atto3)","request":{"method":"GET","url":"{{base}}/specs/{{byd_id}}/fluids"},
+     "event":[{"listen":"test","script":{"exec":["const f=pm.response.json().fluids;","pm.test('no engine oil on EV',()=>!f.some(x=>x.fluid_type==='Engine Oil'));","pm.test('no numbers (blocked)',()=>f.every(x=>x.capacity===null));"]}}]},
+    {"name":"QA health check","request":{"method":"GET","url":"{{base}}/health/qa"},
+     "event":[{"listen":"test","script":{"exec":["pm.test('gate 0',()=>pm.response.json().qa_master_gate_total===0);"]}}]}
+  ]
+}

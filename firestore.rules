@@ -103,6 +103,10 @@ service cloud.firestore {
     match /catalog_trims/{id}     { allow read: if true; allow write: if isAdmin(); }
     match /maintenance_rules/{id} { allow read: if true; allow write: if isAdmin(); }
     match /vehicle_specs/{id}     { allow read: if true; allow write: if isAdmin(); }
+    // Manufacturer-verified, source-cited specs (ingested from the beta dataset).
+    match /verified_specs/{id}    { allow read: if true; allow write: if isAdmin(); }
+    // App-wide config (e.g. market-routing clues). Public read, admin write.
+    match /app_config/{id}        { allow read: if true; allow write: if isAdmin(); }
     match /default_costs/{id}     { allow read: if true; allow write: if isAdmin(); }
     match /fx_rates/{id}          { allow read: if true; allow write: if isAdmin(); }
 

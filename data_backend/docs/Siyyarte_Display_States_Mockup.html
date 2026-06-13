@@ -1,0 +1,48 @@
+<!doctype html><meta charset=utf-8><title>Siyyarte — Display States (mockups)</title>
+<style>body{font-family:Arial;background:#f4f6f8;margin:0;padding:20px;color:#1f2937}
+h1{color:#1F3864}.note{background:#fff3cd;padding:8px 12px;border-radius:6px;font-size:13px;margin-bottom:16px}
+.grid{display:flex;flex-wrap:wrap;gap:16px}.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;width:300px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.h{font-weight:bold;font-size:15px}.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;margin-left:6px}
+.gcc{background:#dbeafe;color:#1e40af}.us{background:#e0e7ff;color:#3730a3}
+.row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:13px}
+.ok{color:#065f46}.src{font-size:11px;color:#2563eb;cursor:pointer}
+.chip{font-size:11px;padding:2px 8px;border-radius:10px}.amber{background:#fde68a;color:#92400e}.grey{background:#e5e7eb;color:#374151}
+.state{font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}</style>
+<h1>Siyyarte — 7 Display States</h1>
+<div class=note>Design mockups (no live app in build env). Acceptance fixtures in Siyyarte_Display_State_Test_Cases.md. Rule: a number renders only if Verified + Grade A.</div>
+<div class=grid>
+<div class=card><div class=state>1 · Complete</div><div class=h>Chevrolet Tahoe 2023 <span class="badge us">US-spec</span></div>
+<div class=row><span>Engine oil</span><span class=ok>7.6 L · 0W-20 ✓</span></div>
+<div class=row><span>Coolant</span><span class=ok>14.8 L ✓</span></div>
+<div class=row><span>Spark plugs</span><span class=ok>156,000 km ✓</span></div>
+<div class=src>Official ✓ — 2023 Tahoe OM, p.408</div></div>
+
+<div class=card><div class=state>2 · Partial</div><div class=h>Kia Rio <span class="badge gcc">GCC</span></div>
+<div class=row><span>Oil grade</span><span class=ok>ACEA A5/B5 ✓</span></div>
+<div class=row><span>Oil capacity</span><span class="chip amber">Verification pending</span></div>
+<div class=row><span>Fuel tank</span><span class="chip amber">Verification pending</span></div></div>
+
+<div class=card><div class=state>3 · Market confirmation</div><div class=h>Ford Explorer 2022</div>
+<p style="font-size:13px">Is your Explorer:</p>
+<div class=row><span>🇺🇸 US-import</span><span class=src>select</span></div>
+<div class=row><span>GCC-spec</span><span class=src>select</span></div>
+<div class=row><span>Odometer: miles / km?</span><span class=src>answer</span></div></div>
+
+<div class=card><div class=state>4 · Source blocked</div><div class=h>BYD Atto 3 <span class="badge gcc">GCC · EV</span></div>
+<div class=row><span>Specifications</span><span class="chip amber">Official source located</span></div>
+<p style="font-size:12px;color:#92400e">Extraction pending — we won't show unverified numbers.</p></div>
+
+<div class=card><div class=state>5 · Unavailable</div><div class=h>Changan CS35</div>
+<div class=row><span>Data</span><span class="chip grey">Not yet supported</span></div>
+<button style="margin-top:8px;background:#1F3864;color:#fff;border:0;padding:8px 12px;border-radius:8px">Request this vehicle</button></div>
+
+<div class=card><div class=state>6 · EV</div><div class=h>BYD Atto 3 <span class="badge gcc">EV</span></div>
+<div class=row><span>HV-battery coolant</span><span class="chip amber">pending</span></div>
+<div class=row><span>12V battery</span><span class="chip amber">pending</span></div>
+<p style="font-size:11px;color:#6b7280">No engine-oil / spark fields (EV)</p></div>
+
+<div class=card><div class=state>7 · Hybrid</div><div class=h>Toyota Corolla HEV <span class="badge gcc">GCC</span></div>
+<div class=row><span>Engine oil</span><span class=ok>4.2 L · 0W-20 ✓</span></div>
+<div class=row><span>Inverter coolant</span><span class="chip amber">pending</span></div>
+<div class=src>Official ✓ — GCC OM</div></div>
+</div>

@@ -1,0 +1,2 @@
+# Siyyarte Beta — Disclaimer Copy
+"Siyyarte is in beta. We show official, cited data for supported vehicles and clearly mark anything unverified or pending — we never display guessed values. Coverage is growing based on real user demand. Always follow your vehicle's official owner's manual and a qualified mechanic for servicing decisions. Specifications can vary by exact trim, VIN, and import market; confirm your vehicle's market when asked."

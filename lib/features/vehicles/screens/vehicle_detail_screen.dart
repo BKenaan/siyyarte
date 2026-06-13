@@ -13,6 +13,9 @@ import '../../history/resale_passport.dart';
 import '../../history/screens/history_screen.dart';
 import '../../premium/premium_controller.dart';
 import '../../premium/siyyarte_plus_screen.dart';
+import '../../specs/verified_spec.dart';
+import '../../specs/verified_spec_repository.dart';
+import '../../specs/verified_widgets.dart';
 import '../../uploads/ai_scan_service.dart';
 import '../models/vehicle.dart';
 import 'add_vehicle_screen.dart';
@@ -98,6 +101,10 @@ class VehicleDetailScreen extends ConsumerWidget {
             history: history,
             now: DateTime.now(),
           );
+          // Manufacturer-verified spec for this car+market (null while loading
+          // or when none exists). Drives the field-level "Verified" overlay.
+          final verifiedAsync = ref.watch(verifiedSpecProvider(vehicle));
+          final verified = verifiedAsync.valueOrNull?.spec;
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
@@ -121,6 +128,16 @@ class VehicleDetailScreen extends ConsumerWidget {
                   ),
                 ),
               ),
+              // Manufacturer-verified specs (cited fluids/capacities) for the
+              // resolved market — appears only when a verified record exists.
+              if (verified != null) ...[
+                const SizedBox(height: 16),
+                VerifiedSpecsCard(
+                  spec: verified,
+                  marketAmbiguous:
+                      verifiedAsync.valueOrNull?.marketAmbiguous ?? false,
+                ),
+              ],
               const SizedBox(height: 16),
               Text(t.maintenanceSchedule,
                   style: Theme.of(context)
@@ -131,6 +148,8 @@ class VehicleDetailScreen extends ConsumerWidget {
               ...schedule.map((s) => _ScheduleCard(
                     service: s,
                     t: t,
+                    verified: matchInterval(verified, s.type),
+                    marketScope: verified?.marketScope,
                     onMarkDone: () => MarkServiceDoneSheet.show(
                       context,
                       vehicleId: vehicleId,
@@ -204,10 +223,37 @@ class VehicleDetailScreen extends ConsumerWidget {
 
 class _ScheduleCard extends StatelessWidget {
   const _ScheduleCard(
-      {required this.service, required this.t, required this.onMarkDone});
+      {required this.service,
+      required this.t,
+      required this.onMarkDone,
+      this.verified,
+      this.marketScope});
   final ScheduledService service;
   final AppLocalizations t;
   final VoidCallback onMarkDone;
+  final VerifiedInterval? verified;
+  final String? marketScope;
+
+  /// The official interval text (e.g. "Every 8,000 km / 6 mo (severe)").
+  String? get _verifiedIntervalText {
+    final v = verified;
+    if (v == null) return null;
+    String km(int? k) => '${(k! / 1000).toStringAsFixed(0)},000 km';
+    if (v.severeKm != null) {
+      return 'Severe: every ${km(v.severeKm)}'
+          '${v.severeMonths != null ? ' / ${v.severeMonths} mo' : ''}'
+          '${v.normalKm != null ? ' · Normal: ${km(v.normalKm)}' : ''}';
+    }
+    if (v.normalKm != null) {
+      return 'Every ${km(v.normalKm)}'
+          '${v.normalMonths != null ? ' / ${v.normalMonths} mo' : ''}';
+    }
+    if (v.firstKm != null) {
+      return 'First ${km(v.firstKm)}'
+          '${v.subsequentKm != null ? ', then ${km(v.subsequentKm)}' : ''}';
+    }
+    return v.notes;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -255,6 +301,27 @@ class _ScheduleCard extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 8),
+            // Field-level verification state: official interval + source badge
+            // where available, otherwise an honest "general schedule" label.
+            if (verified != null) ...[
+              if (_verifiedIntervalText != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    'Official interval: $_verifiedIntervalText',
+                    style: const TextStyle(
+                        fontSize: 12.5, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              VerifiedBadge(
+                marketScope: marketScope ?? '',
+                sourceDoc: verified!.sourceDoc,
+                sourcePage: verified!.sourcePage,
+                sourceUrl: verified!.sourceUrl,
+              ),
+            ] else
+              const GeneralScheduleNote(),
           ],
         ),
       ),
