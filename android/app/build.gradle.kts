@@ -19,7 +19,9 @@ val keystoreProperties = Properties().apply {
 android {
     namespace = "com.garagi.garagi"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // Pinned: several plugins (incl. the document-scanner deps) require this
+    // NDK; use the highest required version (they're backward compatible).
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

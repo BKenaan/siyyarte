@@ -1,12 +1,19 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/bootstrap.dart';
+
+/// How the registration card image is obtained.
+/// [scan] uses the native document scanner (edge-detect, de-skew, crop) — the
+/// best input for OCR; [camera]/[gallery] are plain photo fallbacks.
+enum CardCaptureMode { scan, camera, gallery }
 
 /// Result of capturing the vehicle registration card (دفتر السيارة).
 class RegCardCapture {
@@ -66,17 +73,39 @@ class RegistrationCardService {
   final _picker = ImagePicker();
 
   Future<RegCardCapture?> captureAndRead(
-      {ImageSource source = ImageSource.gallery}) async {
-    // High quality + resolution: the carte grise has small chassis/VIN digits
-    // that are unreadable when over-compressed. ~2400px @ 90% stays well under
-    // the function's ~5MB image cap while preserving fine print.
-    final file = await _picker.pickImage(
-      source: source,
-      imageQuality: 90,
-      maxWidth: 2400,
-    );
-    if (file == null) return null; // user cancelled
-    final bytes = await file.readAsBytes();
+      {CardCaptureMode mode = CardCaptureMode.scan}) async {
+    // Obtain the image. The document scanner returns an already cropped,
+    // de-skewed, glare-reduced page — far better OCR input than a raw photo.
+    final Uint8List bytes;
+    String mime = 'image/jpeg';
+    String localPath;
+    if (mode == CardCaptureMode.scan) {
+      final paths = await CunningDocumentScanner.getPictures(
+        noOfPages: 1,
+        isGalleryImportAllowed: true,
+      );
+      if (paths == null || paths.isEmpty) return null; // cancelled
+      localPath = paths.first;
+      bytes = await XFile(localPath).readAsBytes();
+    } else {
+      // High quality + resolution: the carte grise has small chassis/VIN
+      // digits that are unreadable when over-compressed. ~2400px @ 90% stays
+      // well under the function's ~5MB image cap while preserving fine print.
+      final file = await _picker.pickImage(
+        source: mode == CardCaptureMode.camera
+            ? ImageSource.camera
+            : ImageSource.gallery,
+        imageQuality: 90,
+        maxWidth: 2400,
+      );
+      if (file == null) return null; // user cancelled
+      localPath = file.path;
+      bytes = await file.readAsBytes();
+      mime = file.mimeType ??
+          (file.name.toLowerCase().endsWith('.png')
+              ? 'image/png'
+              : 'image/jpeg');
+    }
 
     // 1) Keep the photo — it's the ownership evidence the passport cites.
     String url;
@@ -89,17 +118,12 @@ class RegistrationCardService {
           bytes, SettableMetadata(contentType: 'image/jpeg'));
       url = await ref.getDownloadURL();
     } else {
-      url = file.path; // local evidence until Storage is enabled
+      url = localPath; // local evidence until Storage is enabled
     }
 
     // 2) AI-read the card (holder name + VIN). Failure is non-fatal.
     if (kUseFirebase) {
       try {
-        // file.name (not .path) — on web the path is a blob URL.
-        final mime = file.mimeType ??
-            (file.name.toLowerCase().endsWith('.png')
-                ? 'image/png'
-                : 'image/jpeg');
         final callable =
             FirebaseFunctions.instance.httpsCallable('extractFromImage');
         final res = await callable.call<Map<dynamic, dynamic>>({

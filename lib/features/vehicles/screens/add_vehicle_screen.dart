@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart' show ImageSource;
 
 import '../../../core/providers.dart';
 import '../../../core/widgets/combo_field.dart';
@@ -207,34 +206,41 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
     final messenger = ScaffoldMessenger.of(context);
     final service = ref.read(registrationCardServiceProvider);
 
-    // Let the user take a fresh, well-lit photo (best for OCR) or pick one.
-    final source = await showModalBottomSheet<ImageSource>(
+    // Prefer the document scanner (auto edge-detect, de-skew, crop — best OCR
+    // input). Camera/gallery remain as fallbacks.
+    final mode = await showModalBottomSheet<CardCaptureMode>(
       context: context,
       builder: (ctx) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
+              leading: const Icon(Icons.document_scanner_outlined),
+              title: const Text('Scan card'),
+              subtitle: const Text(
+                  'Best — auto-detects edges, crops and sharpens the card'),
+              onTap: () => Navigator.pop(ctx, CardCaptureMode.scan),
+            ),
+            ListTile(
               leading: const Icon(Icons.photo_camera_outlined),
               title: const Text('Take a photo'),
-              subtitle: const Text('Best results — fill the frame, avoid glare'),
-              onTap: () => Navigator.pop(ctx, ImageSource.camera),
+              onTap: () => Navigator.pop(ctx, CardCaptureMode.camera),
             ),
             ListTile(
               leading: const Icon(Icons.photo_library_outlined),
               title: const Text('Choose from gallery'),
-              onTap: () => Navigator.pop(ctx, ImageSource.gallery),
+              onTap: () => Navigator.pop(ctx, CardCaptureMode.gallery),
             ),
           ],
         ),
       ),
     );
-    if (source == null) return; // dismissed
+    if (mode == null) return; // dismissed
 
     setState(() => _regBusy = true);
     try {
       // FRONT (required).
-      final front = await service.captureAndRead(source: source);
+      final front = await service.captureAndRead(mode: mode);
       if (front == null) return; // cancelled
       if (front.scanned && !front.looksLikeCard) {
         messenger.showSnackBar(const SnackBar(
@@ -265,7 +271,7 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
           ),
         );
         if (wantsBack == true) {
-          back = await service.captureAndRead(source: source);
+          back = await service.captureAndRead(mode: mode);
         }
       }
 
