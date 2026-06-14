@@ -295,6 +295,12 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
           _model.text = merged.model!;
         }
         if (merged.year != null && _year == null) _year = merged.year;
+        // Fuel from the card's قوة المحرّك line (بنزين/ديزل), if in the catalog.
+        if (merged.fuelType != null &&
+            _fuel == null &&
+            VehicleCatalog.fuelTypes.contains(merged.fuelType)) {
+          _fuel = merged.fuelType;
+        }
       });
       _maybeAutoSpec();
       if (!merged.scanned) {

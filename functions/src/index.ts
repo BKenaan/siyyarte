@@ -298,32 +298,46 @@ const ODOMETER_PROMPT =
   "{\"odometerKm\": <integer kilometers or null>}";
 
 const REGISTRATION_PROMPT =
-  "This is a photo of a Lebanese vehicle registration card (دفتر السيارة / " +
-  "carte grise). The text is a mix of Arabic, French and English and the " +
-  "layout is dense — read carefully, zoom mentally into small print.\n\n" +
-  "Field labels you will see (French / Arabic → meaning):\n" +
-  "- \"Marque\" / \"الماركة\" → make (e.g. TOYOTA, NISSAN, KIA)\n" +
-  "- \"Type\" / \"Modèle\" / \"الطراز\" → model (e.g. COROLLA, PATROL)\n" +
-  "- \"No du châssis\" / \"Châssis\" / \"رقم الشاسيه\" → VIN / chassis number " +
-  "(17 chars; may be shorter on older cars)\n" +
-  "- \"No du moteur\" / \"المحرك\" → engine number (do NOT use as VIN)\n" +
-  "- \"1ère mise en circulation\" / \"سنة الصنع\" / a year → model year\n" +
-  "- \"No\" plate / \"رقم اللوحة\" → plate number\n" +
-  "- holder name is often in Arabic near \"اسم\" / \"المالك\" or in French.\n\n" +
-  "Rules: the VIN/chassis is the long alphanumeric string — NOT the engine " +
-  "number and NOT the plate. Transcribe it EXACTLY, character by character " +
-  "(O vs 0, I vs 1). Translate make/model to their standard Latin spelling. " +
-  "If a field is genuinely unreadable, return null for it rather than " +
-  "guessing.\n\n" +
+  "This is a photo of a Lebanese vehicle registration card (دفتر السيارة). " +
+  "IMPORTANT: the card is frequently photographed ROTATED (90°, 180° or 270°) " +
+  "or skewed — mentally rotate and read the text in whatever orientation it " +
+  "appears. It may be either face:\n\n" +
+  "FRONT (header 'الجمهورية اللبنانية / REPUBLIC OF LEBANON', 'Vehicle " +
+  "Registration Card / Carte d'Immatriculation'): has the PLATE number " +
+  "(a letter + digits, e.g. 'Y 345555'), the owner/holder NAME, and " +
+  "registration dates. Make/model/VIN are NOT on the front.\n\n" +
+  "BACK (header 'أوصاف المركبة الآليّة' = vehicle specifications): a two-column " +
+  "table, Arabic labels on the RIGHT, values on the LEFT (values often in " +
+  "Latin capitals). Label → meaning:\n" +
+  "- الماركة → make (e.g. TOYOTA, MERCEDES, LEXUS)\n" +
+  "- تاريخ الصنع / سنة الصنع → manufacture YEAR (e.g. 2015)\n" +
+  "- طرازها / الطراز → model (e.g. LAND CRUISER PRADO, GLE 400, LX 570)\n" +
+  "- نوعها / شكلها → body type (SEDAN, مقفلة=saloon) — not needed\n" +
+  "- رقم المحرّك → ENGINE number (e.g. 09020721, 1GR-B060551) — this is NOT " +
+  "the VIN, never return it as vin\n" +
+  "- رقم الهيكل (also called رقم الشاسيه) → CHASSIS number = the VIN: a " +
+  "17-character alphanumeric code (e.g. WDC2923561A116639, JTEBU9FJ3FK083126, " +
+  "JTJHY00W6A4036590)\n" +
+  "- قوة المحرّك line shows fuel: بنزين=Petrol, مازوت/ديزل=Diesel\n\n" +
+  "CRITICAL RULES:\n" +
+  "1. vin = the value next to رقم الهيكل / رقم الشاسيه ONLY. It is 17 chars " +
+  "long. If the string you picked is shorter or sits next to رقم المحرّك, it's " +
+  "the engine number — do NOT use it as the VIN.\n" +
+  "2. Transcribe the VIN EXACTLY, character by character (distinguish O vs 0, " +
+  "I vs 1, S vs 5, B vs 8). No spaces. Uppercase.\n" +
+  "3. Keep make/model in their printed Latin spelling.\n" +
+  "4. If a field is not on this face or is unreadable, return null — never " +
+  "guess.\n\n" +
   "Respond with ONLY a JSON object — no prose, no code fences:\n" +
-  "{\"isRegistrationCard\": <true only if the image really is a vehicle " +
+  "{\"isRegistrationCard\": <true only if this really is a vehicle " +
   "registration/ownership document, else false>, " +
-  "\"holderName\": <registered holder's full name as printed, or null>, " +
-  "\"vin\": <chassis number / VIN, uppercase, no spaces, or null>, " +
-  "\"plateNumber\": <plate number or null>, " +
-  "\"make\": <vehicle make in Latin letters or null>, " +
-  "\"model\": <vehicle model in Latin letters or null>, " +
-  "\"year\": <integer model year or null>}";
+  "\"holderName\": <owner name as printed, or null>, " +
+  "\"vin\": <17-char chassis number, uppercase no spaces, or null>, " +
+  "\"plateNumber\": <plate number, or null>, " +
+  "\"make\": <make in Latin letters, or null>, " +
+  "\"model\": <model in Latin letters, or null>, " +
+  "\"year\": <integer manufacture year, or null>, " +
+  "\"fuelType\": <\"Petrol\"|\"Diesel\"|null>}";
 
 function parseJsonObject(text: string): Record<string, unknown> {
   const start = text.indexOf("{");

@@ -27,6 +27,7 @@ class RegCardCapture {
     this.make,
     this.model,
     this.year,
+    this.fuelType,
   });
 
   /// Where the card photo lives (Storage URL, or local path on Spark/mock).
@@ -44,6 +45,7 @@ class RegCardCapture {
   final String? make;
   final String? model;
   final int? year;
+  final String? fuelType; // 'Petrol' | 'Diesel'
 
   /// Merge two sides of the same card — values from [this] win, [other]
   /// fills the gaps (Lebanese دفتر السيارة spreads fields across both faces).
@@ -59,6 +61,7 @@ class RegCardCapture {
       make: make ?? other.make,
       model: model ?? other.model,
       year: year ?? other.year,
+      fuelType: fuelType ?? other.fuelType,
     );
   }
 }
@@ -146,6 +149,7 @@ class RegistrationCardService {
           make: (data['make'] as String?)?.trim(),
           model: (data['model'] as String?)?.trim(),
           year: rawYear is num ? rawYear.toInt() : null,
+          fuelType: (data['fuelType'] as String?)?.trim(),
         );
       } catch (_) {
         // Functions not deployed / offline → card on file, unverified.
