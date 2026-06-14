@@ -24,6 +24,7 @@ import {initializeApp} from "firebase-admin/app";
 import {getFirestore, Timestamp, FieldValue} from "firebase-admin/firestore";
 import {getMessaging} from "firebase-admin/messaging";
 import {getAuth} from "firebase-admin/auth";
+import {getStorage} from "firebase-admin/storage";
 // Heavy SDKs are type-only here and dynamically imported inside the handlers
 // that use them — keeps module load (and deploy-time discovery) fast.
 import type Anthropic from "@anthropic-ai/sdk";
@@ -217,6 +218,45 @@ export const dailyReminderSweep = onSchedule(
     }
   }
 );
+
+// Full account deletion (Admin SDK) — removes EVERYTHING the user owns, not
+// just the Auth record. Cascades: users/{uid} subtree (vehicles + history +
+// reminders), the user's vin_registry claims, ocr_usage, the user's Storage
+// prefix (invoice/registration photos = PII), then the Auth user last.
+// Running server-side also avoids the client "requires-recent-login" problem.
+export const deleteAccount = onCall(async (req) => {
+  if (!req.auth) {
+    throw new HttpsError("unauthenticated", "Sign in required.");
+  }
+  const uid = req.auth.uid;
+
+  // 1. Release this user's VIN-registry claims (so the cars can be re-added by
+  //    a future owner) + drop their OCR usage counter.
+  const regSnap =
+    await db.collection("vin_registry").where("uid", "==", uid).get();
+  let batch = db.batch();
+  let n = 0;
+  for (const d of regSnap.docs) {
+    batch.delete(d.ref);
+    if (++n % 400 === 0) { await batch.commit(); batch = db.batch(); }
+  }
+  batch.delete(db.collection("ocr_usage").doc(uid));
+  await batch.commit();
+
+  // 2. Recursively delete the user document tree (vehicles, history, reminders).
+  await db.recursiveDelete(db.collection("users").doc(uid));
+
+  // 3. Delete the user's Storage files (photos are PII).
+  try {
+    await getStorage().bucket().deleteFiles({prefix: `users/${uid}/`});
+  } catch (e) {
+    console.error("deleteAccount: storage cleanup failed for", uid, e);
+  }
+
+  // 4. Finally remove the Auth user.
+  await getAuth().deleteUser(uid);
+  return {ok: true};
+});
 
 export const setAdminClaim = onCall(async (req) => {
   if (req.auth?.token.admin !== true) {
@@ -479,10 +519,8 @@ export const requestVinTransfer = onCall(
       text:
         `${requesterLabel} says they bought your car (VIN ${vin}) and wants ` +
         "to move it to their Siyyarte account.\n\n" +
-        "If you sold this car, approve the transfer:\n" +
-        `${base}?token=${token}&action=approve\n\n` +
-        "If you did NOT sell it, reject the request:\n" +
-        `${base}?token=${token}&action=reject\n\n` +
+        "Open this link to review and approve or reject the transfer:\n" +
+        `${base}?token=${token}\n\n` +
         "Approving moves the car out of your garage. Your service records " +
         "stay in your account for your own reference. This link expires in 14 days.",
     });
@@ -502,12 +540,13 @@ export const resolveVinTransfer = onRequest(async (req, res) => {
     "<p style=\"color:#8e8e93;font-size:13px;margin-top:32px\">Siyyarte — " +
     "vehicle ownership transfer</p></body></html>";
 
-  const token = String(req.query.token ?? "");
-  const action = String(req.query.action ?? "");
-  if (!/^[a-f0-9]{48}$/.test(token) ||
-      (action !== "approve" && action !== "reject")) {
+  // Token comes from the query on the confirmation GET, or the form body on
+  // the POST that actually performs the action.
+  const isPost = req.method === "POST";
+  const token = String((isPost ? req.body?.token : req.query.token) ?? "");
+  if (!/^[a-f0-9]{48}$/.test(token)) {
     res.status(400).send(page("Invalid link",
-      "This transfer link is malformed. Use the buttons from the email."));
+      "This transfer link is malformed. Use the link from the email."));
     return;
   }
 
@@ -532,6 +571,33 @@ export const resolveVinTransfer = onRequest(async (req, res) => {
     await doc.ref.update({status: "expired"});
     res.status(410).send(page("Link expired",
       "This transfer request is older than 14 days. The buyer can send a new one."));
+    return;
+  }
+
+  // GET = show a confirmation page; the buttons POST the action. This means an
+  // email scanner / link-prefetcher that auto-opens the GET cannot approve or
+  // reject anything — only an explicit button press (POST) mutates state.
+  if (!isPost) {
+    const btn = (action: string, label: string, color: string) =>
+      "<form method=\"POST\" style=\"display:inline-block;margin:6px 8px 0 0\">" +
+      `<input type="hidden" name="token" value="${token}">` +
+      `<input type="hidden" name="action" value="${action}">` +
+      `<button type="submit" style="background:${color};color:#fff;border:0;` +
+      "border-radius:10px;padding:12px 20px;font-size:15px;cursor:pointer\">" +
+      `${label}</button></form>`;
+    res.send(page("Confirm ownership transfer",
+      `Someone says they bought your car (VIN ${t.vin}) and wants to move it ` +
+      "to their Siyyarte account. Approving removes it from your garage " +
+      "(your service records stay in your account).<br><br>" +
+      btn("approve", "Approve transfer", "#0d3573") +
+      btn("reject", "Reject", "#b3261e")));
+    return;
+  }
+
+  const action = String(req.body?.action ?? "");
+  if (action !== "approve" && action !== "reject") {
+    res.status(400).send(page("Invalid request",
+      "Use the buttons on the confirmation page."));
     return;
   }
 

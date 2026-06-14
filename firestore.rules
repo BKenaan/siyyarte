@@ -83,7 +83,10 @@ service cloud.firestore {
     // a modified client. Ownership transfers (car sold) are performed only by
     // the requestVinTransfer/resolveVinTransfer Cloud Functions (Admin SDK).
     match /vin_registry/{vin} {
-      allow read: if isSignedIn();
+      // Single-doc get is allowed (the claim pre-check reads one known VIN),
+      // but list/query is denied so the uid↔VIN map can't be enumerated.
+      allow get: if isSignedIn();
+      allow list: if false;
       allow create: if isSignedIn()
           && request.resource.data.uid == request.auth.uid;
       // Release your own claim when deleting your vehicle.

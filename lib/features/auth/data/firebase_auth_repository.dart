@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -98,5 +99,11 @@ class FirebaseAuthRepository implements AuthRepository {
   Future<void> signOut() => _auth.signOut();
 
   @override
-  Future<void> deleteAccount() => _auth.currentUser?.delete() ?? Future.value();
+  Future<void> deleteAccount() async {
+    // Server-side cascade (Admin SDK) deletes ALL data — vehicles, history,
+    // photos, VIN claims — and the Auth user, avoiding the client
+    // "requires-recent-login" error. Then clear the local session.
+    await FirebaseFunctions.instance.httpsCallable('deleteAccount').call();
+    await _auth.signOut();
+  }
 }

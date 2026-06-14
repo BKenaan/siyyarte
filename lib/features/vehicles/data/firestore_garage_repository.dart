@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../models/vehicle.dart';
 import '../../maintenance/models/service_record.dart';
+import '../../maintenance/models/service_type.dart';
 import 'garage_repository.dart';
 
 /// Firestore-backed garage. Firestore's built-in offline persistence makes this
@@ -121,7 +122,10 @@ class FirestoreGarageRepository implements GarageRepository {
     // value would be rejected — making the log tamper-evident.
     final map = record.toMap()..['createdAt'] = FieldValue.serverTimestamp();
     await _historyCol(record.vehicleId).doc(record.id).set(map);
-    // Bump the odometer if this is a new high reading.
+    // Bump the odometer if this is a new high reading — but NOT for pure
+    // expenses (fuel/insurance/registration/parking), where the odometer
+    // field is incidental and shouldn't ratchet the car's reading.
+    if (kExpenseTypes.contains(record.type)) return;
     final vehicleRef = _vehiclesCol.doc(record.vehicleId);
     final snap = await vehicleRef.get();
     final current = (snap.data()?['odometerKm'] as int?) ?? 0;
