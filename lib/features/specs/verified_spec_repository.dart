@@ -13,28 +13,37 @@ class VerifiedSpecRepository {
   final FirebaseFirestore _db;
 
   /// All verified records for a make/model (any market), year-filtered.
-  Future<List<VerifiedSpec>> _candidates(Vehicle v) async {
-    final key = '${v.make.toLowerCase()}|${v.model.toLowerCase()}';
+  Future<List<VerifiedSpec>> _candidates(
+      String make, String model, int year) async {
+    final key = '${make.toLowerCase()}|${model.toLowerCase()}';
     final snap = await _db
         .collection('verified_specs')
         .where('lookupKey', isEqualTo: key)
         .get();
     return snap.docs
         .map((d) => VerifiedSpec.fromMap(d.id, d.data()))
-        .where((s) => s.coversYear(v.year))
+        .where((s) => s.coversYear(year))
         .toList();
   }
 
-  /// Resolve the best verified spec for this vehicle.
+  Future<VerifiedSpecResult?> resolveVehicle(Vehicle v) =>
+      resolve(make: v.make, model: v.model, year: v.year, engine: v.engineType);
+
+  /// Resolve the best verified spec for a vehicle's identity.
   ///
   /// Market routing (Lebanon's fleet is mixed-import): prefer a GCC record
   /// (the most common source for Lebanese cars), then North America (US
   /// imports), then anything available. When an engine is known, prefer the
   /// matching engine; otherwise return the first market match (callers can
   /// still show fluids that are engine-independent).
-  Future<VerifiedSpecResult?> resolve(Vehicle v) async {
+  Future<VerifiedSpecResult?> resolve({
+    required String make,
+    required String model,
+    required int year,
+    String? engine,
+  }) async {
     if (!kUseFirebase) return null;
-    final all = await _candidates(v);
+    final all = await _candidates(make, model, year);
     if (all.isEmpty) return null;
 
     const marketRank = {'GCC': 0, 'North America': 1, 'Europe': 2, 'Japan': 3};
@@ -47,8 +56,8 @@ class VerifiedSpecRepository {
 
     // Prefer an engine match within the chosen market when we can infer it.
     VerifiedSpec best = inMarket.first;
-    if (v.engineType != null && v.engineType!.isNotEmpty) {
-      final eng = v.engineType!.toLowerCase();
+    if (engine != null && engine.isNotEmpty) {
+      final eng = engine.toLowerCase();
       best = inMarket.firstWhere(
         (s) => (s.engineName ?? '').toLowerCase().contains(eng) ||
             eng.contains((s.engineName ?? '###').toLowerCase()),
@@ -81,8 +90,14 @@ final verifiedSpecRepositoryProvider =
     Provider<VerifiedSpecRepository>((ref) =>
         VerifiedSpecRepository(FirebaseFirestore.instance));
 
-/// Resolves the verified spec for a given vehicle (null while loading / none).
+/// Stable lookup key — a record has structural equality, so the family is not
+/// re-created on every Firestore snapshot (which would refetch and flicker).
+typedef VerifiedSpecKey = ({String make, String model, int year, String? engine});
+
+/// Resolves the verified spec for a given vehicle identity (null = none).
 final verifiedSpecProvider =
-    FutureProvider.family<VerifiedSpecResult?, Vehicle>((ref, vehicle) async {
-  return ref.read(verifiedSpecRepositoryProvider).resolve(vehicle);
+    FutureProvider.family<VerifiedSpecResult?, VerifiedSpecKey>((ref, k) async {
+  return ref
+      .read(verifiedSpecRepositoryProvider)
+      .resolve(make: k.make, model: k.model, year: k.year, engine: k.engine);
 });

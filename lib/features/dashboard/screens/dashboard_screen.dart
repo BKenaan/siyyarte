@@ -7,6 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../maintenance/models/scheduled_service.dart';
 import '../../maintenance/models/service_type.dart';
+import '../../vehicles/models/vehicle.dart';
 import '../widgets/health_gauge.dart';
 
 class DashboardScreen extends ConsumerWidget {
@@ -15,6 +16,7 @@ class DashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
+    final vehicles = ref.watch(vehiclesProvider).valueOrNull ?? const [];
     final vehicle = ref.watch(selectedVehicleProvider);
 
     if (vehicle == null) {
@@ -39,6 +41,12 @@ class DashboardScreen extends ConsumerWidget {
         return ListView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
           children: [
+            // Car switcher — the dashboard is per-vehicle; this lets the user
+            // move between all their cars (without it, only one ever showed).
+            if (vehicles.length > 1) ...[
+              _VehicleSwitcher(vehicles: vehicles, selectedId: vehicle.id),
+              const SizedBox(height: 14),
+            ],
             // Premium hero: vehicle + odometer + health gauge on charcoal.
             Container(
               decoration: BoxDecoration(
@@ -93,8 +101,9 @@ class DashboardScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 18),
 
-            // Next service
-            if (next != null) ...[
+            // Next service — only when something actually needs attention
+            // (a fully-healthy car shouldn't headline a "next service").
+            if (next != null && next.status != HealthStatus.good) ...[
               Text(t.nextService,
                   style: Theme.of(context)
                       .textTheme
@@ -127,6 +136,46 @@ class DashboardScreen extends ConsumerWidget {
           ],
         );
       },
+    );
+  }
+}
+
+/// Horizontal chip selector across all the user's vehicles. Tapping a chip
+/// sets [selectedVehicleIdProvider], which drives the whole dashboard.
+class _VehicleSwitcher extends ConsumerWidget {
+  const _VehicleSwitcher({required this.vehicles, required this.selectedId});
+  final List<Vehicle> vehicles;
+  final String selectedId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cs = Theme.of(context).colorScheme;
+    return SizedBox(
+      height: 40,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: vehicles.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        itemBuilder: (context, i) {
+          final v = vehicles[i];
+          final active = v.id == selectedId;
+          return ChoiceChip(
+            label: Text(v.displayName),
+            selected: active,
+            onSelected: (_) =>
+                ref.read(selectedVehicleIdProvider.notifier).state = v.id,
+            avatar: Icon(Icons.directions_car,
+                size: 16,
+                color: active ? cs.onPrimary : cs.onSurfaceVariant),
+            showCheckmark: false,
+            selectedColor: cs.primary,
+            labelStyle: TextStyle(
+                color: active ? cs.onPrimary : cs.onSurface,
+                fontWeight: FontWeight.w600,
+                fontSize: 13),
+          );
+        },
+      ),
     );
   }
 }

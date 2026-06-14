@@ -103,7 +103,12 @@ class VehicleDetailScreen extends ConsumerWidget {
           );
           // Manufacturer-verified spec for this car+market (null while loading
           // or when none exists). Drives the field-level "Verified" overlay.
-          final verifiedAsync = ref.watch(verifiedSpecProvider(vehicle));
+          final verifiedAsync = ref.watch(verifiedSpecProvider((
+            make: vehicle.make,
+            model: vehicle.model,
+            year: vehicle.year,
+            engine: vehicle.engineType,
+          )));
           final verified = verifiedAsync.valueOrNull?.spec;
           return ListView(
             padding: const EdgeInsets.all(16),

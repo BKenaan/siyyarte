@@ -383,8 +383,9 @@ export const extractFromImage = onCall(
         .join("\n");
       return parseJsonObject(text);
     } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      throw new HttpsError("internal", `OCR failed: ${msg}`);
+      // Log the detail server-side; return a generic message to the client.
+      console.error("extractFromImage failed:", e);
+      throw new HttpsError("internal", "OCR failed. Please try again.");
     }
   }
 );
@@ -585,7 +586,13 @@ export const revenuecatWebhook = onRequest(
       res.status(405).send("POST only");
       return;
     }
-    if (req.get("Authorization") !== REVENUECAT_WEBHOOK_AUTH.value()) {
+    // Constant-time auth check — this header is the only gate protecting the
+    // `plus` flag (the highest-value write), so avoid a timing side-channel.
+    const provided = req.get("Authorization") ?? "";
+    const expected = REVENUECAT_WEBHOOK_AUTH.value();
+    const a = Buffer.from(provided);
+    const b = Buffer.from(expected);
+    if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) {
       res.status(401).send("unauthorized");
       return;
     }
