@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart' show ImageSource;
 
 import '../../../core/providers.dart';
 import '../../../core/widgets/combo_field.dart';
@@ -205,10 +206,35 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
   Future<void> _captureRegCard() async {
     final messenger = ScaffoldMessenger.of(context);
     final service = ref.read(registrationCardServiceProvider);
+
+    // Let the user take a fresh, well-lit photo (best for OCR) or pick one.
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_camera_outlined),
+              title: const Text('Take a photo'),
+              subtitle: const Text('Best results — fill the frame, avoid glare'),
+              onTap: () => Navigator.pop(ctx, ImageSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined),
+              title: const Text('Choose from gallery'),
+              onTap: () => Navigator.pop(ctx, ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (source == null) return; // dismissed
+
     setState(() => _regBusy = true);
     try {
       // FRONT (required).
-      final front = await service.captureAndRead();
+      final front = await service.captureAndRead(source: source);
       if (front == null) return; // cancelled
       if (front.scanned && !front.looksLikeCard) {
         messenger.showSnackBar(const SnackBar(
@@ -239,7 +265,7 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
           ),
         );
         if (wantsBack == true) {
-          back = await service.captureAndRead();
+          back = await service.captureAndRead(source: source);
         }
       }
 

@@ -65,11 +65,15 @@ class RegCardCapture {
 class RegistrationCardService {
   final _picker = ImagePicker();
 
-  Future<RegCardCapture?> captureAndRead() async {
+  Future<RegCardCapture?> captureAndRead(
+      {ImageSource source = ImageSource.gallery}) async {
+    // High quality + resolution: the carte grise has small chassis/VIN digits
+    // that are unreadable when over-compressed. ~2400px @ 90% stays well under
+    // the function's ~5MB image cap while preserving fine print.
     final file = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 70,
-      maxWidth: 1600,
+      source: source,
+      imageQuality: 90,
+      maxWidth: 2400,
     );
     if (file == null) return null; // user cancelled
     final bytes = await file.readAsBytes();
