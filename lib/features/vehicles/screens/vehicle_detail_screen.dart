@@ -60,7 +60,17 @@ class VehicleDetailScreen extends ConsumerWidget {
                   final history =
                       ref.read(historyProvider(vehicleId)).valueOrNull ??
                           const [];
-                  ResalePassportPdf.export(vehicle, history);
+                  // Pull the manufacturer-verified spec (if any) so its cited
+                  // values appear in the passport — a strong resale trust signal.
+                  final verified = (await ref.read(verifiedSpecProvider((
+                    make: vehicle.make,
+                    model: vehicle.model,
+                    year: vehicle.year,
+                    engine: vehicle.engineType,
+                  )).future))
+                      ?.spec;
+                  await ResalePassportPdf.export(vehicle, history,
+                      verified: verified);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(t.premiumRequired)),

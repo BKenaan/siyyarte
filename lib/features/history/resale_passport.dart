@@ -9,13 +9,15 @@ import 'package:printing/printing.dart';
 import '../../core/constants/lebanon.dart';
 import '../../core/models/money.dart';
 import '../maintenance/models/service_record.dart';
+import '../specs/verified_spec.dart';
 import '../vehicles/models/vehicle.dart';
 
 /// A shareable "vehicle passport" — a branded, complete service-history and
 /// cost report that documents how well a car has been maintained. In Lebanon's
 /// used-car market, a full documented history raises resale value and trust.
 abstract class ResalePassportPdf {
-  static Future<void> export(Vehicle v, List<ServiceRecord> history) async {
+  static Future<void> export(Vehicle v, List<ServiceRecord> history,
+      {VerifiedSpec? verified}) async {
     final df = DateFormat.yMMMd();
 
     double usd = 0, lbp = 0;
@@ -197,6 +199,39 @@ abstract class ResalePassportPdf {
                     const pw.TextStyle(fontSize: 9, color: PdfColors.orange700)),
           pw.SizedBox(height: 16),
 
+          // --- Manufacturer-verified specifications (cited) ---
+          if (verified != null && _verifiedRows(verified).isNotEmpty) ...[
+            pw.Text('Manufacturer-verified specifications',
+                style:
+                    pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 2),
+            pw.Text(
+                'Official ${verified.marketScope} manufacturer sources — every '
+                'value below is cited to its document and page.',
+                style:
+                    const pw.TextStyle(fontSize: 9, color: PdfColors.grey700)),
+            pw.SizedBox(height: 6),
+            pw.TableHelper.fromTextArray(
+              headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+              headerDecoration:
+                  const pw.BoxDecoration(color: PdfColors.grey300),
+              cellStyle: const pw.TextStyle(fontSize: 9),
+              cellAlignment: pw.Alignment.centerLeft,
+              columnWidths: {
+                0: const pw.FlexColumnWidth(2.2),
+                1: const pw.FlexColumnWidth(3),
+                2: const pw.FlexColumnWidth(3.5),
+              },
+              headers: const [
+                'Specification',
+                'Value',
+                'Official source'
+              ],
+              data: _verifiedRows(verified),
+            ),
+            pw.SizedBox(height: 16),
+          ],
+
           pw.Text('Complete service history',
               style:
                   pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold)),
@@ -252,6 +287,44 @@ abstract class ResalePassportPdf {
     );
 
     await Printing.layoutPdf(onLayout: (format) => doc.save());
+  }
+
+  /// Flattens the verified spec's cited fluids, attributes and maintenance
+  /// intervals into [Specification, Value, Source] rows for the passport table.
+  /// Only cited (source + page) values are included — the golden rule.
+  static List<List<String>> _verifiedRows(VerifiedSpec s) {
+    final rows = <List<String>>[];
+    String cite(String? doc, String? page) =>
+        [doc, page].where((x) => x != null && x.isNotEmpty).join(', ');
+
+    for (final f in [...s.fluids, ...s.attributes]) {
+      if ((f.value ?? '').isEmpty || !f.hasCitation) continue;
+      rows.add([f.label, f.value!, cite(f.sourceDoc, f.sourcePage)]);
+    }
+    for (final iv in s.maintenance) {
+      final txt = _intervalText(iv);
+      if (txt == null || iv.sourceDoc == null) continue;
+      rows.add([iv.item, txt, cite(iv.sourceDoc, iv.sourcePage)]);
+    }
+    return rows;
+  }
+
+  static String? _intervalText(VerifiedInterval v) {
+    String km(int k) => '${(k / 1000).toStringAsFixed(0)},000 km';
+    if (v.severeKm != null) {
+      return 'Severe: every ${km(v.severeKm!)}'
+          '${v.severeMonths != null ? ' / ${v.severeMonths} mo' : ''}'
+          '${v.normalKm != null ? ' · Normal: ${km(v.normalKm!)}' : ''}';
+    }
+    if (v.normalKm != null) {
+      return 'Every ${km(v.normalKm!)}'
+          '${v.normalMonths != null ? ' / ${v.normalMonths} mo' : ''}';
+    }
+    if (v.firstKm != null) {
+      return 'First ${km(v.firstKm!)}'
+          '${v.subsequentKm != null ? ', then ${km(v.subsequentKm!)}' : ''}';
+    }
+    return v.notes;
   }
 
   static pw.Widget _kv(String k, String? val) => pw.Padding(
