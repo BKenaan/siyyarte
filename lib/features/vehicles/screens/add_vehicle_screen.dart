@@ -303,7 +303,13 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
         }
       });
       _maybeAutoSpec();
-      if (!merged.scanned) {
+      // If the card gave us a VIN but not the full make/model (e.g. the free
+      // on-device path reads only the VIN), decode it via the free NHTSA API to
+      // fill make/model/year/engine — no AI needed.
+      if (_vinNorm.length >= 11 &&
+          (_make.text.trim().isEmpty || _model.text.trim().isEmpty)) {
+        await _decodeVin();
+      } else if (!merged.scanned) {
         messenger.showSnackBar(SnackBar(
             content: Text(merged.scanError ??
                 'Card saved. Enter the details manually if they did not fill.')));

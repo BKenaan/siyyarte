@@ -9,6 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../core/bootstrap.dart';
+import '../vehicles/data/vehicle_catalog.dart';
+import 'card_ocr/card_ocr.dart';
+import 'card_ocr/card_parser.dart';
 
 /// How the registration card image is obtained.
 /// [scan] uses the native document scanner (edge-detect, de-skew, crop) — the
@@ -130,7 +133,28 @@ class RegistrationCardService {
       url = localPath; // local evidence until Storage is enabled
     }
 
-    // 2) AI-read the card (holder name + VIN). Failure is non-fatal.
+    // 2a) FREE on-device pass first: ML Kit reads the card; the VIN (17-char,
+    // unmistakable) is extracted locally at zero cost. From the VIN the free
+    // NHTSA decoder fills make/model/year, so most cards never touch the AI.
+    try {
+      final lines = await recognizeCardText(localPath);
+      final parsed = parseCardLines(
+          lines, VehicleCatalog.makes.map((m) => m.name).toList());
+      if (parsed.vin != null) {
+        return RegCardCapture(
+          url: url,
+          scanned: true,
+          vin: parsed.vin,
+          make: parsed.make,
+          year: parsed.year,
+          plateNumber: parsed.plate,
+        );
+      }
+    } catch (_) {
+      // On-device unavailable (web) or failed — fall through to AI.
+    }
+
+    // 2b) AI fallback (holder name + VIN) when on-device found no VIN.
     if (kUseFirebase) {
       try {
         final callable =

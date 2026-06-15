@@ -66,6 +66,11 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+            // Keep rules for ML Kit's unused script recognizers (Latin only).
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 }
