@@ -214,6 +214,26 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // Orientation guidance — text reads best when the card is held
+            // landscape (long edge sideways) so the printing is horizontal.
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
+              child: Row(
+                children: [
+                  const Icon(Icons.crop_landscape_outlined, size: 20),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Hold the card LANDSCAPE (long edge sideways) so the text '
+                      'is upright. Lay it flat, fill the frame, avoid glare. '
+                      'Scan the BACK for the chassis/VIN.',
+                      style: Theme.of(ctx).textTheme.bodySmall,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 12),
             ListTile(
               leading: const Icon(Icons.document_scanner_outlined),
               title: const Text('Scan card'),
@@ -258,8 +278,8 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
           builder: (ctx) => AlertDialog(
             title: const Text('Add the back side'),
             content: const Text(
-                'Now photograph the BACK of the card — some details (VIN, '
-                'model, year) are printed there.'),
+                'Now scan the BACK of the card (landscape, text upright) — the '
+                'chassis/VIN, model and year are printed there.'),
             actions: [
               TextButton(
                   onPressed: () => Navigator.pop(ctx, false),
