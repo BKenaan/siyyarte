@@ -122,10 +122,13 @@ class FirestoreGarageRepository implements GarageRepository {
     // value would be rejected — making the log tamper-evident.
     final map = record.toMap()..['createdAt'] = FieldValue.serverTimestamp();
     await _historyCol(record.vehicleId).doc(record.id).set(map);
-    // Bump the odometer if this is a new high reading — but NOT for pure
-    // expenses (fuel/insurance/registration/parking), where the odometer
-    // field is incidental and shouldn't ratchet the car's reading.
-    if (kExpenseTypes.contains(record.type)) return;
+    // Bump the odometer if this is a new high reading. Fuel fill-ups DO carry a
+    // real odometer (the most frequent checkpoint) so they bump; the other pure
+    // expenses (insurance/registration/parking/other) don't ratchet the reading.
+    if (kExpenseTypes.contains(record.type) &&
+        record.type != ServiceType.fuel) {
+      return;
+    }
     final vehicleRef = _vehiclesCol.doc(record.vehicleId);
     final snap = await vehicleRef.get();
     final current = (snap.data()?['odometerKm'] as int?) ?? 0;

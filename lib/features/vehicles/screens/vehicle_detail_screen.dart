@@ -11,6 +11,7 @@ import '../../maintenance/screens/mark_service_done_sheet.dart';
 import '../../maintenance/ui/maintenance_ui.dart';
 import '../../history/resale_passport.dart';
 import '../../history/screens/history_screen.dart';
+import '../../fuel/fuel_log_screen.dart';
 import '../../premium/premium_controller.dart';
 import '../../premium/siyyarte_plus_screen.dart';
 import '../../specs/verified_spec.dart';
@@ -42,6 +43,14 @@ class VehicleDetailScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(vehicle.displayName),
         actions: [
+          IconButton(
+            tooltip: 'Fuel log',
+            icon: const Icon(Icons.local_gas_station_outlined),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => FuelLogScreen(
+                    vehicleId: vehicleId,
+                    currentOdometerKm: vehicle.odometerKm))),
+          ),
           IconButton(
             tooltip: t.serviceHistory,
             icon: const Icon(Icons.history),

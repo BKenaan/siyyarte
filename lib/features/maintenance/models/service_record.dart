@@ -38,6 +38,12 @@ class ServiceRecord {
   final String? invoiceUrl;
   final RecordSource source;
 
+  /// Fuel fill-up fields (only set when type == ServiceType.fuel). [liters] is
+  /// the volume added; [fullTank] marks a tank-filled-to-full event, which is
+  /// what makes consumption (L/100km) computable between two such fill-ups.
+  final double? liters;
+  final bool? fullTank;
+
   /// When the entry was logged. On Firebase this is a server timestamp the
   /// client cannot backdate (enforced by security rules), making the log
   /// tamper-evident.
@@ -54,6 +60,8 @@ class ServiceRecord {
     this.cost,
     this.invoiceUrl,
     this.source = RecordSource.manual,
+    this.liters,
+    this.fullTank,
     required this.createdAt,
   });
 
@@ -67,6 +75,8 @@ class ServiceRecord {
         'cost': cost?.toMap(),
         'invoiceUrl': invoiceUrl,
         'source': source.name,
+        'liters': liters,
+        'fullTank': fullTank,
         'createdAt': createdAt.toIso8601String(),
       };
 
@@ -84,6 +94,8 @@ class ServiceRecord {
             : Money.fromMap(Map<String, dynamic>.from(m['cost'] as Map)),
         invoiceUrl: m['invoiceUrl'] as String?,
         source: RecordSourceX.fromId(m['source'] as String?),
+        liters: (m['liters'] as num?)?.toDouble(),
+        fullTank: m['fullTank'] as bool?,
         createdAt: _parseTime(m['createdAt']),
       );
 

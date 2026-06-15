@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../../core/providers.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../fuel/add_fuel_sheet.dart';
 import '../../maintenance/models/scheduled_service.dart';
 import '../../maintenance/models/service_type.dart';
 import '../../vehicles/models/vehicle.dart';
@@ -95,7 +96,18 @@ class DashboardScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 18),
                   HealthGauge(status: overall),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 14),
+                  // Daily-touch quick action: log a fuel fill-up in seconds.
+                  SizedBox(
+                    width: double.infinity,
+                    child: FilledButton.tonalIcon(
+                      onPressed: () => AddFuelSheet.show(context,
+                          vehicleId: vehicle.id,
+                          currentOdometerKm: vehicle.odometerKm),
+                      icon: const Icon(Icons.local_gas_station, size: 18),
+                      label: const Text('Log fuel fill-up'),
+                    ),
+                  ),
                 ],
               ),
             ),
