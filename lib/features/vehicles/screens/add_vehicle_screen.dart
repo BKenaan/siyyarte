@@ -304,9 +304,9 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
       });
       _maybeAutoSpec();
       if (!merged.scanned) {
-        messenger.showSnackBar(const SnackBar(
-            content: Text('Card saved. It will count as "on file" — AI '
-                'verification needs the backend scan service.')));
+        messenger.showSnackBar(SnackBar(
+            content: Text(merged.scanError ??
+                'Card saved. Enter the details manually if they did not fill.')));
       }
     } catch (e) {
       messenger

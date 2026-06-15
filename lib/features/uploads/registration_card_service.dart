@@ -28,7 +28,13 @@ class RegCardCapture {
     this.model,
     this.year,
     this.fuelType,
+    this.scanError,
   });
+
+  /// Set when the photo saved but the AI read failed — carries a user-facing
+  /// reason (bad key, quota, offline) so the UI can explain instead of going
+  /// silent.
+  final String? scanError;
 
   /// Where the card photo lives (Storage URL, or local path on Spark/mock).
   final String url;
@@ -151,8 +157,24 @@ class RegistrationCardService {
           year: rawYear is num ? rawYear.toInt() : null,
           fuelType: (data['fuelType'] as String?)?.trim(),
         );
+      } on FirebaseFunctionsException catch (e) {
+        // Surface a meaningful reason instead of silently doing nothing.
+        final reason = switch (e.code) {
+          'resource-exhausted' =>
+            'Daily scan limit reached — try again tomorrow or upgrade to Plus.',
+          'unauthenticated' => 'Please sign in again to scan.',
+          _ =>
+            "Couldn't read the card automatically. The photo is saved — please "
+                'enter the details manually.',
+        };
+        return RegCardCapture(url: url, scanned: false, scanError: reason);
       } catch (_) {
-        // Functions not deployed / offline → card on file, unverified.
+        return RegCardCapture(
+            url: url,
+            scanned: false,
+            scanError:
+                "Couldn't read the card automatically. The photo is saved — "
+                    'please enter the details manually.');
       }
     }
     return RegCardCapture(url: url, scanned: false);
