@@ -1,5 +1,4 @@
-# Garagi — كراجي
-
+# Siyyarte 
 **Car maintenance tracker & reminder, built for the Lebanese market.**
 Track services, get smart reminders (by mileage *and* time, incl. insurance &
 Mécanique), estimate costs in USD/LBP, and keep full service history — offline-first,
