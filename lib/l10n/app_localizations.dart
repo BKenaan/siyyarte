@@ -827,7 +827,7 @@ abstract class AppLocalizations {
   /// No description provided for @vehiclePassport.
   ///
   /// In en, this message translates to:
-  /// **'Vehicle passport (PDF)'**
+  /// **'Service booklet (PDF)'**
   String get vehiclePassport;
 
   /// No description provided for @scanInvoice.
@@ -881,7 +881,7 @@ abstract class AppLocalizations {
   /// No description provided for @premiumRequired.
   ///
   /// In en, this message translates to:
-  /// **'Vehicle Passport is a Siyyarte Plus feature.'**
+  /// **'The Service Booklet is a Siyyarte Plus feature.'**
   String get premiumRequired;
 
   /// No description provided for @plusBenefitNoAds.
@@ -893,7 +893,7 @@ abstract class AppLocalizations {
   /// No description provided for @plusBenefitPassport.
   ///
   /// In en, this message translates to:
-  /// **'Vehicle Passport export (PDF)'**
+  /// **'Service Booklet export (PDF)'**
   String get plusBenefitPassport;
 
   /// No description provided for @plusBenefitUnlimited.

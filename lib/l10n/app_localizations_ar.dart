@@ -393,7 +393,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get category => 'الفئة';
 
   @override
-  String get vehiclePassport => 'جواز السيّارة (PDF)';
+  String get vehiclePassport => 'دفتر الصيانة (PDF)';
 
   @override
   String get scanInvoice => 'مسح الفاتورة';
@@ -420,13 +420,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get premiumFree => 'الخطة المجانية';
 
   @override
-  String get premiumRequired => 'جواز السيّارة ميزة ضمن سيّارتي بلَس.';
+  String get premiumRequired => 'دفتر الصيانة ميزة ضمن سيّارتي بلَس.';
 
   @override
   String get plusBenefitNoAds => 'بدون إعلانات';
 
   @override
-  String get plusBenefitPassport => 'تصدير جواز السيّارة (PDF)';
+  String get plusBenefitPassport => 'تصدير دفتر الصيانة (PDF)';
 
   @override
   String get plusBenefitUnlimited =>

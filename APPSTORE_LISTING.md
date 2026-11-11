@@ -15,12 +15,12 @@ Google Play — this is tailored to Apple.
 ## Promotional text (max 170 chars — editable anytime without review)
 ```
 Track every service, get reminders for oil, insurance & Mécanique, scan your
-registration card, and build a verified Vehicle Passport that raises resale value.
+registration card, and build a verified Service Booklet that raises resale value.
 ```
 
 ## Keywords (max 100 chars, comma-separated, no spaces)
 ```
-car,maintenance,service,vehicle,reminder,oil,garage,mecanique,VIN,fuel,Lebanon,passport
+car,maintenance,service,vehicle,reminder,oil,garage,mecanique,VIN,fuel,Lebanon,booklet
 ```
 
 ## Description (reuse the Play copy)
@@ -42,9 +42,9 @@ KNOW WHAT YOUR CAR COSTS
 • Log services in seconds — or scan the invoice
 • Track fuel economy (L/100km) and running costs in USD and LBP
 
-SELL FOR MORE WITH THE VEHICLE PASSPORT (PLUS)
+SELL FOR MORE WITH THE SERVICE BOOKLET (PLUS)
 • Verified against the registration card (دفتر السيارة)
-• Tamper-evident service log; export a branded Vehicle Passport PDF
+• Tamper-evident service log; export a branded Service Booklet PDF
 
 Made in Lebanon, for Lebanon. English & Arabic, full RTL support.
 Questions? support@bkenaan.dev

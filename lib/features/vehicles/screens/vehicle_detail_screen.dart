@@ -368,7 +368,7 @@ class _RegBanner extends ConsumerWidget {
       RegStatus.none => (
           Icons.badge_outlined,
           cs.tertiary,
-          'No registration card on file — attach one so the resale passport '
+          'No registration card on file — attach one so the Service Booklet '
               'can verify ownership.',
         ),
       RegStatus.cardOnFile => (
@@ -381,7 +381,7 @@ class _RegBanner extends ConsumerWidget {
           Icons.report_outlined,
           cs.error,
           'The VIN on the registration card does not match this vehicle\'s '
-              'VIN — fix it before exporting a passport.',
+              'VIN — fix it before exporting a Service Booklet.',
         ),
       RegStatus.verified => (Icons.verified_outlined, cs.primary, ''),
     };

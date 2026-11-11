@@ -394,7 +394,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get category => 'Category';
 
   @override
-  String get vehiclePassport => 'Vehicle passport (PDF)';
+  String get vehiclePassport => 'Service booklet (PDF)';
 
   @override
   String get scanInvoice => 'Scan invoice';
@@ -422,13 +422,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get premiumFree => 'Free plan';
 
   @override
-  String get premiumRequired => 'Vehicle Passport is a Siyyarte Plus feature.';
+  String get premiumRequired =>
+      'The Service Booklet is a Siyyarte Plus feature.';
 
   @override
   String get plusBenefitNoAds => 'No ads';
 
   @override
-  String get plusBenefitPassport => 'Vehicle Passport export (PDF)';
+  String get plusBenefitPassport => 'Service Booklet export (PDF)';
 
   @override
   String get plusBenefitUnlimited => 'Unlimited cars (free plan: 2)';

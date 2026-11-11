@@ -705,8 +705,8 @@ class _RegCardTile extends StatelessWidget {
               ? 'Photo of the registration card (دفتر السيارة) showing the '
                   'holder name and VIN — required.'
               : 'Optional: scan the registration card (دفتر السيارة) to '
-                  'auto-fill the VIN and verify ownership for the resale '
-                  'passport.',
+                  'auto-fill the VIN and verify ownership for the Service '
+                  'Booklet.',
         ),
       RegStatus.cardOnFile => (
           Icons.task_outlined,
