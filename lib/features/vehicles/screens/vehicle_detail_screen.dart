@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../core/analytics.dart';
 import '../../../core/providers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../maintenance/models/scheduled_service.dart';
@@ -78,6 +79,7 @@ class VehicleDetailScreen extends ConsumerWidget {
                     engine: vehicle.engineType,
                   )).future))
                       ?.spec;
+                  Analytics.exportPassport();
                   await ResalePassportPdf.export(vehicle, history,
                       verified: verified);
                 } else {

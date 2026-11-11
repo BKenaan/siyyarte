@@ -1,7 +1,7 @@
 name: garagi
 description: "Garagi — Car maintenance tracker & reminder for the Lebanese market."
 publish_to: 'none'
-version: 1.0.0+13
+version: 1.0.0+14
 
 environment:
   sdk: ^3.8.1
@@ -65,6 +65,8 @@ dependencies:
   url_launcher: ^6.3.2
   cunning_document_scanner: ^1.4.0
   google_mlkit_text_recognition: ^0.15.1
+  firebase_analytics: ^11.6.0
+  firebase_crashlytics: ^4.3.10
 
 dev_dependencies:
   flutter_test:

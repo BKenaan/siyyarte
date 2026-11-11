@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'core/analytics.dart';
 import 'core/providers.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
@@ -34,6 +35,8 @@ class SiyyarteApp extends ConsumerWidget {
           : AppTheme.dark(),
       themeMode: ThemeMode.system,
       locale: locale,
+      // Automatic screen_view analytics on pushed routes (no-op off Firebase).
+      navigatorObservers: [if (Analytics.observer != null) Analytics.observer!],
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       // Directionality (LTR/RTL) is handled automatically by MaterialApp from

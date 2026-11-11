@@ -53,11 +53,10 @@ service cloud.firestore {
 
       match /vehicles/{vehicleId} {
         allow read: if isOwner(uid);
-        // Every NEW vehicle must carry its registration-card photo — the
-        // ownership evidence behind the resale passport. Updates stay exempt
-        // so legacy vehicles (added before the requirement) remain editable.
-        allow create: if isOwner(uid) && validVehicle()
-            && request.resource.data.registrationCardUrl is string;
+        // A car can be added with just its basics (low-friction activation).
+        // The registration card is OPTIONAL and upgrades the car to "verified"
+        // (what the resale passport relies on) rather than gating the add.
+        allow create: if isOwner(uid) && validVehicle();
         allow update: if isOwner(uid) && validVehicle();
         allow delete: if isOwner(uid);
 

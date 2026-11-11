@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/analytics.dart';
 import '../../../core/providers.dart';
 import '../../../core/widgets/combo_field.dart';
 import '../../../l10n/app_localizations.dart';
@@ -91,15 +92,15 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
     super.dispose();
   }
 
-  // New vehicles must come with their registration card AND a VIN — the VIN
-  // is what stops the same car living in two accounts. Legacy vehicles being
-  // edited are exempt (but the tile nags to attach one).
+  // A car only needs make/model/year/odometer to be added — low friction so
+  // new users activate fast. The registration card + VIN are OPTIONAL and
+  // upgrade the car to "verified" (which the resale passport relies on); they
+  // are no longer required just to track a car.
   bool get _canSave =>
       _make.text.trim().isNotEmpty &&
       _model.text.trim().isNotEmpty &&
       _year != null &&
-      int.tryParse(_odometer.text) != null &&
-      (_editing || (_regCardUrl != null && _vinNorm.isNotEmpty));
+      int.tryParse(_odometer.text) != null;
 
   String get _vinNorm =>
       _vin.text.trim().replaceAll(RegExp(r'\s'), '').toUpperCase();
@@ -145,6 +146,7 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
       if (mounted) _showTransferDialog(vehicle.vin!);
       return;
     }
+    if (!_editing) Analytics.addVehicle(vehicle.make, vehicle.model);
     ref.read(selectedVehicleIdProvider.notifier).state = vehicle.id;
     if (mounted) Navigator.of(context).pop();
   }
@@ -256,6 +258,7 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
       ),
     );
     if (mode == null) return; // dismissed
+    Analytics.scanCard(mode.name);
 
     setState(() => _regBusy = true);
     try {
@@ -486,13 +489,14 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
             isActive: _step >= 0,
             content: Column(
               children: [
-                // Ownership evidence first: the registration card is required
-                // for every new vehicle, and scanning it fills VIN + plate.
+                // Optional ownership evidence: scanning the registration card
+                // fills VIN + plate and verifies the car for the resale
+                // passport. Not required just to track the car.
                 _RegCardTile(
                   url: _regCardUrl,
                   holder: _regHolder,
                   status: _regStatus,
-                  isRequired: !_editing,
+                  isRequired: false,
                   busy: _regBusy,
                   onAttach: _captureRegCard,
                 ),
@@ -697,8 +701,12 @@ class _RegCardTile extends StatelessWidget {
       RegStatus.none => (
           Icons.badge_outlined,
           isRequired ? cs.error : cs.onSurfaceVariant,
-          'Photo of the registration card (دفتر السيارة) showing the holder '
-              'name and VIN${isRequired ? ' — required' : ''}.',
+          isRequired
+              ? 'Photo of the registration card (دفتر السيارة) showing the '
+                  'holder name and VIN — required.'
+              : 'Optional: scan the registration card (دفتر السيارة) to '
+                  'auto-fill the VIN and verify ownership for the resale '
+                  'passport.',
         ),
       RegStatus.cardOnFile => (
           Icons.task_outlined,

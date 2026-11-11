@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/analytics.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/siyyarte_logo.dart';
 import '../../l10n/app_localizations.dart';
@@ -12,6 +13,7 @@ class SiyyartePlusScreen extends ConsumerWidget {
   const SiyyartePlusScreen({super.key});
 
   static Future<void> show(BuildContext context) {
+    Analytics.viewPaywall('prompt');
     return Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => const SiyyartePlusScreen()),
     );

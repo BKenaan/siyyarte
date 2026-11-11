@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/analytics.dart';
 import '../../core/constants/lebanon.dart';
 import '../../core/models/money.dart';
 import '../../core/providers.dart';
@@ -76,6 +77,7 @@ class _AddFuelSheetState extends ConsumerState<AddFuelSheet> {
     );
     try {
       await ref.read(garageRepositoryProvider).addServiceRecord(record);
+      Analytics.logFuel();
       if (mounted) Navigator.pop(context);
     } finally {
       if (mounted) setState(() => _busy = false);
