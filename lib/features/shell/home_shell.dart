@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/providers.dart';
 import '../../core/widgets/siyyarte_logo.dart';
 import '../../l10n/app_localizations.dart';
 import '../ads/ads.dart';
 import '../premium/premium_controller.dart';
+import '../reminders/reminder_scheduler.dart';
 import '../costs/cost_center_screen.dart';
 import '../dashboard/screens/dashboard_screen.dart';
 import '../reminders/reminders_screen.dart';
@@ -22,10 +24,22 @@ class HomeShell extends ConsumerStatefulWidget {
 
 class _HomeShellState extends ConsumerState<HomeShell> {
   int _index = 0;
+  bool _remindersKicked = false;
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+
+    // Reminders are now free + automatic: re-sync local notifications whenever
+    // the vehicle list changes, plus an initial kick for already-cached data.
+    ref.listen(vehiclesProvider, (_, next) {
+      if (next.hasValue) ReminderScheduler.syncAll(ref, t);
+    });
+    if (!_remindersKicked) {
+      _remindersKicked = true;
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_) => ReminderScheduler.syncAll(ref, t));
+    }
 
     return Scaffold(
       appBar: AppBar(

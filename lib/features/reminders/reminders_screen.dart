@@ -8,7 +8,6 @@ import '../maintenance/models/scheduled_service.dart';
 import '../maintenance/models/service_type.dart';
 import '../premium/premium_controller.dart';
 import '../premium/siyyarte_plus_screen.dart';
-import 'notification_service.dart';
 
 class _Reminder {
   final String title;
@@ -64,55 +63,43 @@ class RemindersScreen extends ConsumerWidget {
         ),
     ]..sort((a, b) => a.when.compareTo(b.when));
 
+    final isPremium = ref.watch(isPremiumProvider);
     return Scaffold(
-      floatingActionButton: reminders.isEmpty
-          ? null
-          : FloatingActionButton.extended(
-              onPressed: () async {
-                // Reminders (local + push) are a Siyyarte Plus feature.
-                if (!ref.read(isPremiumProvider)) {
-                  SiyyartePlusScreen.show(context);
-                  return;
-                }
-                final svc = NotificationService.instance;
-                await svc.requestPermissions();
-                for (var i = 0; i < reminders.length; i++) {
-                  await svc.scheduleReminder(
-                    // Stable, vehicle-scoped id so scheduling one car doesn't
-                    // overwrite another car's reminders (loop index collided).
-                    id: '${vehicle.id}:${reminders[i].title}'.hashCode &
-                        0x7fffffff,
-                    title: '${vehicle.displayName} — ${reminders[i].title}',
-                    body: reminders[i].body,
-                    whenLocal: reminders[i].when,
-                  );
-                }
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('${reminders.length} ${t.reminders}')),
-                  );
-                }
-              },
-              icon: const Icon(Icons.notifications_active_outlined),
-              label: Text(t.reminders),
-            ),
       body: reminders.isEmpty
           ? Center(child: Text(t.healthGood))
-          : ListView.builder(
+          : ListView(
               padding: const EdgeInsets.all(16),
-              itemCount: reminders.length,
-              itemBuilder: (context, i) {
-                final r = reminders[i];
-                return Card(
-                  margin: const EdgeInsets.only(bottom: 8),
+              children: [
+                // Reminders are automatic & free — scheduled on-device for all
+                // cars. Nudge free users to Plus for cross-device push.
+                Card(
+                  color: Colors.green.withValues(alpha: 0.08),
                   child: ListTile(
-                    leading: CircleAvatar(child: Icon(r.icon)),
-                    title: Text(r.title),
-                    subtitle: Text(r.body),
-                    trailing: Text(DateFormat.MMMd().format(r.when)),
+                    leading: const Icon(Icons.notifications_active_outlined,
+                        color: Colors.green),
+                    title: const Text('Reminders are on'),
+                    subtitle: Text(isPremium
+                        ? 'Alerts fire on your phone and across your devices.'
+                        : 'Alerts fire on this phone automatically. Upgrade to '
+                            'Plus for cross-device push.'),
+                    trailing: isPremium
+                        ? null
+                        : TextButton(
+                            onPressed: () => SiyyartePlusScreen.show(context),
+                            child: const Text('Plus')),
                   ),
-                );
-              },
+                ),
+                const SizedBox(height: 8),
+                ...reminders.map((r) => Card(
+                      margin: const EdgeInsets.only(bottom: 8),
+                      child: ListTile(
+                        leading: CircleAvatar(child: Icon(r.icon)),
+                        title: Text(r.title),
+                        subtitle: Text(r.body),
+                        trailing: Text(DateFormat.MMMd().format(r.when)),
+                      ),
+                    )),
+              ],
             ),
     );
   }
