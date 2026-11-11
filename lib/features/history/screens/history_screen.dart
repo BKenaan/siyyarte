@@ -6,8 +6,6 @@ import 'package:intl/intl.dart';
 import '../../../core/providers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../maintenance/models/service_type.dart';
-import '../../premium/premium_controller.dart';
-import '../../premium/siyyarte_plus_screen.dart';
 import '../pdf_export.dart';
 
 /// Chronological service-history timeline with PDF export and per-record undo.
@@ -30,11 +28,8 @@ class HistoryScreen extends ConsumerWidget {
             icon: const Icon(Icons.picture_as_pdf_outlined),
             tooltip: t.exportPdf,
             onPressed: () {
-              // Exporting/sharing records is a Plus feature (free = view only).
-              if (!ref.read(isPremiumProvider)) {
-                SiyyartePlusScreen.show(context);
-                return;
-              }
+              // Your own records export freely; the branded, cited resale
+              // Passport is the premium document.
               final history = historyAsync.valueOrNull ?? const [];
               if (vehicle != null && history.isNotEmpty) {
                 ServiceHistoryPdf.export(vehicle, history);

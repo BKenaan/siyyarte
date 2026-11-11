@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app.dart';
 import 'core/bootstrap.dart';
 import 'core/providers.dart';
-import 'core/secure_screen.dart';
 import 'features/ads/ads.dart';
 import 'features/premium/premium_controller.dart';
 import 'features/reminders/notification_service.dart';
@@ -38,12 +37,6 @@ Future<void> main() async {
         (isPremium) =>
             container.read(isPremiumProvider.notifier).setPremium(isPremium),
       );
-  // Free plan: block screenshots/recording (Android FLAG_SECURE). Follows the
-  // premium state live, so upgrading lifts it immediately.
-  setSecureScreen(!container.read(isPremiumProvider));
-  container.listen<bool>(isPremiumProvider,
-      (_, premium) => setSecureScreen(!premium));
-
   runApp(
     UncontrolledProviderScope(
       container: container,
