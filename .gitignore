@@ -62,3 +62,6 @@ siyyarte_claude_code_handoff.zip
 data_backend/verified_specs.json
 data_backend/market_routing.json
 functions/service-account.json
+
+# generated screenshot source art (large; regenerable)
+store_assets/screenshots/raw/
