@@ -66,7 +66,7 @@ class PurchaseService {
     if (!available) return false;
     final pkg = await _package();
     if (pkg == null) return false;
-    await Purchases.purchasePackage(pkg);
+    await Purchases.purchase(PurchaseParams.package(pkg));
     final info = await Purchases.getCustomerInfo();
     return _isPlus(info);
   }

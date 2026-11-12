@@ -60,7 +60,7 @@ dependencies:
   http: ^1.2.2
 
   # Monetization (mobile-only; loaded via conditional imports)
-  purchases_flutter: ^8.2.1
+  purchases_flutter: ^11.0.1
   google_mobile_ads: ^5.2.0
   url_launcher: ^6.3.2
   cunning_document_scanner: ^1.4.0

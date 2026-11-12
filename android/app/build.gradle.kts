@@ -19,7 +19,8 @@ val keystoreProperties = Properties().apply {
 
 android {
     namespace = "com.garagi.garagi"
-    compileSdk = flutter.compileSdkVersion
+    // Play policy (enforced Aug 31, 2026): apps must target Android 16 (API 36).
+    compileSdk = 36
     // Pinned: several plugins (incl. the document-scanner deps) require this
     // NDK; use the highest required version (they're backward compatible).
     ndkVersion = "27.0.12077973"
@@ -41,8 +42,8 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // Firebase Auth / Firestore require a minimum of API 23.
-        minSdk = maxOf(23, flutter.minSdkVersion)
-        targetSdk = flutter.targetSdkVersion
+        minSdk = maxOf(24, flutter.minSdkVersion)
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
