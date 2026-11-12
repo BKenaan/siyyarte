@@ -88,10 +88,10 @@ flutter_launcher_icons:
 # Splash screen (run: dart run flutter_native_splash:create)
 flutter_native_splash:
   color: "#011E4B"
-  image: "assets/brand/icon_foreground_1024.png"
+  image: "assets/brand/splash_logo_1024.png"
   android_12:
     color: "#011E4B"
-    image: "assets/brand/icon_foreground_1024.png"
+    image: "assets/brand/splash_logo_1024.png"
 
 flutter:
   uses-material-design: true

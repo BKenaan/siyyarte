@@ -65,3 +65,6 @@ functions/service-account.json
 
 # generated screenshot source art (large; regenerable)
 store_assets/screenshots/raw/
+
+# Logo exploration scratch (previews, build scripts, backups)
+store_assets/logo_options/
