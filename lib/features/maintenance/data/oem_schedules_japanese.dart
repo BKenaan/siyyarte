@@ -1115,15 +1115,854 @@ const OemModelSchedule _mitsubishiTriton = OemModelSchedule(
   ],
 );
 
+// ===========================================================================
+// GAP-FILL PASS (added later): Nissan SA sedans/trucks, additional Mitsubishi
+// AU models, and — now partially filled — Kia and Lexus.
+//
+// Kia & Lexus sourcing note: every Kia/Lexus OEM host (ownersmanual.kia.com,
+// kia.com, assets.sia.toyota.com) and every third-party aggregator (ManualsLib,
+// manualmachine) was Cloudflare/WAF-blocked to both plain fetch AND a real
+// rendered browser. The rows below were instead read from the GENUINE Kia/Lexus
+// owner's-manuals / Warranty-&-Services guides mirrored (with OCR full text) on
+// the Internet Archive. Because that is an OCR mirror rather than the maker's
+// own host, these carry Grade B even where read directly, and anything the OCR
+// could not render unambiguously was OMITTED (per the GOLDEN RULE). No value was
+// copied across makes/models (no Hyundai->Kia, no Toyota->Lexus).
+// ===========================================================================
+
+const String _srcNissanZaAlmera =
+    'Nissan South Africa — Almera 1.5 Petrol Periodic Maintenance schedule (PDF, normal + severe) — '
+    'https://www.nissan.co.za/content/dam/Nissan/za/Maintenance/Almera.pdf';
+
+const String _srcNissanZaNavara =
+    'Nissan South Africa — Navara 2.3 Turbo Diesel Periodic Maintenance schedule (PDF, normal + severe) — '
+    'https://www.nissan.co.za/content/dam/Nissan/za/Maintenance/Navara.pdf';
+
+const String _srcMitsuAuMirage =
+    'Mitsubishi Motors Australia — "21MY LA Mirage Periodic Inspection and Maintenance Schedule" — '
+    'https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/MIRAGE-21MY_Maintenance-Schedule.pdf';
+
+const String _srcMitsuAuPajeroSport =
+    'Mitsubishi Motors Australia — "24MY QG Pajero Sport Inspection and Maintenance Schedule" — '
+    'https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/24MY-QG-PAJERO-SPORT-MAINTENANCE-SCHEDULE-WEB.pdf';
+
+const String _srcMitsuAuPajero =
+    'Mitsubishi Motors Australia — "22MY NX Pajero Periodic Inspection and Maintenance Schedule" — '
+    'https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/22MY-NX-Pajero-service-schedule.pdf';
+
+const String _srcMitsuAuAsx =
+    'Mitsubishi Motors Australia — "24MY XD ASX Inspection and Maintenance Schedule" — '
+    'https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/24MY-XD-ASX-INSPECTION-AND-MAINTENANCE-SCHEDULE-WEB.pdf';
+
+const String _srcKiaSorento =
+    'Kia — 2015 Sorento (UM) Owner\'s Manual: "Normal Maintenance Schedule" + '
+    '"Maintenance Under Severe Usage Conditions" (official Kia manual, OCR full text via Internet Archive) — '
+    'https://archive.org/details/car-service-manuals-kia-2015-sorento';
+
+const String _srcKiaSportage =
+    'Kia — 2016 Sportage (QL) Owner\'s Manual: Normal Maintenance Schedule '
+    '(official Kia manual, OCR full text via Internet Archive) — '
+    'https://archive.org/details/car-service-manuals-kia-2016-sportage';
+
+const String _srcKiaForte =
+    'Kia — 2016 Forte/Cerato (YD) Owner\'s Manual: "Normal Maintenance Schedule" + '
+    '"Maintenance Under Severe Usage Conditions" (official Kia manual, OCR full text via Internet Archive) — '
+    'https://archive.org/details/car-service-manuals-kia-2016-forte';
+
+const String _srcKiaRio =
+    'Kia — 2016 Rio (UB) Owner\'s Manual: "Normal Maintenance Schedule" + '
+    '"Maintenance Under Severe Usage Conditions" (official Kia manual, OCR full text via Internet Archive) — '
+    'https://archive.org/details/car-service-manuals-kia-2016-rio';
+
+const String _srcLexusNx200t =
+    'Lexus — 2016 NX 200t Warranty and Services Guide: Scheduled Maintenance Log + '
+    'Special Operating Conditions (official Lexus guide, OCR full text via Internet Archive) — '
+    'https://archive.org/details/manuals-plus-2016-lexus-nx-200t-warranty-and-services-guide-11e5a98e';
+
+// ---------------------------------------------------------------------------
+// NISSAN (gap-fill: sedans/trucks)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _nissanAlmera = OemModelSchedule(
+  make: 'Nissan',
+  model: 'Almera (Sunny)',
+  engine: '1.5L petrol',
+  fuel: 'Petrol',
+  generationNote:
+      'Nissan SA "Almera 1.5 Petrol" PDF — the same car sold as the Sunny in '
+      'MENA markets. Full normal + severe tables; the PDF itself is undated.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaAlmera,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 7500,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcNissanZaAlmera,
+      grade: OemGrade.a,
+      notes: 'Severe (dusty / short-trip / towing / idling) per severe table.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 30000,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaAlmera,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Spark plugs (iridium)',
+      intervalKm: 90000,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaAlmera,
+      grade: OemGrade.a,
+      notes: '"[R] at the specified mileage only" — replaced at 90,000 km.',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 150000,
+      intervalKm: 75000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaAlmera,
+      grade: OemGrade.a,
+      notes: 'First 150,000 km / 96 mo, then 75,000 km / 48 mo; mixture check '
+          'every 30,000 km / 24 mo. Genuine NISSAN Coolant (Blue).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaAlmera,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcNissanZaAlmera,
+      grade: OemGrade.a,
+      notes: 'Severe (high-humidity) per severe table.',
+    ),
+    OemInterval(
+      service: 'Automatic transaxle fluid',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.severe,
+      source: _srcNissanZaAlmera,
+      grade: OemGrade.a,
+      notes: 'Normal = inspect; severe (towing / rough roads) = replace. '
+          'Fuel filter is maintenance-free.',
+    ),
+  ],
+);
+
+const OemModelSchedule _nissanNavara = OemModelSchedule(
+  make: 'Nissan',
+  model: 'Navara',
+  engine: '2.3L turbo diesel (YS23)',
+  fuel: 'Diesel',
+  generationNote:
+      'Nissan SA "Navara 2.3 Turbo Diesel" PDF (D23 generation). Full normal + '
+      'severe tables; PDF undated.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+      notes: 'If the oil-replacement indicator lights, change sooner. The '
+          'severe table does NOT shorten engine oil for the Navara.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 30000,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+      notes: 'Replace every 30,000 km (R at 30/60/90/120); clean every '
+          '5,000 km. Severe = more frequently.',
+    ),
+    OemInterval(
+      service: 'Fuel filter',
+      intervalKm: 45000,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+      notes: 'Replace (R shown at 45,000 & 90,000 km); drain water at each '
+          'service when the water-level lamp lights.',
+    ),
+    OemInterval(
+      service: 'Fuel filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 150000,
+      intervalKm: 75000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+      notes: 'First 150,000 km / 96 mo, then 75,000 km / 48 mo; mixture check '
+          'every 30,000 km / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Drive belts',
+      intervalKm: 240000,
+      intervalMonths: 120,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Drive belts',
+      intervalKm: 120000,
+      intervalMonths: 60,
+      severity: OemSeverity.severe,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Timing chain',
+      intervalKm: 300000,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+      notes: 'Replace every 300,000 km (NOTE 3).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.severe,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+      notes: 'Normal = inspect; severe (towing / rough roads) = replace.',
+    ),
+    OemInterval(
+      service: 'Differential gear oil',
+      intervalKm: 120000,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.b,
+      notes: 'Single scheduled replacement at the 120,000 km service (R in an '
+          'otherwise inspect row).',
+    ),
+    OemInterval(
+      service: 'Differential gear oil',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.severe,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Transfer fluid',
+      intervalKm: 105000,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.b,
+      notes: 'Single scheduled replacement at the 105,000 km service (R in an '
+          'otherwise inspect row).',
+    ),
+    OemInterval(
+      service: 'Cabin / A-C filter',
+      intervalKm: 15000,
+      severity: OemSeverity.normal,
+      source: _srcNissanZaNavara,
+      grade: OemGrade.a,
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// MITSUBISHI (gap-fill: additional models)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _mitsubishiMirage = OemModelSchedule(
+  make: 'Mitsubishi',
+  model: 'Mirage (LA)',
+  yearStart: 2021,
+  engine: 'Petrol (1.2 3-cyl), CVT / MT',
+  fuel: 'Petrol',
+  generationNote:
+      'Mitsubishi AU 21MY LA Mirage. Only the schedule\'s explicit "R: Every X" '
+      'text rows are recorded; the densely-packed column-marker rows (air / '
+      'brake fluid) were not legible from the PDF text layer and are omitted. '
+      'The Attrage sedan shares the LA platform but is not named in this '
+      'document, so it is NOT covered here.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuMirage,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 7500,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuMirage,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Spark plugs (platinum/iridium)',
+      intervalKm: 90000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuMirage,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 165000,
+      intervalKm: 105000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuMirage,
+      grade: OemGrade.a,
+      notes: 'Petrol: first 165,000 km / 8 yr, then every 105,000 km / 5 yr.',
+    ),
+    OemInterval(
+      service: 'Fuel filter',
+      intervalKm: 150000,
+      intervalMonths: 120,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuMirage,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'CVT / automatic transmission fluid',
+      intervalKm: 90000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuMirage,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'CVT / automatic transmission fluid',
+      intervalKm: 45000,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuMirage,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Manual transmission gear oil',
+      intervalKm: 195000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuMirage,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Manual transmission gear oil',
+      intervalKm: 90000,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuMirage,
+      grade: OemGrade.a,
+    ),
+  ],
+);
+
+const OemModelSchedule _mitsubishiPajeroSport = OemModelSchedule(
+  make: 'Mitsubishi',
+  model: 'Pajero Sport (QG) / Montero Sport',
+  yearStart: 2024,
+  engine: '2.4L turbo diesel (common rail)',
+  fuel: 'Diesel',
+  generationNote:
+      'Mitsubishi AU 24MY QG Pajero Sport. Only the schedule\'s clean, same-line '
+      'values are recorded; the dense column-marker rows were not legible from '
+      'the PDF text layer.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuPajeroSport,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 7500,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuPajeroSport,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 165000,
+      intervalKm: 105000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuPajeroSport,
+      grade: OemGrade.a,
+      notes: 'First 165,000 km / 8 yr, then every 105,000 km / 5 yr.',
+    ),
+  ],
+);
+
+const OemModelSchedule _mitsubishiPajero = OemModelSchedule(
+  make: 'Mitsubishi',
+  model: 'Pajero (NX) / Montero',
+  yearStart: 2022,
+  engine: '3.2L turbo diesel (common rail)',
+  fuel: 'Diesel',
+  generationNote:
+      'Mitsubishi AU 22MY NX Pajero (full-size). Columns in the PDF text layer '
+      'were fully collapsed; only the explicit "R: Every X" text rows are '
+      'recorded.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuPajero,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 7500,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuPajero,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 195000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuPajero,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 90000,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuPajero,
+      grade: OemGrade.a,
+    ),
+  ],
+);
+
+const OemModelSchedule _mitsubishiAsx = OemModelSchedule(
+  make: 'Mitsubishi',
+  model: 'ASX (XD)',
+  yearStart: 2024,
+  engine: '2.0L / 2.4L petrol (MIVEC), CVT',
+  fuel: 'Petrol',
+  generationNote:
+      'Mitsubishi AU 24MY XD ASX. Engine oil from the every-column normal row + '
+      'severe "R: Every 7,500km" text; CVT fluid from the explicit "R: Every '
+      '40,000km" text. Spark-plug and coolant rows were not legible and are '
+      'omitted.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuAsx,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 7500,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuAsx,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'CVT fluid',
+      intervalKm: 40000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuAsx,
+      grade: OemGrade.b,
+      notes: '"R: Every 40,000km" in the schedule; corroborated by the 23MY XD '
+          'ASX schedule.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// KIA  (Grade B: official Kia owner's-manual text via Internet Archive OCR;
+// never copied from the sibling Hyundai platform.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _kiaSorento = OemModelSchedule(
+  make: 'Kia',
+  model: 'Sorento (UM)',
+  yearStart: 2015,
+  engine: 'Petrol GDI (2.4 / 3.3 V6)',
+  fuel: 'Petrol',
+  generationNote:
+      'Kia 2015 Sorento (UM) owner\'s manual, "Except Europe" gasoline schedule '
+      '(normal + severe). Spark-plug normal interval was only positionally '
+      'listed in the OCR and is omitted.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 12000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcKiaSorento,
+      grade: OemGrade.b,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 6000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcKiaSorento,
+      grade: OemGrade.b,
+      notes: 'Severe schedule: every 6,000 km (3,750 mi) or 6 months.',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 96000,
+      intervalKm: 48000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKiaSorento,
+      grade: OemGrade.b,
+      notes: 'First 96,000 km (60,000 mi) / 60 mo, then every 48,000 km '
+          '(30,000 mi) / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Drive belts',
+      firstKm: 96000,
+      intervalKm: 24000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKiaSorento,
+      grade: OemGrade.b,
+      notes: 'First 96,000 km / 72 mo, then every 24,000 km / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Automatic transaxle fluid',
+      intervalKm: 96000,
+      severity: OemSeverity.severe,
+      source: _srcKiaSorento,
+      grade: OemGrade.b,
+      notes: 'Severe schedule: replace every 96,000 km (60,000 mi).',
+    ),
+    OemInterval(
+      service: 'Manual transaxle fluid',
+      intervalKm: 120000,
+      severity: OemSeverity.severe,
+      source: _srcKiaSorento,
+      grade: OemGrade.b,
+      notes: 'Normal = inspect every 64,000 km (40,000 mi) / 48 mo; severe = '
+          'replace 120,000 km.',
+    ),
+    OemInterval(
+      service: 'Transfer case oil (AWD)',
+      intervalKm: 120000,
+      severity: OemSeverity.severe,
+      source: _srcKiaSorento,
+      grade: OemGrade.b,
+    ),
+    OemInterval(
+      service: 'Rear axle (differential) oil (AWD)',
+      intervalKm: 120000,
+      severity: OemSeverity.severe,
+      source: _srcKiaSorento,
+      grade: OemGrade.b,
+    ),
+  ],
+);
+
+const OemModelSchedule _kiaSportage = OemModelSchedule(
+  make: 'Kia',
+  model: 'Sportage (QL)',
+  yearStart: 2016,
+  engine: '2.4 GDI / 1.6 T-GDI petrol',
+  fuel: 'Petrol',
+  generationNote:
+      'Kia 2016 Sportage (QL) owner\'s manual, Normal Maintenance Schedule. The '
+      'severe-conditions table\'s columns were not legibly aligned in the OCR '
+      'and are NOT recorded (honest gap — Lebanon should treat the normal '
+      'figures as a ceiling and service sooner).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter (2.4 GDI)',
+      intervalKm: 12000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcKiaSportage,
+      grade: OemGrade.b,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter (1.6 T-GDI)',
+      firstKm: 5000,
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcKiaSportage,
+      grade: OemGrade.b,
+      notes: 'Turbo GDI: first change 5,000 km / 6 mo, then every 8,000 km / '
+          '6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine air cleaner filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcKiaSportage,
+      grade: OemGrade.b,
+      notes: 'Replaced at 48,000 / 96,000 / 144,000 / 192,000 km.',
+    ),
+  ],
+);
+
+const OemModelSchedule _kiaForte = OemModelSchedule(
+  make: 'Kia',
+  model: 'Cerato / Forte (YD)',
+  yearStart: 2016,
+  engine: 'MPI/GDI petrol & 1.6 Turbo GDI',
+  fuel: 'Petrol',
+  generationNote:
+      'Kia 2016 Forte/Cerato (YD) owner\'s manual (normal + severe).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter (MPI/GDI)',
+      intervalKm: 12000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcKiaForte,
+      grade: OemGrade.b,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter (MPI/GDI)',
+      intervalKm: 6000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcKiaForte,
+      grade: OemGrade.b,
+      notes: 'Severe: every 6,000 km (3,750 mi) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter (1.6 Turbo GDI)',
+      firstKm: 5000,
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcKiaForte,
+      grade: OemGrade.b,
+      notes: 'Turbo GDI: first 5,000 km / 6 mo, then every 8,000 km / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter (1.6 Turbo GDI)',
+      intervalKm: 5000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcKiaForte,
+      grade: OemGrade.b,
+      notes: 'Severe: every 5,000 km (3,000 mi) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 192000,
+      intervalKm: 48000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKiaForte,
+      grade: OemGrade.b,
+      notes: 'First 192,000 km (120,000 mi) / 120 mo, then every 48,000 km '
+          '(30,000 mi) / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Automatic transaxle fluid',
+      intervalKm: 96000,
+      severity: OemSeverity.severe,
+      source: _srcKiaForte,
+      grade: OemGrade.b,
+    ),
+    OemInterval(
+      service: 'Manual transaxle fluid',
+      intervalKm: 120000,
+      severity: OemSeverity.severe,
+      source: _srcKiaForte,
+      grade: OemGrade.b,
+    ),
+  ],
+);
+
+const OemModelSchedule _kiaRio = OemModelSchedule(
+  make: 'Kia',
+  model: 'Rio (UB)',
+  yearStart: 2016,
+  engine: '1.4 / 1.6 MPI petrol',
+  fuel: 'Petrol',
+  generationNote:
+      'Kia 2016 Rio (UB) owner\'s manual (normal + severe). Normal oil is listed '
+      'at the manual\'s 12,000 km service; the exact month figure for oil was '
+      'not separately printed, so normal-oil months are omitted.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 12000,
+      severity: OemSeverity.normal,
+      source: _srcKiaRio,
+      grade: OemGrade.b,
+      notes: 'Replaced at the manual\'s 12,000 km (7,500 mi) service.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 6000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcKiaRio,
+      grade: OemGrade.b,
+      notes: 'Severe: every 6,000 km (3,750 mi) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 192000,
+      intervalKm: 48000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKiaRio,
+      grade: OemGrade.b,
+      notes: 'First 192,000 km / 120 mo, then every 48,000 km / 24 mo.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// LEXUS  (Grade B: official Lexus Warranty & Services Guide via Internet
+// Archive OCR; never copied from the Toyota equivalents.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _lexusNx200t = OemModelSchedule(
+  make: 'Lexus',
+  model: 'NX 200t (AGZ1#)',
+  yearStart: 2016,
+  engine: '2.0L turbo (8AR-FTS)',
+  fuel: 'Petrol',
+  generationNote:
+      'Lexus 2016 NX 200t Warranty & Services Guide — US Scheduled Maintenance '
+      'Log + Special Operating Conditions (= the "severe" schedule for Lebanon). '
+      'Intervals are printed in miles; the km shown are the exact conversions '
+      'the guide itself prints (e.g. 10,000 mi = 16,000 km).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcLexusNx200t,
+      grade: OemGrade.b,
+      notes: 'Baseline: every 12 months or 10,000 mi (16,000 km), or when the '
+          'oil maintenance reminder appears.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcLexusNx200t,
+      grade: OemGrade.b,
+      notes: 'Special operating conditions (short cold trips, idling, dusty '
+          'roads, towing): every 6 months or 5,000 mi (8,000 km).',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 64000,
+      severity: OemSeverity.normal,
+      source: _srcLexusNx200t,
+      grade: OemGrade.b,
+      notes: 'Replaced at 40,000 mi and 80,000 mi — every 40,000 mi '
+          '(64,000 km) (turbo engine).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcLexusNx200t,
+      grade: OemGrade.b,
+      notes: 'Replaced at 30,000 mi and 60,000 mi — every 30,000 mi '
+          '(48,000 km).',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcLexusNx200t,
+      grade: OemGrade.b,
+      notes: 'Replaced at 30,000 mi and 60,000 mi (48,000 km). Inspect more '
+          'often on dirt/dusty roads (special operating conditions).',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 32000,
+      severity: OemSeverity.normal,
+      source: _srcLexusNx200t,
+      grade: OemGrade.b,
+      notes: 'Replaced at 20,000 / 40,000 / 60,000 / 80,000 mi — every '
+          '20,000 mi (32,000 km).',
+    ),
+    OemInterval(
+      service: 'Transmission fluid',
+      intervalKm: 96000,
+      severity: OemSeverity.normal,
+      source: _srcLexusNx200t,
+      grade: OemGrade.b,
+      notes: 'Listed at the 60,000 mi (96,000 km) service.',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 160000,
+      severity: OemSeverity.normal,
+      source: _srcLexusNx200t,
+      grade: OemGrade.b,
+      notes: 'First replacement at 100,000 mi (160,000 km); Toyota Super '
+          'Long-Life Coolant thereafter (~50,000 mi) per the guide\'s coolant '
+          'note (thereafter figure not separately captured).',
+    ),
+  ],
+);
+
 // ---------------------------------------------------------------------------
 // The dataset.
 //
 // NOTE ON COVERAGE (see oem_schedules_japanese_SOURCES.md for full detail):
-//   • Lexus and Kia carry NO rows here. Every accessible route to their
-//     official owner's-manual / service schedules was blocked during research
-//     (Cloudflare 403 on ownersmanual.kia.com, kia.com, manualslib; TLS chain
-//     errors on Kia ZA). Per the GOLDEN RULE, no numbers were invented or
-//     copied from the sibling Hyundai platform. They are honest gaps.
+//   • Kia now carries Sorento, Sportage, Forte/Cerato and Rio (Grade B, from
+//     official Kia owner's manuals via Internet Archive OCR). Picanto and Seltos
+//     remain gaps (not in the reachable US manual collection).
+//   • Lexus now carries the NX 200t (Grade B, official Warranty & Services Guide
+//     via Internet Archive). ES, IS, RX and LX remain gaps — their US guides are
+//     not on the Archive and the OEM/aggregator hosts are all WAF/Cloudflare-
+//     blocked even to a rendered browser.
+//   • Per the GOLDEN RULE, nothing was invented or copied across makes/models.
 // ---------------------------------------------------------------------------
 
 const List<OemModelSchedule> kOemJapaneseSchedules = [
@@ -1136,6 +1975,8 @@ const List<OemModelSchedule> kOemJapaneseSchedules = [
   _nissanQashqai12t,
   _nissanQashqai15Diesel,
   _nissanQashqai16t,
+  _nissanAlmera,
+  _nissanNavara,
   // Honda
   _hondaGeneral,
   // Hyundai
@@ -1144,4 +1985,15 @@ const List<OemModelSchedule> kOemJapaneseSchedules = [
   // Mitsubishi
   _mitsubishiOutlander,
   _mitsubishiTriton,
+  _mitsubishiMirage,
+  _mitsubishiPajeroSport,
+  _mitsubishiPajero,
+  _mitsubishiAsx,
+  // Kia
+  _kiaSorento,
+  _kiaSportage,
+  _kiaForte,
+  _kiaRio,
+  // Lexus
+  _lexusNx200t,
 ];

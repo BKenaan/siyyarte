@@ -604,6 +604,869 @@ abstract class VehicleSpecs {
     ModelSpec('Jetour', 'Dashing', 2022, 2026, [
       TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
     ]),
+
+    // ===================================================================
+    // ROUND 3 — completeness sweep. Extra generations for existing models
+    // (older 2005–2015 and newest 2023–2026) plus many more mainstream
+    // models, so the make/model pickers rarely miss and the engine picker
+    // has the right options. Same rules: factory-accurate engines, correct
+    // fuel (EV/PHEV drive the schedule), omit genuinely uncertain configs.
+    // Overlapping ranges are fine — enginesFrom() de-duplicates by engine.
+    // ===================================================================
+
+    // -------- Toyota (more generations + models) ----------------------------
+    ModelSpec('Toyota', 'Corolla', 2008, 2013, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+      TrimSpec('1.8L', '1.8L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Toyota', 'Corolla', 2020, 2026, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'CVT'),
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Toyota', 'Corolla Cross', 2022, 2026, [
+      TrimSpec('1.8L', '1.8L I4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Toyota', 'Land Cruiser', 2022, 2026, [
+      TrimSpec('3.5L V6 Twin-Turbo', '3.5L V6 Twin-Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Toyota', 'Land Cruiser 70', 2008, 2026, [
+      TrimSpec('4.0L V6', '4.0L V6', 'Petrol', 'Manual'),
+    ]),
+    ModelSpec('Toyota', 'Prado', 2024, 2026, [
+      TrimSpec('2.4L Turbo', '2.4L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Toyota', 'RAV4', 2013, 2018, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'CVT'),
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Toyota', 'Camry', 2012, 2017, [
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+      TrimSpec('3.5L V6', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Toyota', '4Runner', 2010, 2024, [
+      TrimSpec('4.0L V6', '4.0L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Toyota', 'FJ Cruiser', 2007, 2014, [
+      TrimSpec('4.0L V6', '4.0L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Toyota', 'Sequoia', 2008, 2022, [
+      TrimSpec('5.7L V8', '5.7L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Toyota', 'Prius', 2016, 2022, [
+      TrimSpec('1.8L Hybrid', '1.8L I4 Hybrid', 'Hybrid', 'CVT'),
+    ]),
+    ModelSpec('Toyota', 'Previa', 2006, 2019, [
+      TrimSpec('2.4L', '2.4L I4', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Lexus (fill the lineup) ---------------------------------------
+    ModelSpec('Lexus', 'RX', 2010, 2015, [
+      TrimSpec('RX 350', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Lexus', 'GX', 2010, 2023, [
+      TrimSpec('GX 460', '4.6L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Lexus', 'NX', 2015, 2021, [
+      TrimSpec('NX 200t / 300', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Lexus', 'IS', 2014, 2023, [
+      TrimSpec('IS 300', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('IS 350', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Lexus', 'LS', 2007, 2017, [
+      TrimSpec('LS 460', '4.6L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Lexus', 'LS', 2018, 2024, [
+      TrimSpec('LS 500', '3.5L V6 Twin-Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Lexus', 'LX', 2008, 2015, [
+      TrimSpec('LX 570', '5.7L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Lexus', 'ES', 2013, 2018, [
+      TrimSpec('ES 350', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Nissan --------------------------------------------------------
+    ModelSpec('Nissan', 'Altima', 2019, 2024, [
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Nissan', 'Sentra', 2013, 2019, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'CVT'),
+      TrimSpec('1.8L', '1.8L I4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Nissan', 'Sentra', 2020, 2024, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Nissan', 'Qashqai', 2014, 2021, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Nissan', 'Murano', 2015, 2024, [
+      TrimSpec('3.5L V6', '3.5L V6', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Nissan', 'Pathfinder', 2013, 2020, [
+      TrimSpec('3.5L V6', '3.5L V6', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Nissan', 'Armada', 2017, 2024, [
+      TrimSpec('5.6L V8', '5.6L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Nissan', 'Patrol', 2004, 2010, [
+      TrimSpec('4.8L', '4.8L I6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Nissan', 'Tiida', 2007, 2013, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+      TrimSpec('1.8L', '1.8L I4', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Honda ---------------------------------------------------------
+    ModelSpec('Honda', 'Accord', 2013, 2017, [
+      TrimSpec('2.4L', '2.4L I4', 'Petrol', 'CVT'),
+      TrimSpec('3.5L V6', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Honda', 'CR-V', 2012, 2016, [
+      TrimSpec('2.4L', '2.4L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Honda', 'Civic', 2012, 2015, [
+      TrimSpec('1.8L', '1.8L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Honda', 'Civic', 2022, 2026, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'CVT'),
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Honda', 'City', 2014, 2024, [
+      TrimSpec('1.5L', '1.5L I4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Honda', 'Pilot', 2009, 2015, [
+      TrimSpec('3.5L V6', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Hyundai -------------------------------------------------------
+    ModelSpec('Hyundai', 'Tucson', 2010, 2015, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.4L', '2.4L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Hyundai', 'Tucson', 2022, 2026, [
+      TrimSpec('1.6L Turbo', '1.6L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Hyundai', 'Elantra', 2011, 2016, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+      TrimSpec('1.8L', '1.8L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Hyundai', 'Elantra', 2021, 2026, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Hyundai', 'Sonata', 2011, 2014, [
+      TrimSpec('2.4L', '2.4L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Hyundai', 'Sonata', 2020, 2024, [
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Hyundai', 'Accent', 2011, 2017, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Hyundai', 'Azera', 2012, 2017, [
+      TrimSpec('3.0L V6', '3.0L V6', 'Petrol', 'Automatic'),
+      TrimSpec('3.3L V6', '3.3L V6', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Kia -----------------------------------------------------------
+    ModelSpec('Kia', 'Sportage', 2011, 2016, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.4L', '2.4L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Kia', 'Sportage', 2022, 2026, [
+      TrimSpec('1.6L Turbo', '1.6L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Kia', 'Optima', 2011, 2020, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.4L', '2.4L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Kia', 'K5', 2021, 2024, [
+      TrimSpec('1.6L Turbo', '1.6L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Kia', 'Cerato', 2013, 2018, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Kia', 'Carnival', 2015, 2024, [
+      TrimSpec('3.3L V6', '3.3L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Kia', 'Soul', 2014, 2019, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Mitsubishi ----------------------------------------------------
+    ModelSpec('Mitsubishi', 'Pajero Sport', 2016, 2023, [
+      TrimSpec('3.0L V6', '3.0L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mitsubishi', 'Eclipse Cross', 2018, 2024, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Mitsubishi', 'Xpander', 2018, 2024, [
+      TrimSpec('1.5L', '1.5L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mitsubishi', 'Mirage', 2014, 2024, [
+      TrimSpec('1.2L', '1.2L I3', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Mitsubishi', 'Attrage', 2014, 2024, [
+      TrimSpec('1.2L', '1.2L I3', 'Petrol', 'CVT'),
+    ]),
+
+    // -------- Mercedes-Benz -------------------------------------------------
+    ModelSpec('Mercedes-Benz', 'C-Class', 2008, 2014, [
+      TrimSpec('C 200', '1.8L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('C 300', '3.0L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mercedes-Benz', 'E-Class', 2010, 2016, [
+      TrimSpec('E 250', '1.8L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('E 350', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mercedes-Benz', 'GLE', 2020, 2024, [
+      TrimSpec('GLE 350', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('GLE 450', '3.0L I6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mercedes-Benz', 'GLC', 2023, 2026, [
+      TrimSpec('GLC 300', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mercedes-Benz', 'S-Class', 2014, 2017, [
+      TrimSpec('S 400', '3.0L V6 BiTurbo', 'Petrol', 'Automatic'),
+      TrimSpec('S 500', '4.7L V8 BiTurbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mercedes-Benz', 'CLA', 2014, 2019, [
+      TrimSpec('CLA 200', '1.6L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('CLA 250', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mercedes-Benz', 'GLK', 2010, 2015, [
+      TrimSpec('GLK 350', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mercedes-Benz', 'GLS', 2020, 2024, [
+      TrimSpec('GLS 450', '3.0L I6 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('GLS 580', '4.0L V8 BiTurbo', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- BMW -----------------------------------------------------------
+    ModelSpec('BMW', '3 Series', 2006, 2011, [
+      TrimSpec('325i', '2.5L I6', 'Petrol', 'Automatic'),
+      TrimSpec('330i', '3.0L I6', 'Petrol', 'Automatic'),
+      TrimSpec('335i', '3.0L I6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('BMW', '3 Series', 2019, 2026, [
+      TrimSpec('330i', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('M340i', '3.0L I6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('BMW', '5 Series', 2011, 2016, [
+      TrimSpec('528i', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('535i', '3.0L I6 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('550i', '4.4L V8 BiTurbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('BMW', 'X5', 2007, 2013, [
+      TrimSpec('xDrive30i', '3.0L I6', 'Petrol', 'Automatic'),
+      TrimSpec('xDrive48i', '4.8L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('BMW', 'X3', 2011, 2017, [
+      TrimSpec('xDrive28i', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('xDrive35i', '3.0L I6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('BMW', 'X6', 2008, 2014, [
+      TrimSpec('xDrive35i', '3.0L I6 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('xDrive50i', '4.4L V8 BiTurbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('BMW', 'X7', 2019, 2024, [
+      TrimSpec('xDrive40i', '3.0L I6 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('M50i', '4.4L V8 BiTurbo', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Audi ----------------------------------------------------------
+    ModelSpec('Audi', 'A4', 2009, 2015, [
+      TrimSpec('2.0 TFSI', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Audi', 'Q5', 2009, 2016, [
+      TrimSpec('2.0 TFSI', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('3.0 TFSI', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Audi', 'A6', 2012, 2018, [
+      TrimSpec('2.0 TFSI', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('3.0 TFSI', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Audi', 'Q7', 2007, 2015, [
+      TrimSpec('3.0 TFSI', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('4.2 FSI', '4.2L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Audi', 'Q7', 2016, 2024, [
+      TrimSpec('45 TFSI', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('55 TFSI', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Audi', 'A3', 2015, 2020, [
+      TrimSpec('1.4 TFSI', '1.4L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('2.0 TFSI', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Volkswagen ----------------------------------------------------
+    ModelSpec('Volkswagen', 'Jetta', 2011, 2018, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+      TrimSpec('1.4 TSI', '1.4L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Volkswagen', 'Jetta', 2019, 2024, [
+      TrimSpec('1.4 TSI', '1.4L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Volkswagen', 'Passat', 2006, 2010, [
+      TrimSpec('2.0 TSI', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Volkswagen', 'Tiguan', 2009, 2016, [
+      TrimSpec('2.0 TSI', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Volkswagen', 'Touareg', 2011, 2018, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Volkswagen', 'Teramont', 2018, 2024, [
+      TrimSpec('2.0 TSI', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Chevrolet / GMC -----------------------------------------------
+    ModelSpec('Chevrolet', 'Cruze', 2011, 2016, [
+      TrimSpec('1.8L', '1.8L I4', 'Petrol', 'Automatic'),
+      TrimSpec('1.4L Turbo', '1.4L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Chevrolet', 'Traverse', 2009, 2024, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Chevrolet', 'Camaro', 2016, 2023, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+      TrimSpec('SS 6.2L V8', '6.2L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Chevrolet', 'Impala', 2014, 2020, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Chevrolet', 'Equinox', 2018, 2024, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Chevrolet', 'Trailblazer', 2021, 2024, [
+      TrimSpec('1.3L Turbo', '1.3L I3 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Chevrolet', 'Tahoe', 2021, 2024, [
+      TrimSpec('5.3L V8', '5.3L V8', 'Petrol', 'Automatic'),
+      TrimSpec('6.2L V8', '6.2L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('GMC', 'Yukon', 2021, 2024, [
+      TrimSpec('5.3L V8', '5.3L V8', 'Petrol', 'Automatic'),
+      TrimSpec('6.2L V8 Denali', '6.2L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('GMC', 'Sierra', 2014, 2018, [
+      TrimSpec('4.3L V6', '4.3L V6', 'Petrol', 'Automatic'),
+      TrimSpec('5.3L V8', '5.3L V8', 'Petrol', 'Automatic'),
+      TrimSpec('6.2L V8', '6.2L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('GMC', 'Acadia', 2017, 2024, [
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('GMC', 'Terrain', 2018, 2024, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Ford ----------------------------------------------------------
+    ModelSpec('Ford', 'Expedition', 2018, 2024, [
+      TrimSpec('3.5L EcoBoost', '3.5L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Ford', 'Taurus', 2010, 2019, [
+      TrimSpec('3.5L V6', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Ford', 'Mustang', 2015, 2023, [
+      TrimSpec('2.3L EcoBoost', '2.3L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('GT 5.0L V8', '5.0L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Ford', 'Explorer', 2020, 2024, [
+      TrimSpec('2.3L EcoBoost', '2.3L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('3.0L EcoBoost', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Ford', 'Bronco', 2021, 2024, [
+      TrimSpec('2.3L EcoBoost', '2.3L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('2.7L EcoBoost', '2.7L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Ford', 'Fusion', 2013, 2020, [
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.0L EcoBoost', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Jeep / Dodge / Chrysler / Cadillac (American V6/V8) -----------
+    ModelSpec('Jeep', 'Grand Cherokee', 2011, 2021, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+      TrimSpec('5.7L V8', '5.7L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Jeep', 'Grand Cherokee', 2022, 2026, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Jeep', 'Wrangler', 2007, 2017, [
+      TrimSpec('3.8L V6', '3.8L V6', 'Petrol', 'Automatic'),
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Jeep', 'Wrangler', 2018, 2024, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Jeep', 'Compass', 2017, 2024, [
+      TrimSpec('2.4L', '2.4L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Jeep', 'Cherokee', 2014, 2023, [
+      TrimSpec('2.4L', '2.4L I4', 'Petrol', 'Automatic'),
+      TrimSpec('3.2L V6', '3.2L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Dodge', 'Charger', 2011, 2023, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+      TrimSpec('5.7L V8', '5.7L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Dodge', 'Challenger', 2015, 2023, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+      TrimSpec('5.7L V8', '5.7L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Dodge', 'Durango', 2011, 2024, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+      TrimSpec('5.7L V8', '5.7L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Chrysler', '300', 2011, 2023, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+      TrimSpec('5.7L V8', '5.7L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Cadillac', 'Escalade', 2015, 2024, [
+      TrimSpec('6.2L V8', '6.2L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Cadillac', 'CTS', 2014, 2019, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Cadillac', 'XT5', 2017, 2024, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Cadillac', 'SRX', 2010, 2016, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Mazda ---------------------------------------------------------
+    ModelSpec('Mazda', 'Mazda3', 2014, 2018, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mazda', 'Mazda3', 2019, 2024, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mazda', 'Mazda6', 2013, 2021, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mazda', 'CX-5', 2013, 2024, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mazda', 'CX-9', 2016, 2023, [
+      TrimSpec('2.5L Turbo', '2.5L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mazda', 'CX-3', 2016, 2024, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Mazda', 'CX-30', 2020, 2024, [
+      TrimSpec('2.0L', '2.0L I4', 'Petrol', 'Automatic'),
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Suzuki --------------------------------------------------------
+    ModelSpec('Suzuki', 'Swift', 2011, 2024, [
+      TrimSpec('1.2L', '1.2L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Suzuki', 'Vitara', 2015, 2024, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+      TrimSpec('1.4L Turbo', '1.4L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Suzuki', 'Ciaz', 2015, 2024, [
+      TrimSpec('1.4L', '1.4L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Suzuki', 'Jimny', 2019, 2024, [
+      TrimSpec('1.5L', '1.5L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Suzuki', 'Baleno', 2016, 2024, [
+      TrimSpec('1.5L', '1.5L I4', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Subaru --------------------------------------------------------
+    ModelSpec('Subaru', 'Forester', 2014, 2024, [
+      TrimSpec('2.0L', '2.0L H4', 'Petrol', 'CVT'),
+      TrimSpec('2.5L', '2.5L H4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Subaru', 'Outback', 2015, 2024, [
+      TrimSpec('2.5L', '2.5L H4', 'Petrol', 'CVT'),
+      TrimSpec('3.6L', '3.6L H6', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Subaru', 'XV', 2012, 2024, [
+      TrimSpec('2.0L', '2.0L H4', 'Petrol', 'CVT'),
+    ]),
+
+    // -------- Infiniti ------------------------------------------------------
+    ModelSpec('Infiniti', 'Q50', 2014, 2024, [
+      TrimSpec('2.0t', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('3.0t', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Infiniti', 'QX80', 2014, 2024, [
+      TrimSpec('5.6L V8', '5.6L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Infiniti', 'QX60', 2014, 2024, [
+      TrimSpec('3.5L V6', '3.5L V6', 'Petrol', 'CVT'),
+    ]),
+
+    // -------- Land Rover / Jaguar / Volvo / Porsche -------------------------
+    ModelSpec('Land Rover', 'Range Rover', 2013, 2021, [
+      TrimSpec('3.0L V6 SC', '3.0L V6 Supercharged', 'Petrol', 'Automatic'),
+      TrimSpec('5.0L V8 SC', '5.0L V8 Supercharged', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Land Rover', 'Range Rover Sport', 2014, 2022, [
+      TrimSpec('3.0L V6 SC', '3.0L V6 Supercharged', 'Petrol', 'Automatic'),
+      TrimSpec('5.0L V8 SC', '5.0L V8 Supercharged', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Land Rover', 'Evoque', 2012, 2019, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Land Rover', 'Defender', 2020, 2024, [
+      TrimSpec('P300 2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('P400 3.0L I6', '3.0L I6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Jaguar', 'F-Pace', 2017, 2024, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('3.0L V6 SC', '3.0L V6 Supercharged', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Jaguar', 'XF', 2016, 2024, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Volvo', 'XC60', 2018, 2024, [
+      TrimSpec('T5/T6 2.0L', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Volvo', 'XC90', 2016, 2024, [
+      TrimSpec('T5/T6 2.0L', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Volvo', 'S60', 2019, 2024, [
+      TrimSpec('T5 2.0L', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Porsche', 'Cayenne', 2011, 2018, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+      TrimSpec('4.8L V8', '4.8L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Porsche', 'Cayenne', 2019, 2024, [
+      TrimSpec('3.0L V6 Turbo', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('4.0L V8 Turbo', '4.0L V8 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Porsche', 'Macan', 2015, 2024, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+      TrimSpec('3.0L V6 Turbo', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Peugeot / Renault (French, common used imports) ---------------
+    ModelSpec('Peugeot', '3008', 2017, 2024, [
+      TrimSpec('1.6L Turbo', '1.6L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Peugeot', '208', 2012, 2024, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Peugeot', '308', 2014, 2021, [
+      TrimSpec('1.6L Turbo', '1.6L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Renault', 'Megane', 2016, 2023, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Renault', 'Duster', 2018, 2024, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Renault', 'Captur', 2014, 2024, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'CVT'),
+    ]),
+    ModelSpec('Renault', 'Koleos', 2017, 2024, [
+      TrimSpec('2.5L', '2.5L I4', 'Petrol', 'CVT'),
+    ]),
+
+    // ===================================================================
+    // More Chinese brands — fuel type is critical (EV/PHEV change schedule).
+    // ===================================================================
+    // GAC — Aion sub-brand is fully electric; GS/GN run petrol turbo.
+    ModelSpec('GAC', 'Aion S', 2020, 2026, [
+      TrimSpec('Aion S', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('GAC', 'Aion V', 2021, 2026, [
+      TrimSpec('Aion V', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('GAC', 'Aion Y', 2021, 2026, [
+      TrimSpec('Aion Y', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('GAC', 'GS3', 2019, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('GAC', 'GS4', 2019, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('GAC', 'GS8', 2019, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    // Zeekr — all BEV.
+    ModelSpec('Zeekr', '001', 2021, 2026, [
+      TrimSpec('001', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Zeekr', '007', 2024, 2026, [
+      TrimSpec('007', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Zeekr', 'X', 2023, 2026, [
+      TrimSpec('X', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Zeekr', '7X', 2024, 2026, [
+      TrimSpec('7X', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    // MG — MG4 is BEV.
+    ModelSpec('MG', 'MG4', 2022, 2026, [
+      TrimSpec('MG4 EV', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    // BYD — more of the lineup.
+    ModelSpec('BYD', 'Seagull', 2023, 2026, [
+      TrimSpec('Seagull', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('BYD', 'Song Pro', 2021, 2026, [
+      TrimSpec('Song Pro EV', 'Electric', 'Electric', 'Automatic'),
+      TrimSpec('Song Pro DM-i (PHEV)', 'Plug-in Hybrid', 'Plug-in Hybrid', 'Automatic'),
+    ]),
+    ModelSpec('BYD', 'Sealion 6', 2023, 2026, [
+      TrimSpec('Sealion 6 DM-i (PHEV)', 'Plug-in Hybrid', 'Plug-in Hybrid', 'Automatic'),
+    ]),
+    ModelSpec('BYD', 'Sealion 7', 2024, 2026, [
+      TrimSpec('Sealion 7', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('BYD', 'e6', 2019, 2026, [
+      TrimSpec('e6', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    // Geely / Great Wall / Hongqi EVs + petrol.
+    ModelSpec('Geely', 'Geometry C', 2021, 2026, [
+      TrimSpec('Geometry C', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Geely', 'Boyue', 2019, 2026, [
+      TrimSpec('1.8L Turbo', '1.8L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Geely', 'Preface', 2021, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Great Wall', 'Ora Good Cat', 2021, 2026, [
+      TrimSpec('Good Cat', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Great Wall', 'Tank 300', 2021, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Great Wall', 'Tank 500', 2022, 2026, [
+      TrimSpec('3.0L V6 Turbo', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Hongqi', 'E-HS9', 2021, 2026, [
+      TrimSpec('E-HS9', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Hongqi', 'HS5', 2020, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    // Changan / Chery / Jetour / JAC / Exeed / Jaecoo / Omoda / Bestune / Skywell
+    ModelSpec('Changan', 'UNI-V', 2022, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Changan', 'CS95', 2019, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Changan', 'CS35', 2018, 2026, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Chery', 'Tiggo 3', 2017, 2024, [
+      TrimSpec('1.6L', '1.6L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Chery', 'Tiggo 9', 2023, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Jetour', 'X90', 2019, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('JAC', 'JS6', 2021, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Exeed', 'TXL', 2020, 2026, [
+      TrimSpec('1.6L Turbo', '1.6L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Exeed', 'VX', 2021, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Jaecoo', 'J7', 2023, 2026, [
+      TrimSpec('1.6L Turbo', '1.6L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Jaecoo', 'J8', 2024, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Omoda', 'E5', 2023, 2026, [
+      TrimSpec('E5 EV', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Bestune', 'T77', 2019, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Bestune', 'T99', 2020, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Skywell', 'ET5', 2021, 2026, [
+      TrimSpec('ET5 EV', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Lynk & Co', '06', 2021, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I3 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Kaiyi', 'X7', 2023, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+
+    // ===================================================================
+    // ROUND 4 — specs for the newly added makes where the powertrain is
+    // well established. Makes/models not listed here still appear in the
+    // pickers and fall back to free-text engine entry. Fuel is set
+    // correctly (BEV = Electric) so the schedule branches right.
+    // ===================================================================
+
+    // -------- Acura / Buick / Hummer (American & Japanese premium, petrol) ---
+    ModelSpec('Acura', 'MDX', 2014, 2024, [
+      TrimSpec('3.5L V6', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Acura', 'RDX', 2019, 2024, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Acura', 'TLX', 2015, 2024, [
+      TrimSpec('2.4L', '2.4L I4', 'Petrol', 'Automatic'),
+      TrimSpec('3.5L V6', '3.5L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Buick', 'Encore', 2013, 2022, [
+      TrimSpec('1.4L Turbo', '1.4L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Buick', 'Envision', 2016, 2024, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Buick', 'Enclave', 2018, 2024, [
+      TrimSpec('3.6L V6', '3.6L V6', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Buick', 'Regal', 2014, 2020, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Hummer', 'H2', 2008, 2009, [
+      TrimSpec('6.2L V8', '6.2L V8', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Hummer', 'H3', 2006, 2010, [
+      TrimSpec('3.7L I5', '3.7L I5', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Maserati (petrol) ---------------------------------------------
+    ModelSpec('Maserati', 'Ghibli', 2014, 2024, [
+      TrimSpec('3.0L V6 Turbo', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Maserati', 'Levante', 2017, 2024, [
+      TrimSpec('3.0L V6 Turbo', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- BEV / premium EV makes (fuel = Electric) ----------------------
+    ModelSpec('Polestar', '2', 2020, 2026, [
+      TrimSpec('Polestar 2', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Polestar', '3', 2024, 2026, [
+      TrimSpec('Polestar 3', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Polestar', '4', 2024, 2026, [
+      TrimSpec('Polestar 4', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Rivian', 'R1T', 2022, 2026, [
+      TrimSpec('R1T', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Rivian', 'R1S', 2022, 2026, [
+      TrimSpec('R1S', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Lucid', 'Air', 2022, 2026, [
+      TrimSpec('Air', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Nio', 'ET5', 2022, 2026, [
+      TrimSpec('ET5', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Nio', 'ET7', 2022, 2026, [
+      TrimSpec('ET7', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Nio', 'ES6', 2019, 2026, [
+      TrimSpec('ES6', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Nio', 'ES8', 2018, 2026, [
+      TrimSpec('ES8', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('XPeng', 'P7', 2020, 2026, [
+      TrimSpec('P7', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('XPeng', 'G6', 2023, 2026, [
+      TrimSpec('G6', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('XPeng', 'G9', 2022, 2026, [
+      TrimSpec('G9', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Aion', 'S', 2020, 2026, [
+      TrimSpec('Aion S', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Aion', 'V', 2021, 2026, [
+      TrimSpec('Aion V', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Aion', 'Y', 2021, 2026, [
+      TrimSpec('Aion Y', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Ora', 'Good Cat', 2021, 2026, [
+      TrimSpec('Good Cat', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Leapmotor', 'T03', 2021, 2026, [
+      TrimSpec('T03', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Wuling', 'Air EV', 2022, 2026, [
+      TrimSpec('Air EV', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Smart', '#1', 2023, 2026, [
+      TrimSpec('#1', 'Electric', 'Electric', 'Automatic'),
+    ]),
+    ModelSpec('Smart', '#3', 2023, 2026, [
+      TrimSpec('#3', 'Electric', 'Electric', 'Automatic'),
+    ]),
+
+    // -------- Tank / BAIC / Forthing (petrol turbo) -------------------------
+    ModelSpec('Tank', '300', 2021, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Tank', '500', 2022, 2026, [
+      TrimSpec('3.0L V6 Turbo', '3.0L V6 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('BAIC', 'X55', 2021, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('BAIC', 'BJ40', 2020, 2026, [
+      TrimSpec('2.0L Turbo', '2.0L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Forthing', 'T5', 2019, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+
+    // -------- Proton / UAZ / Iran Khodro / Daewoo (older & regional) --------
+    ModelSpec('Proton', 'X70', 2018, 2026, [
+      TrimSpec('1.8L Turbo', '1.8L I4 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Proton', 'X50', 2020, 2026, [
+      TrimSpec('1.5L Turbo', '1.5L I3 Turbo', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('Proton', 'Saga', 2016, 2026, [
+      TrimSpec('1.3L', '1.3L I4', 'Petrol', 'Automatic'),
+    ]),
+    ModelSpec('UAZ', 'Patriot', 2010, 2026, [
+      TrimSpec('2.7L', '2.7L I4', 'Petrol', 'Manual'),
+    ]),
+    ModelSpec('Iran Khodro', 'Samand', 2005, 2020, [
+      TrimSpec('1.7L', '1.7L I4', 'Petrol', 'Manual'),
+    ]),
+    ModelSpec('Daewoo', 'Lanos', 2000, 2010, [
+      TrimSpec('1.5L', '1.5L I4', 'Petrol', 'Manual'),
+    ]),
   ];
 
   /// The built-in seed (kept for offline use and as a baseline under any

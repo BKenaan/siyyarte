@@ -112,40 +112,157 @@ positionally implied by the source (needs confirmation before display).
 
 ---
 
+## Sources added in the gap-fill pass
+
+### Nissan (sedans / trucks)
+
+10. **Nissan South Africa — Almera 1.5 Petrol Periodic Maintenance schedule (PDF)** (Grade A)
+    `https://www.nissan.co.za/content/dam/Nissan/za/Maintenance/Almera.pdf`
+    Downloaded cleanly from the same CDN as X-Trail/Qashqai; parsed with
+    `pdftotext -layout` and column positions verified numerically. The Almera is
+    the **Sunny** in MENA markets. Full normal + severe. Backs: oil & filter
+    15,000 km/12 mo (severe 7,500 km/6 mo); air filter 30,000 km; iridium plugs
+    90,000 km ("[R] at specified mileage only", verified under the 90 column);
+    coolant first 150,000 km then 75,000 km/48 mo (mixture check 30,000/24 mo);
+    brake fluid 30,000 km/24 mo (severe 15,000 km/12 mo); auto transaxle fluid
+    severe 30,000 km/24 mo (normal = inspect); fuel filter maintenance-free.
+
+11. **Nissan South Africa — Navara 2.3 Turbo Diesel Periodic Maintenance schedule (PDF)** (Grade A, transfer/diff single-R rows Grade B)
+    `https://www.nissan.co.za/content/dam/Nissan/za/Maintenance/Navara.pdf`
+    D23 generation. Full normal + severe. Backs: oil & filter 15,000 km/12 mo
+    (the severe table does NOT shorten oil for the Navara; oil indicator may call
+    it sooner); air filter 30,000 km (clean every 5,000 km); fuel filter replace
+    45,000 km (R at 45k/90k; severe 15,000 km/12 mo); coolant first 150,000 km
+    then 75,000 km/48 mo; drive belts 240,000 km/120 mo (severe 120,000 km/60 mo);
+    timing chain 300,000 km; brake fluid 30,000 km/24 mo (severe 15,000 km/12 mo);
+    auto trans fluid severe 30,000 km/24 mo; diff oil 120,000 km normal / 30,000 km
+    severe; transfer fluid 105,000 km; cabin filter 15,000 km. (NP300, NP200, Juke,
+    Micra PDFs also exist on the same CDN but were not in scope.)
+
+### Mitsubishi (additional models)
+
+12. **Mitsubishi Motors Australia — "21MY LA Mirage Maintenance Schedule"** (Grade A)
+    `https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/MIRAGE-21MY_Maintenance-Schedule.pdf`
+    This older template prints clean "R: Every X" text. Backs (petrol): oil &
+    filter 15,000 km/12 mo (severe 7,500 km); platinum/iridium plugs 90,000 km;
+    coolant first 165,000 km/8 yr then 105,000 km/5 yr; fuel filter 150,000 km/
+    10 yr; manual trans 195,000 km (severe 90,000 km); CVT/ATF 90,000 km (severe
+    45,000 km). The densely-packed air-filter/brake-fluid column rows were not
+    legible from the text layer and were omitted. **The Attrage sedan shares the
+    LA platform but is not named in this document, so it is not recorded.**
+
+13. **Mitsubishi Motors Australia — "24MY QG Pajero Sport Maintenance Schedule"** (Grade A)
+    `https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/24MY-QG-PAJERO-SPORT-MAINTENANCE-SCHEDULE-WEB.pdf`
+    Diesel (common rail). Only the clean same-line rows recorded: oil & filter
+    15,000 km/12 mo (severe 7,500 km); coolant first 165,000 km/8 yr then
+    105,000 km/5 yr. (New-template column rows illegible from the text layer.)
+
+14. **Mitsubishi Motors Australia — "22MY NX Pajero Maintenance Schedule"** (Grade A)
+    `https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/22MY-NX-Pajero-service-schedule.pdf`
+    Full-size Pajero/Montero, 3.2 diesel. Columns fully collapsed in the text
+    layer; only explicit "R: Every X" rows recorded: oil & filter 15,000 km/12 mo
+    (severe 7,500 km); ATF 195,000 km normal / 90,000 km severe.
+
+15. **Mitsubishi Motors Australia — "24MY XD ASX Maintenance Schedule"** (Grade A, CVT Grade B)
+    `https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/24MY-XD-ASX-INSPECTION-AND-MAINTENANCE-SCHEDULE-WEB.pdf`
+    Petrol, CVT. Oil & filter 15,000 km/12 mo (severe 7,500 km); CVT fluid
+    40,000 km ("R: Every 40,000km"; corroborated by the 23MY XD schedule).
+    Spark-plug and coolant rows not legible, omitted.
+
+16. **Outlander ZM coolant — still a gap.** The 24MY ZM Outlander PDF's new
+    template renders the coolant row with detached markers (`Change engine
+    coolant *1 *2` with no legible km in the text layer), so the previously-noted
+    omission stands. Not guessed, not copied from the Mirage/Pajero petrol value.
+
+### Kia (official owner's manuals via Internet Archive OCR — Grade B)
+
+> Every Kia OEM host (`ownersmanual.kia.com`, `kia.com`) and third-party
+> aggregator (ManualsLib, manualmachine) was Cloudflare/WAF-blocked to BOTH
+> plain fetch and a fully-rendered in-app browser (confirmed this pass:
+> "Attention Required! | Cloudflare", "Just a moment…" that never cleared).
+> `kia.co.za/maintenance-schedule` rendered but its data was placeholder
+> (100 km/206 km/302 km options). The genuine Kia owner's manuals — with full
+> OCR text — were reachable on the Internet Archive "Car Service Manuals"
+> collection. Because that is an OCR mirror, not Kia's own host, these are
+> **Grade B**; OCR-ambiguous values were omitted. **No Hyundai value was copied.**
+
+17. **Kia 2015 Sorento (UM) Owner's Manual** — `https://archive.org/details/car-service-manuals-kia-2015-sorento`
+    Gasoline "Except Europe" normal + full severe table. Normal: oil & filter
+    12,000 km/12 mo; coolant first 96,000 km/60 mo then 48,000 km/24 mo; drive
+    belts first 96,000 km then 24,000 km; manual trans fluid inspect 64,000 km.
+    Severe: oil & filter 6,000 km/6 mo; ATF 96,000 km; manual trans 120,000 km;
+    transfer-case & rear-axle oil (AWD) 120,000 km. Spark-plug normal interval was
+    only positionally listed (OCR) → omitted.
+
+18. **Kia 2016 Sportage (QL) Owner's Manual** — `https://archive.org/details/car-service-manuals-kia-2016-sportage`
+    Normal only (the severe table's columns were OCR-jumbled → omitted). Oil &
+    filter 2.4 GDI 12,000 km/12 mo; 1.6 T-GDI first 5,000 km then 8,000 km/6 mo;
+    air cleaner every 48,000 km (R at 48/96/144/192).
+
+19. **Kia 2016 Forte/Cerato (YD) Owner's Manual** — `https://archive.org/details/car-service-manuals-kia-2016-forte`
+    Normal + severe. Oil & filter MPI/GDI 12,000 km/12 mo (severe 6,000 km/6 mo);
+    1.6 Turbo GDI first 5,000 km then 8,000 km/6 mo (severe 5,000 km/6 mo);
+    coolant first 192,000 km/120 mo then 48,000 km/24 mo; ATF severe 96,000 km;
+    manual trans severe 120,000 km.
+
+20. **Kia 2016 Rio (UB) Owner's Manual** — `https://archive.org/details/car-service-manuals-kia-2016-rio`
+    Oil & filter normal 12,000 km (listed at the 12,000 km service; the oil-
+    specific month figure was not separately printed, so months omitted); severe
+    6,000 km/6 mo; coolant first 192,000 km/120 mo then 48,000 km/24 mo.
+
+### Lexus (official Warranty & Services Guide via Internet Archive — Grade B)
+
+> `assets.sia.toyota.com` (the L-MMS warranty/maintenance PDFs) returns S3
+> `AccessDenied` to plain fetch AND to a fully-rendered in-app browser — a
+> WAF/IP block, not a referer check, so unreachable. The Lexus US owner's
+> manuals that ARE on the Archive defer all intervals to the separate guide.
+> Exactly one Lexus guide with the schedule was found on the Archive:
+
+21. **Lexus 2016 NX 200t Warranty and Services Guide** — `https://archive.org/details/manuals-plus-2016-lexus-nx-200t-warranty-and-services-guide-11e5a98e`
+    US Scheduled Maintenance Log (miles; km are the guide's own conversions) +
+    Special Operating Conditions (= severe for Lebanon). Oil & filter 16,000 km
+    (10,000 mi)/12 mo normal, 8,000 km (5,000 mi)/6 mo special-ops; spark plugs
+    64,000 km (40k & 80k mi); brake fluid 48,000 km (30k & 60k mi); engine air
+    filter 48,000 km; cabin filter 32,000 km (20k/40k/60k/80k mi); transmission
+    fluid 96,000 km (60k mi); coolant first 160,000 km (100k mi), SLLC thereafter.
+
+---
+
 ## Coverage summary (what was sourced)
 
 | Make | Models/engines sourced | Normal | Severe |
 |------|------------------------|:------:|:------:|
 | Toyota | Petrol-hybrid range (S1); general tropical PMS (S2) | ✓ | partial |
-| Nissan | X-Trail T32 (2.0/2.5 petrol, 1.6 dsl); Qashqai J11 (1.2T, 1.5 dsl, 1.6 dsl, 1.6T) | ✓ | ✓ |
+| Nissan | X-Trail T32; Qashqai J11; **Almera/Sunny (1.5)**; **Navara (2.3 TD)** | ✓ | ✓ |
 | Honda | General EU schedule (oil, air, plugs, coolant, brake, trans) | ✓ | partial |
 | Hyundai | Tucson/Santa Fe/Palisade HEV; Kona/Venue/Tucson MPI | ✓ | ✓ (= half) |
-| Mitsubishi | Outlander ZM (2.5 petrol); Triton MR (petrol & diesel) | ✓ | ✓ |
-| **Lexus** | **none** | — | — |
-| **Kia** | **none** | — | — |
+| Mitsubishi | Outlander ZM; Triton MR; **Mirage LA**; **Pajero Sport QG**; **Pajero NX**; **ASX XD** | ✓ | ✓ |
+| **Lexus** | **NX 200t (2016)** — Grade B | ✓ | ✓ (special-ops) |
+| **Kia** | **Sorento UM; Sportage QL; Cerato/Forte YD; Rio UB** — Grade B | ✓ | ✓ (Sportage normal only) |
 
 ---
 
 ## Gaps (honest, un-padded)
 
-- **Kia — complete gap.** Every accessible route to Kia's official schedules was
-  blocked during research: `ownersmanual.kia.com` and `kia.com` return
-  Cloudflare 403 to automated clients (confirmed in a real browser too),
-  `manualslib.com` is Cloudflare-gated, and the Kia South Africa service-plan PDF
-  failed TLS chain verification. Search snippets suggest figures (e.g.
-  Smartstream G2.0 plugs 156,000 km, G1.6 T-GDi plugs 78,000 km, coolant first
-  ~195,000 km then ~39,000 km/24 mo), but these were **not** confirmed against a
-  fetched document and are therefore **not** recorded. Kia shares engines/
-  platforms with Hyundai, but per the GOLDEN RULE no Hyundai value was copied
-  across. **Action:** obtain a Kia owner's-manual maintenance page or a Kia
-  importer service-requirement PDF from a non-Cloudflare host (or manual upload).
+- **Kia — PARTIALLY FILLED (gap-fill pass).** Sorento (UM), Sportage (QL),
+  Cerato/Forte (YD) and Rio (UB) are now recorded at **Grade B** from the genuine
+  Kia owner's manuals (OCR full text on the Internet Archive) — see sources 17–20.
+  The OEM/aggregator hosts remain Cloudflare/WAF-blocked (re-confirmed this pass
+  in a fully-rendered browser), and `kia.co.za`'s schedule tool served only
+  placeholder data. **Still gaps:** Picanto and Seltos (not present in the
+  reachable US manual collection); the Sportage severe table (OCR columns not
+  legibly aligned). No Hyundai value was copied across. **Action:** obtain Kia
+  Picanto/Seltos manuals and the Sportage severe table from a legible source.
 
-- **Lexus — complete gap.** Official Lexus schedules were not reachable: the
-  Toyota/Lexus `assets.sia.toyota.com` PDFs block hotlinking (403 via fetch and
-  in-browser), and the only official figure surfaced (Lexus Canada brake fluid
-  48,000 km / 96,000 km on a 2025 RX) came from a search snippet, not a fetched
-  table, so it was not recorded. **Action:** source the Lexus owner's-manual
-  scheduled-maintenance log per model (ES, IS, RX, NX, LX).
+- **Lexus — PARTIALLY FILLED (gap-fill pass).** NX 200t (2016) is now recorded
+  at **Grade B** from the official Lexus Warranty & Services Guide (Internet
+  Archive, source 21), including the Special Operating Conditions (severe)
+  schedule. `assets.sia.toyota.com` returns S3 `AccessDenied` to both fetch and a
+  rendered browser (WAF/IP block), and the Lexus US owner's manuals on the
+  Archive defer all intervals to the separate guide — only the NX guide was found
+  there. **Still gaps:** ES, IS, RX, LX scheduled-maintenance logs. **Action:**
+  source each remaining model's Warranty & Services Guide (or a non-US Lexus
+  manual that embeds the schedule) from a reachable host / manual upload.
 
 - **Toyota non-hybrid normal/severe split — partial.** The clean, fully-cited
   normal+severe table obtained is for the petrol-hybrid range (S1). The
@@ -165,15 +282,17 @@ positionally implied by the source (needs confirmation before display).
   per-model confirmation is pending. Honda's Maintenance Minder (algorithmic oil
   life) also overrides the fixed oil interval on many models.
 
-- **Nissan sedans/large models — not covered.** Strong SUV coverage (X-Trail,
-  Qashqai) via Nissan SA PDFs, but popular Lebanon sedans/trucks (Sunny/Almera,
-  Sentra, Altima, Patrol, Navara) were not fetched. Nissan SA hosts similar
-  per-model PDFs; **action:** fetch them the same way (they download cleanly).
+- **Nissan sedans/trucks — PARTIALLY FILLED.** Almera/Sunny (1.5) and Navara
+  (2.3 TD) are now recorded (Grade A) from Nissan SA PDFs (sources 10–11).
+  **Still gaps:** Sentra, Altima and Patrol are **404 on the Nissan SA CDN**
+  (not hosted there). **Action:** source those from another Nissan importer.
 
-- **Mitsubishi — coolant on Outlander ZM** could not be read unambiguously from
-  the table and was omitted. Other popular models (Pajero/Montero, ASX, Eclipse
-  Cross, Lancer, Mirage/Attrage) were not captured; Mitsubishi AU hosts their
-  schedules on the same CDN and they download cleanly. **Action:** fetch those.
+- **Mitsubishi — MOSTLY FILLED.** Mirage (LA), Pajero Sport (QG), Pajero (NX)
+  and ASX (XD) are now recorded (sources 12–15). **Still gaps:** the Outlander ZM
+  coolant row (new-template PDF renders it with detached markers — source 16);
+  Eclipse Cross and Lancer were not captured. Attrage shares the Mirage LA
+  platform but is a distinct model and was **not** copied across. **Action:**
+  capture Outlander coolant + Eclipse Cross/Lancer from a legible render.
 
 - **General:** a few long-life-coolant "first X then every Y" items and the
   Nissan 1.6T brake-fluid row carried ambiguous month/km cells; only the

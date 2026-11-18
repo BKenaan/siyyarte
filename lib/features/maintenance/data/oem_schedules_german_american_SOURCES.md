@@ -241,3 +241,106 @@ markets; the US manual treats it as inspect-based and no interval was sourced �
 - GM brake fluid, and air/transmission for the GM crossovers not in the dataset.
 - Ford Escape/Mustang non-oil/plug items; Ford wet-belt timing interval.
 - Any current (MY2024–26) Mercedes/BMW per-engine figures beyond the baselines.
+
+---
+
+## Gap-fill pass — 2026-11-18
+
+A second pass re-sourced several of the gaps above by opening additional
+official documents directly (PDF text extracted and read, not inferred). Two
+app-side directives shaped what was captured: (1) **always keep a concrete
+displayable number** even for condition-based systems, flagged `conditionBased`;
+(2) **Lebanon = severe-use market**, so published SEVERE / "special operating
+conditions" columns were captured alongside normal, and the app will prefer the
+severe value.
+
+### BMW — spark plugs, S68T V8 (NEW, Grade A)
+- **`BMW SIB 62 02 25 (NHTSA)`**
+  - Document: *BMW of North America Service Information Bulletin SIB 62 02 25,
+    "SERVICE ACTION: CBS CORRECTION FOR SPARK PLUG REPLACEMENT INTERVAL"*,
+    2025-02-26, filed with NHTSA.
+  - URL: https://static.nhtsa.gov/odi/tsbs/2025/MC-11014663-0001.pdf
+  - Applies to S68T 4.4L TT V8 (F95 X5 M, F96 X6 M, G05 X5, G06 X6, G07 X7,
+    G09 XM, G70 7 Series).
+  - Read verbatim: *"the initial mileage was set to 15,000 miles (~25,000 km)
+    instead of the correct mileage value of 40,000 miles (~60,000 km)."* So the
+    correct spark-plug interval = **40,000 mi** (stored 64,000 km at ×1.6; BMW's
+    own round figure is ~60,000 km). CBS counter still sets the actual due point.
+  - This is a SEPARATE, shorter interval than the general ~60,000 mi turbo
+    baseline already in the file.
+- **BMW still-open gaps:** the BMW USA MY25/MY26 Maintenance booklet
+  (`bmwusa.com/.../BMW_MY25_Maintenance_with_BEVs.pdf`) could **not** be opened
+  by any available route — bmwusa.com resets curl connections (bot protection),
+  times out plain fetch (>60 s), serves the PDF as a download (no in-browser
+  render), and the Google-viewer proxy + manualslib mirror are bot-gated
+  (Cloudflare). `bmwtechinfo.bmwgroup.com` attachments return 404 (gated).
+  So BMW **engine air filter, coolant, and transmission fluid remain gaps** —
+  BMW publishes these as lifetime / CBS "Vehicle Check" with no fixed interval,
+  so there is no official number to record. The existing BMW oil / brake-fluid /
+  cabin-filter / plug baselines (Grade B) remain the displayable numbers.
+
+### Ford — Escape non-oil/plug items (NEW, Grade A) + severe
+- **`Ford Escape 2022 Owner Manual`** (same document already cited for oil/plugs;
+  URL in the Ford table above). PDF opened and the "Normal Scheduled
+  Maintenance", "Brake Fluid Maintenance", "Other Maintenance Items", and
+  "Special Operating Conditions Scheduled Maintenance" tables read directly:
+  - Cabin air filter — **every 20,000 mi (32,000 km)**.
+  - Engine air filter — **every 30,000 mi (48,000 km)**.
+  - Automatic transmission fluid — **every 150,000 mi (240,000 km)** normal;
+    **every 30,000 mi (48,000 km)** under severe (extensive idling / heavy
+    commercial / dusty-sandy columns).
+  - Brake fluid — **every 3 years**.
+  - Engine coolant — **initial at 10 yr / 200,000 mi (322,000 km), then every
+    5 yr / 100,000 mi (160,000 km)**.
+  - Spark plugs — **100,000 mi** normal (already recorded); **60,000 mi
+    (96,000 km)** under severe (new severe row).
+  - **Wet-belt timing:** the 1.5L EcoBoost uses a belt-in-oil timing belt, but
+    the US manual lists **no** "timing belt" replacement interval anywhere
+    (grep confirmed) — inspect-based only, left without a number (Grade B note).
+- **Ford Mustang gap NOT closed:** the 2023 Mustang Owner Manual
+  (`fordservicecontent.com/.../2023_Ford_Mustang_Owners_Manual_version_1_om_EN-US.pdf`)
+  is blocked by Ford's Akamai edge for curl (403) and exceeds the 10 MB plain-
+  fetch cap; every mirror found was either the same blocked host or Cloudflare-
+  gated. Mustang non-oil/plug items (air/cabin filter, transmission, brake
+  fluid, coolant) therefore **remain gaps** — not copied from Escape/Explorer,
+  because the Mustang is RWD with a different transmission.
+
+### GM — full-size SUVs, Middle-East edition (NEW, Grade A) + severe
+- **`GM Tahoe/Suburban/Yukon 2024 ME Owner Manual`**
+  - Document: *Chevrolet/GMC Tahoe/Suburban/Yukon/Yukon XL/Denali Owner Manual
+    (GMNA-Localizing-MidEast-17746374) – 2024 – CRC – 10/9/23*, General Motors.
+    The **Middle-East edition** — the market-correct book for Lebanon; it prints
+    intervals natively in **kilometres** (so no mile→km conversion was applied).
+  - URL (dealer-hosted copy of the GM-authored file, GM filename
+    `24_mul_tahoe_suburban_yukon_om_en_us_i_meo_85657857_2023oct13_hi.pdf`):
+    https://chevrolet.alghandi.com/static/pdfs/24_mul_tahoe_suburban_yukon_om_en_us_i_meo_85657857_2023oct13_hi.pdf
+    (GM's own `contentdelivery.ext.gm.com` host did not expose a current direct
+    URL; the content is the identical GM-generated PDF.)
+  - "Service and Maintenance" section (pp. 355–359) read directly:
+    - Brake fluid — **every 5 years** (closes the GM brake-fluid gap).
+    - Passenger-compartment (cabin) air filter — **every 10,000 km or
+      12 months** (ME value; the US 2023 book's 36,000 km / 24 mo stays as its
+      own entry).
+    - Engine air filter — Engine Air Filter **Life System** (condition-based):
+      inspect every **10,000 km or 6 months**; replace on message. No fixed km.
+    - Spark plugs — **every 150,000 km**.
+    - Engine coolant — **every 240,000 km or 6 years** (confirms existing value).
+    - Automatic transmission fluid & filter — **SEVERE only: every 70,000 km**;
+      normal service publishes no transmission interval (fill-for-life). Lebanon
+      = severe, so 70,000 km applies (closes the GM transmission gap).
+    - Transfer-case fluid (4WD) — **160,000 km normal / 80,000 km severe**.
+    - Oil — Oil Life System, change within 1,000 km of CHANGE ENGINE OIL SOON,
+      min once/yr; 10,000 km required-services cadence. Baseline: ~10,000 km/12 mo.
+  - Severe-service triggers per the manual: heavy city traffic in hot weather,
+    hilly terrain, high sand/dust, short trips ≤6 km, commercial use — i.e.
+    typical Lebanon conditions.
+  - **Silverado note:** the Silverado 1500 shares the L84/L87 GM full-size
+    schedule but a Silverado-specific manual was **not** opened this pass, so no
+    Silverado entry was added (would need its own document to cite).
+
+### VW / Audi coolant — re-checked, still a gap
+Re-searched for an official VW/Audi coolant **replacement** interval (US and EU).
+Only secondary/forum/retailer figures exist (2 yr/30k mi, 4–5 yr, etc.), which
+disagree and are not manufacturer documents. VW/Audi long-life coolant
+(G12evo/G13) is "check only" in the US schedules already cited. **No official
+fixed coolant replacement interval found — remains omitted, not guessed.**

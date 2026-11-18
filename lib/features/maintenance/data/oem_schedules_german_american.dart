@@ -836,4 +836,226 @@ const List<OemSchedule> kOemSchedulesGermanAmerican = [
       ),
     ],
   ),
+
+  // ==========================================================================
+  // GAP-FILL PASS (2026-11-18): items re-sourced by opening additional official
+  // documents directly (see SOURCES file, "Gap-fill pass" section). Values read
+  // verbatim; Lebanon = severe-use market, so published SEVERE / "special
+  // operating conditions" columns are captured alongside normal.
+  // ==========================================================================
+
+  // --------------------------------------------------------------------------
+  // BMW — S68T engine (4.4L twin-turbo V8: X5 M / X6 M F95/F96, X5/X6/X7 M60i,
+  // XM G09, 7-Series G70 760i). Spark-plug interval read directly from an
+  // official BMW of North America Service Information Bulletin filed with NHTSA.
+  // Grade A (concrete number, read unambiguously from a BMW document). This is
+  // a SEPARATE, shorter interval than the ~60,000 mi turbo baseline recorded in
+  // the general-BMW block above — do not conflate.
+  // --------------------------------------------------------------------------
+  OemSchedule(
+    make: 'BMW',
+    model: 'X5 M / X6 M / X7 / XM / 7 Series (S68T V8)',
+    yearStart: 2023,
+    yearEnd: 2026,
+    engine: '4.4L TT V8 (S68T), CBS',
+    conditionBased: true,
+    intervals: [
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 64000,
+        grade: OemGrade.a,
+        source: 'BMW SIB 62 02 25 (NHTSA)',
+        notes:
+            'Correct spark-plug replacement interval is 40,000 mi (BMW states '
+            '"~60,000 km"; stored 64,000 km at the repo ×1.6 convention). BMW '
+            'SIB 62 02 25 corrects a CBS bug that wrongly set it to 15,000 mi. '
+            'CBS counter still sets the actual due point.',
+      ),
+    ],
+  ),
+
+  // --------------------------------------------------------------------------
+  // FORD — Escape (1.5L EcoBoost): non-oil/plug items now read directly from the
+  // 2022 Escape Owner Manual "Normal Scheduled Maintenance" + "Special Operating
+  // Conditions" tables (same document already cited for oil & plugs). Grade A.
+  // Severe rows from the "Extensive Idling / Heavy Commercial Use" column, which
+  // is the closest published match to Lebanon stop-and-go / heat / dust use.
+  // --------------------------------------------------------------------------
+  OemSchedule(
+    make: 'Ford',
+    model: 'Escape (non-oil/plug items)',
+    yearStart: 2020,
+    yearEnd: 2026,
+    engine: '1.5L EcoBoost I3 (Ford1.5EB)',
+    conditionBased: true,
+    intervals: [
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalKm: 32000,
+        grade: OemGrade.a,
+        source: 'Ford Escape 2022 Owner Manual',
+        notes: 'Replace every 20,000 mi (32,000 km).',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 48000,
+        grade: OemGrade.a,
+        source: 'Ford Escape 2022 Owner Manual',
+        notes: 'Replace every 30,000 mi (48,000 km).',
+      ),
+      OemInterval(
+        service: 'Transmission Fluid',
+        intervalKm: 240000,
+        grade: OemGrade.a,
+        source: 'Ford Escape 2022 Owner Manual',
+        notes: 'Change automatic transmission fluid every 150,000 mi.',
+      ),
+      OemInterval(
+        service: 'Transmission Fluid',
+        intervalKm: 48000,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'Ford Escape 2022 Owner Manual',
+        notes:
+            'SEVERE (extensive idling/heavy commercial, dusty/sandy): change '
+            'automatic transmission fluid every 30,000 mi (48,000 km).',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 36,
+        grade: OemGrade.a,
+        source: 'Ford Escape 2022 Owner Manual',
+        notes: 'Change every 3 years.',
+      ),
+      OemInterval(
+        service: 'Coolant',
+        intervalKm: 322000,
+        intervalMonths: 120,
+        grade: OemGrade.a,
+        source: 'Ford Escape 2022 Owner Manual',
+        notes:
+            'Initial change at 10 yr / 200,000 mi (322,000 km), then every 5 yr '
+            '/ 100,000 mi (160,000 km).',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 96000,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'Ford Escape 2022 Owner Manual',
+        notes:
+            'SEVERE (extensive idling/heavy commercial use): replace every '
+            '60,000 mi (96,000 km) vs 100,000 mi normal.',
+      ),
+      OemInterval(
+        service: 'Timing Belt (wet / belt-in-oil)',
+        grade: OemGrade.b,
+        source: 'Ford Escape 2022 Owner Manual',
+        notes:
+            'The 1.5L EcoBoost uses a wet (belt-in-oil) timing belt, but the US '
+            'owner manual publishes NO replacement interval (no "timing belt" '
+            'entry in the schedule) — inspect-based only. Left without a number.',
+      ),
+    ],
+  ),
+
+  // --------------------------------------------------------------------------
+  // GM — Chevrolet/GMC full-size SUVs (Tahoe / Suburban / Yukon / Yukon XL /
+  // Denali), 5.3L L84 & 6.2L L87. Read directly from the 2024 Owner Manual,
+  // Middle-East edition (GMNA-Localizing-MidEast-17746374) — the market-correct
+  // book for Lebanon; it publishes intervals natively in KILOMETRES (no mile
+  // conversion applied). Grade A. Fills the previously-omitted brake fluid, air
+  // filter, transmission, and transfer-case items, with the SEVERE column.
+  // --------------------------------------------------------------------------
+  OemSchedule(
+    make: 'Chevrolet/GMC',
+    model: 'Tahoe / Suburban / Yukon / Yukon XL / Denali (ME edition)',
+    yearStart: 2021,
+    yearEnd: 2026,
+    engine: '5.3L V8 (L84) / 6.2L V8 (L87)',
+    conditionBased: true,
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalMonths: 12,
+        grade: OemGrade.b,
+        source: 'GM Tahoe/Suburban/Yukon 2024 ME Owner Manual',
+        notes:
+            'Oil Life System (condition-based): change within 1,000 km of CHANGE '
+            'ENGINE OIL SOON, at least once a year; required-services cadence is '
+            '10,000 km. Baseline number for display: ~10,000 km / 12 mo.',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 60,
+        grade: OemGrade.a,
+        source: 'GM Tahoe/Suburban/Yukon 2024 ME Owner Manual',
+        notes: 'Replace every five years (time-based, no mileage).',
+      ),
+      OemInterval(
+        service: 'Cabin / Passenger Compartment Air Filter',
+        intervalKm: 10000,
+        intervalMonths: 12,
+        grade: OemGrade.a,
+        source: 'GM Tahoe/Suburban/Yukon 2024 ME Owner Manual',
+        notes:
+            'Replace every 10,000 km or 12 months, whichever first; sooner in '
+            'heavy traffic / high dust (ME-edition value; US book lists longer).',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 10000,
+        intervalMonths: 6,
+        grade: OemGrade.a,
+        source: 'GM Tahoe/Suburban/Yukon 2024 ME Owner Manual',
+        notes:
+            'Engine Air Filter Life System (condition-based): inspect every '
+            '10,000 km or 6 months; replace when REPLACE AT NEXT OIL CHANGE / '
+            'REPLACE ENGINE AIR FILTER SOON message shows. No fixed replace km.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 150000,
+        grade: OemGrade.a,
+        source: 'GM Tahoe/Suburban/Yukon 2024 ME Owner Manual',
+        notes:
+            'Replace every 150,000 km; inspect wires/boots. Severe/extreme use '
+            'may require sooner (manual footnote, no number given).',
+      ),
+      OemInterval(
+        service: 'Coolant',
+        intervalKm: 240000,
+        intervalMonths: 72,
+        grade: OemGrade.a,
+        source: 'GM Tahoe/Suburban/Yukon 2024 ME Owner Manual',
+        notes: 'Drain and fill engine cooling system every 240,000 km or 6 yr.',
+      ),
+      OemInterval(
+        service: 'Transmission Fluid',
+        intervalKm: 70000,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'GM Tahoe/Suburban/Yukon 2024 ME Owner Manual',
+        notes:
+            'SEVERE service only: change automatic transmission fluid & filter '
+            'every 70,000 km. Normal service publishes no transmission interval '
+            '(fill-for-life). Lebanon = severe, so this value applies.',
+      ),
+      OemInterval(
+        service: 'Transfer Case Fluid (4WD)',
+        intervalKm: 160000,
+        grade: OemGrade.a,
+        source: 'GM Tahoe/Suburban/Yukon 2024 ME Owner Manual',
+        notes: 'Normal: every 160,000 km (4WD only).',
+      ),
+      OemInterval(
+        service: 'Transfer Case Fluid (4WD)',
+        intervalKm: 80000,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'GM Tahoe/Suburban/Yukon 2024 ME Owner Manual',
+        notes: 'SEVERE: every 80,000 km (4WD only).',
+      ),
+    ],
+  ),
 ];
