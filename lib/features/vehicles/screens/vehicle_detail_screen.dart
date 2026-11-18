@@ -20,6 +20,7 @@ import '../../specs/verified_spec_repository.dart';
 import '../../specs/verified_widgets.dart';
 import '../../uploads/ai_scan_service.dart';
 import '../models/vehicle.dart';
+import '../widgets/common_faults_section.dart';
 import 'add_vehicle_screen.dart';
 
 /// Full maintenance schedule for one vehicle, color-coded, with per-service
@@ -164,6 +165,11 @@ class VehicleDetailScreen extends ConsumerWidget {
                       verifiedAsync.valueOrNull?.marketAmbiguous ?? false,
                 ),
               ],
+              const SizedBox(height: 16),
+              // Known issues this specific vehicle is prone to — each cited to a
+              // real recall / bulletin / reliability reference (or a tasteful
+              // empty state when none are catalogued).
+              CommonFaultsSection(vehicle: vehicle),
               const SizedBox(height: 16),
               Text(t.maintenanceSchedule,
                   style: Theme.of(context)

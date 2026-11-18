@@ -9,6 +9,7 @@ import '../../uploads/ai_scan_service.dart';
 import '../../uploads/invoice_storage.dart';
 import '../models/service_record.dart';
 import '../models/service_type.dart';
+import '../widgets/part_quality_ui.dart';
 
 /// Bottom sheet to record a completed service. Writing the record causes the
 /// engine to recompute the next-due mileage/date automatically.
@@ -60,6 +61,7 @@ class _MarkServiceDoneSheetState extends ConsumerState<MarkServiceDoneSheet> {
   final _cost = TextEditingController();
   final _notes = TextEditingController();
   Currency _currency = Currency.usd;
+  PartQuality? _partQuality; // optional grade of the part used
   DateTime _date = DateTime.now();
   String? _invoiceUrl;
   bool _busy = false;
@@ -135,6 +137,7 @@ class _MarkServiceDoneSheetState extends ConsumerState<MarkServiceDoneSheet> {
           : (_invoiceUrl != null
               ? RecordSource.invoicePhoto
               : RecordSource.manual),
+      partQuality: _partQuality,
       createdAt: DateTime.now(),
     );
 
@@ -235,6 +238,29 @@ class _MarkServiceDoneSheetState extends ConsumerState<MarkServiceDoneSheet> {
               decoration: InputDecoration(
                   labelText: '${t.notes} (${t.optional})'),
             ),
+            // Part-quality grade — only relevant when an actual part/service is
+            // being logged, not for pure operating costs (fuel, parking, ...).
+            if (!kExpenseTypes.contains(widget.type)) ...[
+              const SizedBox(height: 16),
+              Text('${t.partQualityLabel} (${t.optional})',
+                  style: Theme.of(context).textTheme.labelLarge),
+              const SizedBox(height: 8),
+              SegmentedButton<PartQuality>(
+                emptySelectionAllowed: true,
+                showSelectedIcon: false,
+                segments: [
+                  for (final q in PartQuality.values)
+                    ButtonSegment(
+                      value: q,
+                      icon: Icon(q.icon, color: q.color),
+                      label: Text(q.label(t)),
+                    ),
+                ],
+                selected: _partQuality == null ? const {} : {_partQuality!},
+                onSelectionChanged: (s) => setState(
+                    () => _partQuality = s.isEmpty ? null : s.first),
+              ),
+            ],
             const SizedBox(height: 12),
             OutlinedButton.icon(
               onPressed: _busy

@@ -6,6 +6,7 @@ import '../../../core/providers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../premium/premium_controller.dart';
 import '../../premium/siyyarte_plus_screen.dart';
+import '../widgets/brand_badge.dart';
 import 'add_vehicle_screen.dart';
 import 'vehicle_detail_screen.dart';
 
@@ -64,7 +65,7 @@ class VehiclesScreen extends ConsumerWidget {
                       ),
                     );
                   },
-                  leading: const Icon(Icons.directions_car_filled),
+                  leading: BrandBadge(make: v.make),
                   title: Text(v.displayName),
                   subtitle: Text(
                       '${NumberFormat.decimalPattern().format(v.odometerKm)} km'

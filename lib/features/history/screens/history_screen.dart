@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../core/providers.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../maintenance/models/service_type.dart';
+import '../../maintenance/widgets/part_quality_ui.dart';
 import '../pdf_export.dart';
 
 /// Chronological service-history timeline with PDF export and per-record undo.
@@ -55,11 +56,23 @@ class HistoryScreen extends ConsumerWidget {
                 child: ListTile(
                   leading: CircleAvatar(child: Icon(r.type.icon)),
                   title: Text(r.type.label(t)),
-                  subtitle: Text(
-                    '${DateFormat.yMMMd().format(r.date)} · '
-                    '${NumberFormat.decimalPattern().format(r.odometerKm)} km'
-                    '${r.garageName != null ? ' · ${r.garageName}' : ''}'
-                    '${r.cost != null ? ' · ${r.cost!.formatted()}' : ''}',
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${DateFormat.yMMMd().format(r.date)} · '
+                        '${NumberFormat.decimalPattern().format(r.odometerKm)} km'
+                        '${r.garageName != null ? ' · ${r.garageName}' : ''}'
+                        '${r.cost != null ? ' · ${r.cost!.formatted()}' : ''}',
+                      ),
+                      if (r.partQuality != null) ...[
+                        const SizedBox(height: 6),
+                        Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: PartQualityChip(quality: r.partQuality!),
+                        ),
+                      ],
+                    ],
                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete_outline),

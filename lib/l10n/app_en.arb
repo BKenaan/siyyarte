@@ -47,6 +47,7 @@
   "insuranceExpiry": "Insurance expiry",
   "inspectionExpiry": "Mécanique inspection expiry",
   "optional": "optional",
+  "vinIncompleteHint": "VIN looks incomplete or couldn't be fully decoded — check the characters or fill the details manually.",
 
   "nextService": "Next service",
   "upcomingReminders": "Upcoming reminders",
@@ -186,5 +187,32 @@
   "deleteAccountTitle": "Delete account",
   "deleteAccountWarning": "This permanently deletes your account, vehicles and service history. This cannot be undone.",
   "deleteAccountConfirm": "Yes, delete everything",
-  "myData": "My data"
+  "myData": "My data",
+
+  "partQualityLabel": "Part quality",
+  "partQualityOem": "OEM / Genuine",
+  "partQualityAftermarket": "Quality Aftermarket",
+  "partQualityTijariye": "Tijariye",
+
+  "commonFaultsTitle": "Common faults",
+  "commonFaultsSubtitle": "Known issues reported for cars like yours",
+  "commonFaultsCount": "{count, plural, =1{1 known issue} other{{count} known issues}}",
+  "@commonFaultsCount": { "placeholders": { "count": { "type": "int" } } },
+  "commonFaultsEmptyTitle": "No common faults catalogued",
+  "commonFaultsEmptyBody": "We haven't catalogued verified known issues for this exact vehicle yet. Absence here doesn't mean none exist — always follow your owner's manual and a qualified mechanic.",
+  "commonFaultsSeverityLow": "Minor",
+  "commonFaultsSeverityMedium": "Moderate",
+  "commonFaultsSeverityHigh": "Serious",
+  "commonFaultsSymptom": "Symptoms",
+  "commonFaultsAffectedEngine": "Affected engine",
+  "commonFaultsTypicalMileage": "Typically appears around",
+  "commonFaultsSource": "Source",
+  "commonFaultsSourceSheetTitle": "Cited source",
+  "commonFaultsViewSource": "View source",
+  "commonFaultsDisclaimer": "These are reported patterns from recalls, service bulletins and reliability references — not a diagnosis of your car. Confirm with a qualified mechanic.",
+  "commonFaultsSourceTypeRecall": "Safety recall",
+  "commonFaultsSourceTypeTsb": "Service bulletin (TSB)",
+  "commonFaultsSourceTypeInvestigation": "Regulator investigation",
+  "commonFaultsSourceTypeCampaign": "Manufacturer campaign",
+  "commonFaultsSourceTypeReference": "Reliability reference"
 }

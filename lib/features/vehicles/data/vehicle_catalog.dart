@@ -16,7 +16,8 @@ abstract class VehicleCatalog {
     // ============================ Japanese ============================
     VehicleMake('Toyota', 'Japanese', [
       'Yaris', 'Corolla', 'Camry', 'Avalon', 'C-HR', 'RAV4', 'Highlander',
-      'Land Cruiser', 'Prado', 'Fortuner', 'Hilux', 'Prius', 'Rush', 'Aygo'
+      'Land Cruiser', 'Prado', 'Fortuner', 'Hilux', 'Hiace', 'Prius', 'Rush',
+      'Aygo'
     ]),
     VehicleMake('Honda', 'Japanese',
         ['Brio', 'City', 'Jazz', 'Civic', 'Accord', 'HR-V', 'CR-V', 'Pilot']),
@@ -60,7 +61,7 @@ abstract class VehicleCatalog {
     ]),
     VehicleMake('Mercedes-Benz', 'European', [
       'A-Class', 'B-Class', 'C-Class', 'E-Class', 'S-Class', 'CLA', 'CLS',
-      'GLA', 'GLB', 'GLC', 'GLE', 'GLS', 'G-Class'
+      'GLA', 'GLB', 'GLC', 'GLE', 'GLS', 'ML', 'G-Class'
     ]),
     VehicleMake('Audi', 'European',
         ['A1', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'Q2', 'Q3', 'Q5', 'Q7', 'Q8']),
@@ -117,7 +118,7 @@ abstract class VehicleCatalog {
     VehicleMake('Great Wall', 'Chinese',
         ['Poer', 'Wingle 5', 'Wingle 7', 'Tank 300', 'Tank 500']),
     VehicleMake('BYD', 'Chinese',
-        ['F3', 'Qin', 'Han', 'Tang', 'Song Plus', 'Yuan Plus / Atto 3', 'Dolphin', 'Seal']),
+        ['F3', 'Qin', 'Han', 'Tang', 'Song Plus', 'Yuan Plus / Atto 3', 'Dolphin', 'Seal', 'Seal U']),
     VehicleMake('Changan', 'Chinese',
         ['Alsvin', 'Eado', 'CS35 Plus', 'CS55 Plus', 'CS75 Plus', 'UNI-T', 'UNI-K', 'Hunter']),
     VehicleMake('GAC', 'Chinese',
@@ -133,6 +134,9 @@ abstract class VehicleCatalog {
     VehicleMake('Maxus', 'Chinese', ['T60', 'T90', 'D90', 'G50', 'Deliver 9']),
     VehicleMake('Bestune', 'Chinese', ['T77', 'T99', 'B70']),
     VehicleMake('Zeekr', 'Chinese', ['001', 'X', '7X']),
+    VehicleMake('Lynk & Co', 'Chinese', ['01', '03', '05', '09']),
+    VehicleMake('Avatr', 'Chinese', ['11', '12']),
+    VehicleMake('Kaiyi', 'Chinese', ['X3', 'E5']),
 
     // ============================== Other =============================
     VehicleMake('Lada', 'Other', ['Granta', 'Vesta', 'Niva', 'Largus']),

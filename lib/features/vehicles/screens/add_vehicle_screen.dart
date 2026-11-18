@@ -30,6 +30,9 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
 
   final _vin = TextEditingController();
   bool _decoding = false;
+  // Set after a VIN decode when the result looks incomplete (bad check digit or
+  // no model) — drives a non-blocking hint under the VIN field.
+  bool _vinIncomplete = false;
   final _make = TextEditingController();
   final _model = TextEditingController();
   int? _year;
@@ -58,7 +61,8 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
     // Refresh model suggestions when the make changes; keep the registration
     // tile's VIN-match status live as the VIN field is edited.
     _make.addListener(() => setState(() {}));
-    _vin.addListener(() => setState(() {}));
+    // Editing the VIN clears any stale "incomplete" hint from a prior decode.
+    _vin.addListener(() => setState(() => _vinIncomplete = false));
     final v = widget.vehicle;
     if (v != null) {
       _make.text = v.make;
@@ -350,19 +354,29 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
   void _maybeAutoSpec() {
     final specs =
         ref.read(modelSpecsProvider).valueOrNull ?? VehicleSpecs.seed;
-    final trims = VehicleSpecs.trimsFrom(
-        specs, _make.text.trim(), _model.text.trim(), _year);
-    if (trims.length != 1) return;
-    final spec = trims.single;
+    final make = _make.text.trim();
+    final model = _model.text.trim();
+    final trims = VehicleSpecs.trimsFrom(specs, make, model, _year);
     setState(() {
-      if (_trim.text.trim().isEmpty) _trim.text = spec.trim;
-      if (_engine.text.trim().isEmpty) _engine.text = spec.engine;
-      if (_fuel == null && VehicleCatalog.fuelTypes.contains(spec.fuel)) {
-        _fuel = spec.fuel;
+      // A single known trim identifies the full factory spec — adopt it.
+      if (trims.length == 1) {
+        final spec = trims.single;
+        if (_trim.text.trim().isEmpty) _trim.text = spec.trim;
+        if (_engine.text.trim().isEmpty) _engine.text = spec.engine;
+        if (_fuel == null && VehicleCatalog.fuelTypes.contains(spec.fuel)) {
+          _fuel = spec.fuel;
+        }
+        if (_transmission == null &&
+            VehicleCatalog.transmissions.contains(spec.transmission)) {
+          _transmission = spec.transmission;
+        }
       }
-      if (_transmission == null &&
-          VehicleCatalog.transmissions.contains(spec.transmission)) {
-        _transmission = spec.transmission;
+      // Engine as a constrained choice: when the catalog knows exactly ONE
+      // engine for this make/model/year (even across several trims), pre-select
+      // it — mirrors how a single known trim auto-fills.
+      final engines = VehicleSpecs.enginesFrom(specs, make, model, _year);
+      if (engines.length == 1 && _engine.text.trim().isEmpty) {
+        _engine.text = engines.single;
       }
     });
   }
@@ -390,6 +404,8 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
         if (r.engine != null) _engine.text = r.engine!;
         if (r.fuel != null) _fuel = r.fuel;
         if (r.transmission != null) _transmission = r.transmission;
+        // Flag a sparse/invalid decode so the hint under the VIN field shows.
+        _vinIncomplete = r.incomplete;
       });
       _maybeAutoSpec();
       messenger.showSnackBar(
@@ -436,6 +452,10 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
     final specs =
         ref.watch(modelSpecsProvider).valueOrNull ?? VehicleSpecs.seed;
     final knownTrims = VehicleSpecs.trimsFrom(
+        specs, _make.text.trim(), _model.text.trim(), _year);
+    // Known factory engine options → the Engine field becomes a picker of
+    // exactly these; empty → free text (grey-market/unknown cars).
+    final knownEngines = VehicleSpecs.enginesFrom(
         specs, _make.text.trim(), _model.text.trim(), _year);
 
     return Scaffold(
@@ -528,6 +548,30 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
                   ),
                   onSubmitted: (_) => _decodeVin(),
                 ),
+                // Non-blocking hint when the VIN couldn't be fully decoded
+                // (bad check digit or no model returned).
+                if (_vinIncomplete)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: Row(
+                      children: [
+                        Icon(Icons.info_outline,
+                            size: 14,
+                            color: Theme.of(context).colorScheme.error),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            t.vinIncompleteHint,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                    color: Theme.of(context).colorScheme.error),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 const SizedBox(height: 8),
                 const Divider(),
                 const SizedBox(height: 8),
@@ -601,12 +645,21 @@ class _AddVehicleScreenState extends ConsumerState<AddVehicleScreen> {
             isActive: _step >= 1,
             content: Column(
               children: [
-                TextField(
-                  controller: _engine,
-                  decoration: InputDecoration(
-                      labelText: '${t.engineType} (${t.optional})',
-                      hintText: '1.6L I4'),
-                ),
+                // Known factory engines → pick from them (mirrors the trim
+                // picker); otherwise free text for grey-market/unknown cars.
+                if (knownEngines.isNotEmpty)
+                  ComboField(
+                    controller: _engine,
+                    label: t.engineType,
+                    options: knownEngines,
+                  )
+                else
+                  TextField(
+                    controller: _engine,
+                    decoration: InputDecoration(
+                        labelText: '${t.engineType} (${t.optional})',
+                        hintText: '1.6L I4'),
+                  ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
                   value: _fuel,

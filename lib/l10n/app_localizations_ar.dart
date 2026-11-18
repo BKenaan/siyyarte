@@ -141,6 +141,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get optional => 'اختياري';
 
   @override
+  String get vinIncompleteHint =>
+      'يبدو أنّ رقم الشاسيه (VIN) غير مكتمل أو تعذّر فكّ ترميزه بالكامل — تحقّق من الأحرف أو أدخِل التفاصيل يدوياً.';
+
+  @override
   String get nextService => 'الصيانة القادمة';
 
   @override
@@ -532,4 +536,90 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get myData => 'بياناتي';
+
+  @override
+  String get partQualityLabel => 'جودة القطعة';
+
+  @override
+  String get partQualityOem => 'أصلي';
+
+  @override
+  String get partQualityAftermarket => 'تجاري جيّد';
+
+  @override
+  String get partQualityTijariye => 'تجارية';
+
+  @override
+  String get commonFaultsTitle => 'الأعطال الشائعة';
+
+  @override
+  String get commonFaultsSubtitle =>
+      'مشاكل معروفة مُبلّغ عنها في سيّارات مثل سيّارتك';
+
+  @override
+  String commonFaultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count أعطال معروفة',
+      many: '$count عُطلاً معروفاً',
+      few: '$count أعطال معروفة',
+      two: 'عُطلان معروفان',
+      one: 'عُطل معروف واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commonFaultsEmptyTitle => 'لا توجد أعطال شائعة مُوثّقة';
+
+  @override
+  String get commonFaultsEmptyBody =>
+      'لم نوثّق بعد أعطالاً معروفة لهذه السيّارة تحديداً. غياب الأعطال هنا لا يعني عدم وجودها — اتبع دائماً دليل المالك واستشر ميكانيكياً مختصّاً.';
+
+  @override
+  String get commonFaultsSeverityLow => 'بسيط';
+
+  @override
+  String get commonFaultsSeverityMedium => 'متوسّط';
+
+  @override
+  String get commonFaultsSeverityHigh => 'خطير';
+
+  @override
+  String get commonFaultsSymptom => 'الأعراض';
+
+  @override
+  String get commonFaultsAffectedEngine => 'المحرّك المعنيّ';
+
+  @override
+  String get commonFaultsTypicalMileage => 'يظهر عادةً حوالي';
+
+  @override
+  String get commonFaultsSource => 'المصدر';
+
+  @override
+  String get commonFaultsSourceSheetTitle => 'المصدر الموثّق';
+
+  @override
+  String get commonFaultsViewSource => 'عرض المصدر';
+
+  @override
+  String get commonFaultsDisclaimer =>
+      'هذه أنماط مُبلّغ عنها من استدعاءات ونشرات خدمة فنّية ومراجع موثوقية — وليست تشخيصاً لسيّارتك. تحقّق مع ميكانيكي مختصّ.';
+
+  @override
+  String get commonFaultsSourceTypeRecall => 'استدعاء للسلامة';
+
+  @override
+  String get commonFaultsSourceTypeTsb => 'نشرة خدمة فنّية';
+
+  @override
+  String get commonFaultsSourceTypeInvestigation => 'تحقيق تنظيمي';
+
+  @override
+  String get commonFaultsSourceTypeCampaign => 'حملة من الشركة المصنّعة';
+
+  @override
+  String get commonFaultsSourceTypeReference => 'مرجع موثوقية';
 }

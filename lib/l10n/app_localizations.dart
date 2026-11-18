@@ -356,6 +356,12 @@ abstract class AppLocalizations {
   /// **'optional'**
   String get optional;
 
+  /// No description provided for @vinIncompleteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'VIN looks incomplete or couldn\'t be fully decoded — check the characters or fill the details manually.'**
+  String get vinIncompleteHint;
+
   /// No description provided for @nextService.
   ///
   /// In en, this message translates to:
@@ -1093,6 +1099,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My data'**
   String get myData;
+
+  /// No description provided for @partQualityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Part quality'**
+  String get partQualityLabel;
+
+  /// No description provided for @partQualityOem.
+  ///
+  /// In en, this message translates to:
+  /// **'OEM / Genuine'**
+  String get partQualityOem;
+
+  /// No description provided for @partQualityAftermarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Quality Aftermarket'**
+  String get partQualityAftermarket;
+
+  /// No description provided for @partQualityTijariye.
+  ///
+  /// In en, this message translates to:
+  /// **'Tijariye'**
+  String get partQualityTijariye;
+
+  /// No description provided for @commonFaultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Common faults'**
+  String get commonFaultsTitle;
+
+  /// No description provided for @commonFaultsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Known issues reported for cars like yours'**
+  String get commonFaultsSubtitle;
+
+  /// No description provided for @commonFaultsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 known issue} other{{count} known issues}}'**
+  String commonFaultsCount(int count);
+
+  /// No description provided for @commonFaultsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No common faults catalogued'**
+  String get commonFaultsEmptyTitle;
+
+  /// No description provided for @commonFaultsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We haven\'t catalogued verified known issues for this exact vehicle yet. Absence here doesn\'t mean none exist — always follow your owner\'s manual and a qualified mechanic.'**
+  String get commonFaultsEmptyBody;
+
+  /// No description provided for @commonFaultsSeverityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Minor'**
+  String get commonFaultsSeverityLow;
+
+  /// No description provided for @commonFaultsSeverityMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate'**
+  String get commonFaultsSeverityMedium;
+
+  /// No description provided for @commonFaultsSeverityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Serious'**
+  String get commonFaultsSeverityHigh;
+
+  /// No description provided for @commonFaultsSymptom.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptoms'**
+  String get commonFaultsSymptom;
+
+  /// No description provided for @commonFaultsAffectedEngine.
+  ///
+  /// In en, this message translates to:
+  /// **'Affected engine'**
+  String get commonFaultsAffectedEngine;
+
+  /// No description provided for @commonFaultsTypicalMileage.
+  ///
+  /// In en, this message translates to:
+  /// **'Typically appears around'**
+  String get commonFaultsTypicalMileage;
+
+  /// No description provided for @commonFaultsSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get commonFaultsSource;
+
+  /// No description provided for @commonFaultsSourceSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cited source'**
+  String get commonFaultsSourceSheetTitle;
+
+  /// No description provided for @commonFaultsViewSource.
+  ///
+  /// In en, this message translates to:
+  /// **'View source'**
+  String get commonFaultsViewSource;
+
+  /// No description provided for @commonFaultsDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'These are reported patterns from recalls, service bulletins and reliability references — not a diagnosis of your car. Confirm with a qualified mechanic.'**
+  String get commonFaultsDisclaimer;
+
+  /// No description provided for @commonFaultsSourceTypeRecall.
+  ///
+  /// In en, this message translates to:
+  /// **'Safety recall'**
+  String get commonFaultsSourceTypeRecall;
+
+  /// No description provided for @commonFaultsSourceTypeTsb.
+  ///
+  /// In en, this message translates to:
+  /// **'Service bulletin (TSB)'**
+  String get commonFaultsSourceTypeTsb;
+
+  /// No description provided for @commonFaultsSourceTypeInvestigation.
+  ///
+  /// In en, this message translates to:
+  /// **'Regulator investigation'**
+  String get commonFaultsSourceTypeInvestigation;
+
+  /// No description provided for @commonFaultsSourceTypeCampaign.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturer campaign'**
+  String get commonFaultsSourceTypeCampaign;
+
+  /// No description provided for @commonFaultsSourceTypeReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Reliability reference'**
+  String get commonFaultsSourceTypeReference;
 }
 
 class _AppLocalizationsDelegate

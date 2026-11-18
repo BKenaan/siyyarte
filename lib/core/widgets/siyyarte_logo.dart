@@ -3,6 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../theme/app_colors.dart';
 
+/// The "SIYYARTE" wordmark glyphs: "SIYYART" inherits the caller's text color,
+/// the final "E" is painted in the brand orange accent. Rendered as live text
+/// (never a rasterized image) so the mark stays crisp at every size and DPI.
+const InlineSpan _wordmarkSpan = TextSpan(
+  children: [
+    TextSpan(text: 'SIYYART'),
+    TextSpan(text: 'E', style: TextStyle(color: AppColors.accentOrange)),
+  ],
+);
+
 /// The Siyyarte emblem — the vehicle artwork (سيّارتي = "my car").
 class SiyyarteMark extends StatelessWidget {
   const SiyyarteMark({super.key, this.size = 48});
@@ -31,19 +41,13 @@ class SiyyarteWordmark extends StatelessWidget {
     final dark =
         onDark ?? Theme.of(context).brightness == Brightness.dark;
     final color = dark ? AppColors.textPrimaryDark : AppColors.charcoal;
-    return RichText(
-      text: TextSpan(
-        style: GoogleFonts.sora(
-          fontSize: fontSize,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 1.2,
-          color: color,
-        ),
-        children: const [
-          TextSpan(text: 'SIYYART'),
-          TextSpan(
-              text: 'E', style: TextStyle(color: AppColors.accentOrange)),
-        ],
+    return Text.rich(
+      _wordmarkSpan,
+      style: GoogleFonts.sora(
+        fontSize: fontSize,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 1.2,
+        color: color,
       ),
     );
   }
@@ -78,21 +82,13 @@ class SiyyarteLogo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            RichText(
-              text: TextSpan(
-                style: GoogleFonts.sora(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.2,
-                  color: textColor,
-                ),
-                children: const [
-                  TextSpan(text: 'SIYYART'),
-                  TextSpan(
-                    text: 'E',
-                    style: TextStyle(color: AppColors.accentOrange),
-                  ),
-                ],
+            Text.rich(
+              _wordmarkSpan,
+              style: GoogleFonts.sora(
+                fontSize: fontSize,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.2,
+                color: textColor,
               ),
             ),
             if (showTagline)

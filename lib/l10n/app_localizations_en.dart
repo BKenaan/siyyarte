@@ -142,6 +142,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get optional => 'optional';
 
   @override
+  String get vinIncompleteHint =>
+      'VIN looks incomplete or couldn\'t be fully decoded — check the characters or fill the details manually.';
+
+  @override
   String get nextService => 'Next service';
 
   @override
@@ -534,4 +538,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get myData => 'My data';
+
+  @override
+  String get partQualityLabel => 'Part quality';
+
+  @override
+  String get partQualityOem => 'OEM / Genuine';
+
+  @override
+  String get partQualityAftermarket => 'Quality Aftermarket';
+
+  @override
+  String get partQualityTijariye => 'Tijariye';
+
+  @override
+  String get commonFaultsTitle => 'Common faults';
+
+  @override
+  String get commonFaultsSubtitle =>
+      'Known issues reported for cars like yours';
+
+  @override
+  String commonFaultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count known issues',
+      one: '1 known issue',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get commonFaultsEmptyTitle => 'No common faults catalogued';
+
+  @override
+  String get commonFaultsEmptyBody =>
+      'We haven\'t catalogued verified known issues for this exact vehicle yet. Absence here doesn\'t mean none exist — always follow your owner\'s manual and a qualified mechanic.';
+
+  @override
+  String get commonFaultsSeverityLow => 'Minor';
+
+  @override
+  String get commonFaultsSeverityMedium => 'Moderate';
+
+  @override
+  String get commonFaultsSeverityHigh => 'Serious';
+
+  @override
+  String get commonFaultsSymptom => 'Symptoms';
+
+  @override
+  String get commonFaultsAffectedEngine => 'Affected engine';
+
+  @override
+  String get commonFaultsTypicalMileage => 'Typically appears around';
+
+  @override
+  String get commonFaultsSource => 'Source';
+
+  @override
+  String get commonFaultsSourceSheetTitle => 'Cited source';
+
+  @override
+  String get commonFaultsViewSource => 'View source';
+
+  @override
+  String get commonFaultsDisclaimer =>
+      'These are reported patterns from recalls, service bulletins and reliability references — not a diagnosis of your car. Confirm with a qualified mechanic.';
+
+  @override
+  String get commonFaultsSourceTypeRecall => 'Safety recall';
+
+  @override
+  String get commonFaultsSourceTypeTsb => 'Service bulletin (TSB)';
+
+  @override
+  String get commonFaultsSourceTypeInvestigation => 'Regulator investigation';
+
+  @override
+  String get commonFaultsSourceTypeCampaign => 'Manufacturer campaign';
+
+  @override
+  String get commonFaultsSourceTypeReference => 'Reliability reference';
 }

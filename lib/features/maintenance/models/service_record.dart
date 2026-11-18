@@ -24,6 +24,33 @@ extension RecordSourceX on RecordSource {
       );
 }
 
+/// Quality grade of the part used for a service, as reported by the driver.
+/// Optional — older records (and drivers who skip it) leave it unset.
+enum PartQuality {
+  /// Company-source / original equipment manufacturer part.
+  oemGenuine,
+
+  /// Aftermarket but good quality.
+  qualityAftermarket,
+
+  /// Cheap commercial-market part (Arabic: تجارية).
+  tijariye,
+}
+
+extension PartQualityX on PartQuality {
+  String get id => name;
+
+  /// Null-safe parse: unknown or missing ids (old records) read as null so the
+  /// field stays backward-compatible.
+  static PartQuality? fromId(String? id) {
+    if (id == null) return null;
+    for (final q in PartQuality.values) {
+      if (q.name == id) return q;
+    }
+    return null;
+  }
+}
+
 /// An immutable, append-only record of a completed service. Feeds the history
 /// timeline and PDF export, and drives next-due recalculation.
 class ServiceRecord {
@@ -37,6 +64,14 @@ class ServiceRecord {
   final Money? cost;
   final String? invoiceUrl;
   final RecordSource source;
+
+  /// Quality grade of the part used (optional — null when the driver didn't
+  /// record it, and for records written before this field existed).
+  ///
+  /// TODO(scheduling): part quality could later shorten the predicted next-due
+  /// interval for cheap parts (e.g. PartQuality.tijariye wears out sooner than
+  /// OEM). Not implemented yet — no interval math is derived from this field.
+  final PartQuality? partQuality;
 
   /// Fuel fill-up fields (only set when type == ServiceType.fuel). [liters] is
   /// the volume added; [fullTank] marks a tank-filled-to-full event, which is
@@ -60,6 +95,7 @@ class ServiceRecord {
     this.cost,
     this.invoiceUrl,
     this.source = RecordSource.manual,
+    this.partQuality,
     this.liters,
     this.fullTank,
     required this.createdAt,
@@ -75,6 +111,7 @@ class ServiceRecord {
         'cost': cost?.toMap(),
         'invoiceUrl': invoiceUrl,
         'source': source.name,
+        'partQuality': partQuality?.id,
         'liters': liters,
         'fullTank': fullTank,
         'createdAt': createdAt.toIso8601String(),
@@ -94,6 +131,8 @@ class ServiceRecord {
             : Money.fromMap(Map<String, dynamic>.from(m['cost'] as Map)),
         invoiceUrl: m['invoiceUrl'] as String?,
         source: RecordSourceX.fromId(m['source'] as String?),
+        // Null-safe: old records have no 'partQuality' key at all.
+        partQuality: PartQualityX.fromId(m['partQuality'] as String?),
         liters: (m['liters'] as num?)?.toDouble(),
         fullTank: m['fullTank'] as bool?,
         createdAt: _parseTime(m['createdAt']),

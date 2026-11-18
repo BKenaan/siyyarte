@@ -9,6 +9,7 @@ import '../../fuel/add_fuel_sheet.dart';
 import '../../maintenance/models/scheduled_service.dart';
 import '../../maintenance/models/service_type.dart';
 import '../../vehicles/models/vehicle.dart';
+import '../../vehicles/widgets/brand_badge.dart';
 import '../widgets/health_gauge.dart';
 
 class DashboardScreen extends ConsumerWidget {
@@ -61,16 +62,7 @@ class DashboardScreen extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color:
-                              AppColors.accentOrange.withValues(alpha: 0.16),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: const Icon(Icons.directions_car_filled,
-                            color: AppColors.accentOrange, size: 26),
-                      ),
+                      BrandBadge(make: vehicle.make, size: 50),
                       const SizedBox(width: 14),
                       Expanded(
                         child: Column(

@@ -47,6 +47,7 @@
   "insuranceExpiry": "انتهاء التأمين",
   "inspectionExpiry": "انتهاء فحص الميكانيك",
   "optional": "اختياري",
+  "vinIncompleteHint": "يبدو أنّ رقم الشاسيه (VIN) غير مكتمل أو تعذّر فكّ ترميزه بالكامل — تحقّق من الأحرف أو أدخِل التفاصيل يدوياً.",
 
   "nextService": "الصيانة القادمة",
   "upcomingReminders": "التذكيرات القادمة",
@@ -186,5 +187,32 @@
   "deleteAccountTitle": "حذف الحساب",
   "deleteAccountWarning": "سيؤدي هذا إلى حذف حسابك وسيّاراتك وسجلّ الصيانة نهائياً. لا يمكن التراجع عن ذلك.",
   "deleteAccountConfirm": "نعم، احذف كل شيء",
-  "myData": "بياناتي"
+  "myData": "بياناتي",
+
+  "partQualityLabel": "جودة القطعة",
+  "partQualityOem": "أصلي",
+  "partQualityAftermarket": "تجاري جيّد",
+  "partQualityTijariye": "تجارية",
+
+  "commonFaultsTitle": "الأعطال الشائعة",
+  "commonFaultsSubtitle": "مشاكل معروفة مُبلّغ عنها في سيّارات مثل سيّارتك",
+  "commonFaultsCount": "{count, plural, =1{عُطل معروف واحد} =2{عُطلان معروفان} few{{count} أعطال معروفة} many{{count} عُطلاً معروفاً} other{{count} أعطال معروفة}}",
+  "@commonFaultsCount": { "placeholders": { "count": { "type": "int" } } },
+  "commonFaultsEmptyTitle": "لا توجد أعطال شائعة مُوثّقة",
+  "commonFaultsEmptyBody": "لم نوثّق بعد أعطالاً معروفة لهذه السيّارة تحديداً. غياب الأعطال هنا لا يعني عدم وجودها — اتبع دائماً دليل المالك واستشر ميكانيكياً مختصّاً.",
+  "commonFaultsSeverityLow": "بسيط",
+  "commonFaultsSeverityMedium": "متوسّط",
+  "commonFaultsSeverityHigh": "خطير",
+  "commonFaultsSymptom": "الأعراض",
+  "commonFaultsAffectedEngine": "المحرّك المعنيّ",
+  "commonFaultsTypicalMileage": "يظهر عادةً حوالي",
+  "commonFaultsSource": "المصدر",
+  "commonFaultsSourceSheetTitle": "المصدر الموثّق",
+  "commonFaultsViewSource": "عرض المصدر",
+  "commonFaultsDisclaimer": "هذه أنماط مُبلّغ عنها من استدعاءات ونشرات خدمة فنّية ومراجع موثوقية — وليست تشخيصاً لسيّارتك. تحقّق مع ميكانيكي مختصّ.",
+  "commonFaultsSourceTypeRecall": "استدعاء للسلامة",
+  "commonFaultsSourceTypeTsb": "نشرة خدمة فنّية",
+  "commonFaultsSourceTypeInvestigation": "تحقيق تنظيمي",
+  "commonFaultsSourceTypeCampaign": "حملة من الشركة المصنّعة",
+  "commonFaultsSourceTypeReference": "مرجع موثوقية"
 }
