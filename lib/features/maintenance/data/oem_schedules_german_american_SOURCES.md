@@ -344,3 +344,87 @@ Only secondary/forum/retailer figures exist (2 yr/30k mi, 4–5 yr, etc.), which
 disagree and are not manufacturer documents. VW/Audi long-life coolant
 (G12evo/G13) is "check only" in the US schedules already cited. **No official
 fixed coolant replacement interval found — remains omitted, not guessed.**
+
+---
+
+## Gap-fill pass 2 — 2026-11-19
+
+Targets: BMW air/coolant/transmission retry, Ford Mustang, VW/Audi coolant,
+Chevrolet Silverado, Porsche (Cayenne/Macan/911), Opel (Astra/Corsa/Grandland),
+Cadillac (Escalade/XT5), Lincoln (Navigator/Aviator), Tesla (3/Y/S/X). Same
+rules; Lebanon = severe; concrete baselines for condition-based makes.
+
+**Access reality this pass:** many OEM/official PDF hosts refuse automated
+access by every route available here — `bmwusa.com`, `fordservicecontent.com`
+(Akamai 403 for curl; WebFetch works only below a 10 MB cap, which the Mustang /
+Navigator / Aviator manuals exceed), `files.porsche.com` (Akamai 403 / 404),
+`opel.ie`/`opel.com` (Akamai 403), `contentdelivery.ext.gm.com` and the Cadillac
+dealer mirror (403/404), and `manualslib.com` (Cloudflare bot-gate). The in-app
+browser downloads raw PDFs instead of rendering them. The routes that **did**
+work: `tesla.com` (HTML, rendered in-browser), the GCC Chevrolet dealer static
+PDFs (the real GM-authored Middle-East manuals), and NHTSA `static.nhtsa.gov`.
+
+### Tesla — Model 3 / Y / S / X (NEW, Grade A, EV set)
+- **`Tesla Vehicle Maintenance (tesla.com)`**
+  - Document: *Vehicle Maintenance | Tesla Support*, rendered in-browser.
+  - URL: https://www.tesla.com/support/vehicle-maintenance
+  - Battery-electric: **no** engine oil, spark plugs, fuel filter or emission
+    services exist — recorded `fuel: 'Electric'`. Read verbatim:
+    - Cabin air filter — **Model 3 & Y: every 2 years; Model S & X: every 3
+      years** (S/X 2012–2020: 2 years).
+    - HEPA + carbon filter (if equipped) — **every 3 years**.
+    - Tyre rotation — **every 6,250 mi (10,000 km)** or 2/32" tread difference.
+    - Brake fluid — **test every 4 years**, replace as needed (more often with
+      heavy use / hot-humid climate — relevant to Lebanon).
+    - Brake caliper clean & lubricate — salted-road regions only, **every 12 mo
+      / 12,500 mi (20,000 km)** (not required on Model Y built after Feb 2025).
+    - A/C desiccant — **not required on heat-pump cars (2021+)**; legacy without
+      heat pump: Model 3 2017–2023 every 6 yr, Model X 2015–2020 every 4 yr,
+      Model S 2012–2020 every 2 yr. Cybertruck every 8 yr (not in catalog).
+
+### Chevrolet Silverado 1500 / GMC Sierra 1500 (NEW, Grade A) + severe
+- **`GM Silverado/Sierra 2024 ME Owner Manual`**
+  - Document: *Chevrolet/GMC Silverado 1500 / Sierra/Sierra Denali 1500 Owner
+    Manual (GMNA-Localizing-MidEast-17382831) – 2024 – CRC – 6/21/23*, GM. The
+    Middle-East edition (market-correct for Lebanon); km-native.
+  - URL (dealer-hosted copy of the GM-authored file, GM filename
+    `24_mul_silverado_sierra_sierra_Denali_1500_om_en_us_i_meo_85516374_2023jun27_hi.pdf`):
+    https://chevrolet.aljomaihauto.com/static/pdfs/24_mul_silverado_sierra_sierra_Denali_1500_om_en_us_i_meo_85516374_2023jun27_hi.pdf
+  - "Service and Maintenance" (pp. 381–384) read directly:
+    - Brake fluid — **every 5 years**.
+    - Passenger-compartment (cabin) air filter — **every 10,000 km / 12 mo**.
+    - Engine air filter — Air Filter **Life System**: check at **10,000 km or
+      24 mo**, dusty = each oil change. No fixed replace km.
+    - Spark plugs — **2.7L L4 (L3B): every 90,000 km**; **except 2.7L (5.3L L84 /
+      6.2L L87): every 150,000 km**.
+    - Coolant — **every 240,000 km / 6 yr**.
+    - Transmission fluid & filter — **SEVERE only: every 70,000 km** (normal =
+      fill-for-life).
+    - Transfer-case fluid (4WD) — **160,000 km normal / 80,000 km severe**.
+    - Oil — Oil Life System, min once/yr, 10,000 km required-services cadence.
+
+### Gaps NOT closed this pass (official document unreachable — never guessed)
+- **BMW engine air filter / coolant / transmission** — the BMW USA MY25/MY26
+  Maintenance booklet is still unreachable (bmwusa.com resets curl, times out
+  plain fetch, serves PDF as a download, Google-viewer + manualslib bot-gated).
+  BMW publishes these as lifetime / CBS "Vehicle Check" with no fixed interval.
+  **Still gaps.**
+- **Ford Mustang** non-oil/plug items, and **Lincoln Navigator / Aviator** — Ford
+  manuals are Akamai-403 for curl and exceed the 10 MB plain-fetch cap; mirrors
+  were the same host or Cloudflare-gated. **Gaps** (not copied from Escape /
+  Explorer: different platforms/transmissions).
+- **Porsche Cayenne / Macan / 911** — the only official figure visible was oil
+  service **15,000 km / 10,000 mi / 1 yr** (Porsche Middle-East "B-markets" oil
+  PDFs, `files.porsche.com`), but those PDFs are Akamai-blocked (403/404) and
+  could not be opened directly, so **nothing was recorded** (search-engine
+  snippets are not a rendered/fetched document). Porsche ME service pages
+  geo-redirect to a country selector. **Gap.**
+- **Opel Astra / Corsa / Grandland** — `opel.ie` / `opel.com` manual PDFs are
+  Akamai-403; no reachable official current manual. **Gap.**
+- **Cadillac Escalade / XT5** — official 2024/25 manuals block curl + WebFetch
+  (grupoq / contentdelivery 403/404). The Escalade shares the GM full-size
+  schedule already captured for Tahoe/Yukon, but no Escalade/XT5 document could
+  be opened to cite, so **no entry was added** (would be an unsourced
+  cross-model copy). **Gap.**
+- **VW / Audi coolant** — re-confirmed: no official fixed replacement interval
+  published (long-life, check-only). **Gap.**

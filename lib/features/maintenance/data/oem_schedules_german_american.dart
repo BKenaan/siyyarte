@@ -1058,4 +1058,313 @@ const List<OemSchedule> kOemSchedulesGermanAmerican = [
       ),
     ],
   ),
+
+  // ==========================================================================
+  // GAP-FILL PASS 2 (2026-11-19): Tesla EV set + GM Silverado/Sierra. Only
+  // directly-readable official documents were used; makes whose official PDFs
+  // block automated access (Porsche, Opel, Cadillac, Lincoln, Ford Mustang,
+  // BMW booklet) are left as gaps in the SOURCES file — not guessed.
+  // ==========================================================================
+
+  // --------------------------------------------------------------------------
+  // TESLA — battery-electric; NO engine oil, spark plugs, fuel filter, or
+  // emission items. Intervals read directly from Tesla's official "Vehicle
+  // Maintenance" support page (tesla.com/support/vehicle-maintenance), rendered
+  // in-browser. Grade A. Tesla publishes these as fixed time/mileage
+  // recommendations (not a sensor-computed system), so conditionBased = false.
+  // Miles converted at the repo ×1.6 (6,250 mi = 10,000 km; 12,500 mi =
+  // 20,000 km). Per-model entries because cabin-filter / HEPA / desiccant differ.
+  // --------------------------------------------------------------------------
+  OemSchedule(
+    make: 'Tesla',
+    model: 'Model 3',
+    yearStart: 2021,
+    yearEnd: 2026,
+    engine: 'Electric (dual/rear motor)',
+    fuel: 'Electric',
+    intervals: [
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalMonths: 24,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Replace every 2 years (Model 3).',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 48,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes:
+            'Test for contamination every 4 years, replace as needed. Heavy '
+            'use / hot-humid (Lebanon) may need more frequent checks.',
+      ),
+      OemInterval(
+        service: 'Tyre Rotation',
+        intervalKm: 10000,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Every 6,250 mi (10,000 km) or 2/32" tread-depth difference.',
+      ),
+      OemInterval(
+        service: 'Brake Caliper Clean & Lubricate',
+        intervalKm: 20000,
+        intervalMonths: 12,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes:
+            'Only in salted-road / winter regions: every 12 mo or 12,500 mi '
+            '(20,000 km). Not generally required in Lebanon climate.',
+      ),
+      OemInterval(
+        service: 'A/C Desiccant Bag',
+        grade: OemGrade.b,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes:
+            'Not required on heat-pump cars (2021+). Legacy only: Model 3 '
+            '2017–2023 without heat pump = every 6 years. No number for current.',
+      ),
+    ],
+  ),
+  OemSchedule(
+    make: 'Tesla',
+    model: 'Model Y',
+    yearStart: 2020,
+    yearEnd: 2026,
+    engine: 'Electric (dual/rear motor)',
+    fuel: 'Electric',
+    intervals: [
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalMonths: 24,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Replace every 2 years (Model Y).',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 48,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Test every 4 years, replace as needed.',
+      ),
+      OemInterval(
+        service: 'Tyre Rotation',
+        intervalKm: 10000,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Every 6,250 mi (10,000 km) or 2/32" tread difference.',
+      ),
+      OemInterval(
+        service: 'Brake Caliper Clean & Lubricate',
+        intervalKm: 20000,
+        intervalMonths: 12,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes:
+            'Salted-road regions only: every 12 mo / 12,500 mi (20,000 km). '
+            'Not required on Model Y built after Feb 2025.',
+      ),
+      OemInterval(
+        service: 'A/C Desiccant Bag',
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Scheduled replacement not required (heat-pump car).',
+      ),
+    ],
+  ),
+  OemSchedule(
+    make: 'Tesla',
+    model: 'Model S',
+    yearStart: 2021,
+    yearEnd: 2026,
+    engine: 'Electric (dual/tri motor)',
+    fuel: 'Electric',
+    intervals: [
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalMonths: 36,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Replace every 3 years (Model S). 2012–2020 cars: every 2 years.',
+      ),
+      OemInterval(
+        service: 'HEPA + Carbon Filter',
+        intervalMonths: 36,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'If equipped with HEPA: replace HEPA and carbon filter every 3 yr.',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 48,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Test every 4 years, replace as needed.',
+      ),
+      OemInterval(
+        service: 'Tyre Rotation',
+        intervalKm: 10000,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Every 6,250 mi (10,000 km) or 2/32" tread difference.',
+      ),
+      OemInterval(
+        service: 'A/C Desiccant Bag',
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes:
+            'Scheduled replacement not required on heat-pump cars (2021+). '
+            'Legacy 2012–2020 without heat pump: every 2 years.',
+      ),
+    ],
+  ),
+  OemSchedule(
+    make: 'Tesla',
+    model: 'Model X',
+    yearStart: 2021,
+    yearEnd: 2026,
+    engine: 'Electric (dual/tri motor)',
+    fuel: 'Electric',
+    intervals: [
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalMonths: 36,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Replace every 3 years (Model X). 2015–2020 cars: every 2 years.',
+      ),
+      OemInterval(
+        service: 'HEPA + Carbon Filter',
+        intervalMonths: 36,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'If equipped with HEPA: replace HEPA and carbon filter every 3 yr.',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 48,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Test every 4 years, replace as needed.',
+      ),
+      OemInterval(
+        service: 'Tyre Rotation',
+        intervalKm: 10000,
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes: 'Every 6,250 mi (10,000 km) or 2/32" tread difference.',
+      ),
+      OemInterval(
+        service: 'A/C Desiccant Bag',
+        grade: OemGrade.a,
+        source: 'Tesla Vehicle Maintenance (tesla.com)',
+        notes:
+            'Not required on heat-pump cars (2021+). Legacy 2015–2020 without '
+            'heat pump: every 4 years.',
+      ),
+    ],
+  ),
+
+  // --------------------------------------------------------------------------
+  // CHEVROLET SILVERADO 1500 / GMC SIERRA 1500 — read directly from the 2024
+  // Owner Manual, Middle-East edition (GMNA-Localizing-MidEast-17382831), the
+  // market-correct book for Lebanon; intervals printed natively in KILOMETRES
+  // (no conversion). Grade A. Same GM full-size schedule as Tahoe/Yukon, plus a
+  // spark-plug split for the 2.7L turbo-four. Severe column captured for Lebanon.
+  // --------------------------------------------------------------------------
+  OemSchedule(
+    make: 'Chevrolet/GMC',
+    model: 'Silverado 1500 / Sierra 1500 (ME edition)',
+    yearStart: 2022,
+    yearEnd: 2026,
+    engine: '2.7L L4 (L3B) / 5.3L V8 (L84) / 6.2L V8 (L87)',
+    conditionBased: true,
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalMonths: 12,
+        grade: OemGrade.b,
+        source: 'GM Silverado/Sierra 2024 ME Owner Manual',
+        notes:
+            'Oil Life System (condition-based): change within 1,000 km of CHANGE '
+            'ENGINE OIL SOON, at least once a year; required-services cadence '
+            '10,000 km. Baseline number for display: ~10,000 km / 12 mo.',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 60,
+        grade: OemGrade.a,
+        source: 'GM Silverado/Sierra 2024 ME Owner Manual',
+        notes: 'Replace every five years (time-based).',
+      ),
+      OemInterval(
+        service: 'Cabin / Passenger Compartment Air Filter',
+        intervalKm: 10000,
+        intervalMonths: 12,
+        grade: OemGrade.a,
+        source: 'GM Silverado/Sierra 2024 ME Owner Manual',
+        notes: 'Every 10,000 km or 12 months; sooner in heavy traffic / dust.',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 10000,
+        intervalMonths: 24,
+        grade: OemGrade.a,
+        source: 'GM Silverado/Sierra 2024 ME Owner Manual',
+        notes:
+            'Engine Air Filter Life System (condition-based): check at 10,000 km '
+            'or every 24 months; in dusty conditions inspect at each oil change. '
+            'Replace on message. No single fixed replace km.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 90000,
+        grade: OemGrade.a,
+        source: 'GM Silverado/Sierra 2024 ME Owner Manual',
+        notes: 'Every 90,000 km — 2.7L L4 (L3B) turbo engine only.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 150000,
+        grade: OemGrade.a,
+        source: 'GM Silverado/Sierra 2024 ME Owner Manual',
+        notes: 'Every 150,000 km — except 2.7L L4 (i.e. 5.3L L84 / 6.2L L87).',
+      ),
+      OemInterval(
+        service: 'Coolant',
+        intervalKm: 240000,
+        intervalMonths: 72,
+        grade: OemGrade.a,
+        source: 'GM Silverado/Sierra 2024 ME Owner Manual',
+        notes: 'Drain and fill engine cooling system every 240,000 km or 6 yr.',
+      ),
+      OemInterval(
+        service: 'Transmission Fluid',
+        intervalKm: 70000,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'GM Silverado/Sierra 2024 ME Owner Manual',
+        notes:
+            'SEVERE service only: change automatic transmission fluid & filter '
+            'every 70,000 km. Normal publishes none (fill-for-life). Lebanon = '
+            'severe.',
+      ),
+      OemInterval(
+        service: 'Transfer Case Fluid (4WD)',
+        intervalKm: 160000,
+        grade: OemGrade.a,
+        source: 'GM Silverado/Sierra 2024 ME Owner Manual',
+        notes: 'Normal: every 160,000 km (4WD only).',
+      ),
+      OemInterval(
+        service: 'Transfer Case Fluid (4WD)',
+        intervalKm: 80000,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'GM Silverado/Sierra 2024 ME Owner Manual',
+        notes: 'SEVERE: every 80,000 km (4WD only).',
+      ),
+    ],
+  ),
 ];
