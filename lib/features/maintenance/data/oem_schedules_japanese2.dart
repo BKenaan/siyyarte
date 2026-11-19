@@ -1,7 +1,8 @@
 // OEM maintenance schedules — Japanese makes, set 2 (research dataset).
 //
 // Second Japanese-makes corpus, covering makes NOT in
-// `oem_schedules_japanese.dart`: SUZUKI, MAZDA, SUBARU, ISUZU, DAIHATSU.
+// `oem_schedules_japanese.dart`: SUZUKI, MAZDA, SUBARU, ISUZU, DAIHATSU — plus
+// (added Round 2) ACURA (Honda group) and SsangYong/KGM (petrol).
 //
 // This file is SOURCED RESEARCH DATA, not yet wired into the maintenance
 // engine. It mirrors the discipline of the sibling datasets
@@ -165,6 +166,54 @@ const String _srcSubaruWmb2022 =
     'Subaru of America — "2022 Warranty & Maintenance Booklet" (rev. Nov 2021), '
     'p.28 "2022 MY All Vehicles — Federal/California" schedule + p.29 severe '
     'notes — https://techinfo.subaru.com/stis/doc/warrantyBooklet/2022_war_and_maint_120721.PDF';
+
+// --- Round 2 additions: more Mazda models, SsangYong/KGM, Acura ---
+
+const String _srcMazda3Smg2023 =
+    'Mazda North American Operations — "2023 Mazda3 Hatchback Scheduled '
+    'Maintenance" (official owner-guide PDF; U.S./Canada/Mexico tables) — '
+    'https://www.mazdausa.com/siteassets/pdf/owners-optimized/2023/m3h/2023-mazda3-hatchback-scheduled-maintenance.pdf';
+
+const String _srcMazda6Smg2020 =
+    'Mazda North American Operations — "2020 Mazda6 Scheduled Maintenance" '
+    '(official owner-guide PDF; U.S./Canada/Mexico tables) — '
+    'https://www.mazdausa.com/siteassets/global-resources/vehicle-resources/owner-manuals/2020/mazda6/2020-mazda6-scheduled-maintenance.pdf';
+
+const String _srcMazdaCx30Smg2020 =
+    'Mazda North American Operations — "2020 CX-30 Scheduled Maintenance" '
+    '(official owner-guide PDF; U.S./Canada tables) — '
+    'https://www.mazdausa.com/siteassets/global-resources/vehicle-resources/owner-manuals/2020/cx-30/2020-cx-30-scheduled-maintenance.pdf';
+
+const String _srcMazdaCx9Smg2019 =
+    'Mazda North American Operations — "2019 CX-9 Scheduled Maintenance" '
+    '(official owner-guide PDF; U.S./Canada/Mexico tables) — '
+    'https://www.mazdausa.com/siteassets/global-resources/vehicle-resources/owner-manuals/2019/cx-9/2019-cx9-scheduled-maintenance.pdf';
+
+const String _srcMazdaCx3Smg2019 =
+    'Mazda North American Operations — "2019 CX-3 Scheduled Maintenance" '
+    '(official owner-guide PDF; U.S./Canada/Mexico tables) — '
+    'https://www.mazdausa.com/siteassets/global-resources/vehicle-resources/owner-manuals/2019/cx-3/2019-cx3-scheduled-maintenance.pdf';
+
+const String _srcKgmRextonPetrol =
+    'KGM (SsangYong) Australia (official) — "Rexton Petrol (G20 GDi) service '
+    'price menu & schedule" (accessed Nov 2025) — '
+    'https://kgm.com.au/owners-and-service/servicing/rexton-petrol';
+
+const String _srcKgmTivoliPetrol =
+    'KGM (SsangYong) Australia (official) — "Tivoli Petrol (G16DF) service '
+    'price menu & schedule" (accessed Nov 2025) — '
+    'https://kgm.com.au/owners-and-service/servicing/tivoli-petrol';
+
+const String _srcKgmKorandoPetrol =
+    'KGM (SsangYong) Australia (official) — "Korando Petrol (G15DTF) service '
+    'price menu & schedule" (accessed Nov 2025) — '
+    'https://kgm.com.au/owners-and-service/servicing/korando-petrol';
+
+const String _srcAcuraMdxOm2008 =
+    'Acura MDX Owner\'s Manual — "Maintenance / Maintenance Minder" page '
+    '(2008 MY), faithful reproduction (Acura/Honda portals & ManualsLib are '
+    'Cloudflare-gated) — '
+    'https://www.manualsdir.com/manuals/33002/acura-2008-mdx.html?page=396';
 
 // ---------------------------------------------------------------------------
 // SUZUKI
@@ -544,6 +593,730 @@ const OemModelSchedule _subaruRange = OemModelSchedule(
 );
 
 // ---------------------------------------------------------------------------
+// MAZDA (additional models) — all from official Mazda USA owner-guide PDFs,
+// read page-by-page. Every Mazda schedule below is SKYACTIV-G PETROL only
+// (diesel rows excluded; Lebanon bans diesel passenger cars) and uses the
+// condition-based oil system (Flexible Maintenance / vehicle status monitor),
+// so conditionBased = true and the oil figure is the published MAXIMUM.
+// Each model was sourced from its OWN document; nothing was copied across
+// models (the per-model oil-monitor max differs: 12,000 km on CX-5/6/CX-9/CX-3,
+// 16,000 km on Mazda3/CX-30).
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _mazda3 = OemModelSchedule(
+  make: 'Mazda',
+  model: 'Mazda3 (BP, 4th gen)',
+  yearStart: 2019,
+  engine: 'SKYACTIV-G 2.0 / 2.5 / 2.5T petrol',
+  fuel: 'Petrol',
+  conditionBased: true,
+  generationNote:
+      'From the 2023 Mazda3 Hatchback owner-guide schedule (BP generation; '
+      'sedan shares it). Vehicle status monitor oil system.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMazda3Smg2023,
+      grade: OemGrade.a,
+      notes: 'CONDITION-BASED: vehicle status monitor calls oil service before '
+          'the max interval. Published max (U.S./Canada): 16,000 km (10,000 mi) '
+          '/ 12 mo. (Mexico max is 10,000 km / 6 mo.)',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcMazda3Smg2023,
+      grade: OemGrade.a,
+      notes: 'Severe driving (dust, short trips, heat, idling): every 8,000 km '
+          '(5,000 mi) / 6 mo. (Mexico severe is 5,000 km / 3 mo.)',
+    ),
+    OemInterval(
+      service: 'Spark plugs (except 2.5 Turbo)',
+      intervalKm: 120000,
+      severity: OemSeverity.normal,
+      source: _srcMazda3Smg2023,
+      grade: OemGrade.a,
+      notes: 'SKYACTIV-G 2.0 / 2.5 NA: replace every 120,000 km (75,000 mi).',
+    ),
+    OemInterval(
+      service: 'Spark plugs (2.5 Turbo)',
+      intervalKm: 64000,
+      severity: OemSeverity.normal,
+      source: _srcMazda3Smg2023,
+      grade: OemGrade.a,
+      notes: 'SKYACTIV-G 2.5T: replace every 64,000 km (40,000 mi).',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 56000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcMazda3Smg2023,
+      grade: OemGrade.a,
+      notes: 'Canada table: replace every 56,000 km (35,000 mi) or 3 yr.',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 48000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMazda3Smg2023,
+      grade: OemGrade.a,
+      notes: 'U.S. table: every 48,000 km (30,000 mi) / 24 mo. (Mexico: '
+          '40,000 km / 24 mo.)',
+    ),
+    OemInterval(
+      service: 'Engine coolant (FL-22)',
+      firstKm: 192000,
+      intervalKm: 96000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcMazda3Smg2023,
+      grade: OemGrade.a,
+      notes: 'First 192,000 km (120,000 mi) / 10 yr, then 96,000 km (60,000 '
+          'mi) / 5 yr. FL-22 required.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMazda3Smg2023,
+      grade: OemGrade.b,
+      notes: 'Mexico table replaces at 40,000 km / 24 mo. (U.S./Canada petrol '
+          'table only inspects brake-fluid level.)',
+    ),
+  ],
+);
+
+const OemModelSchedule _mazda6 = OemModelSchedule(
+  make: 'Mazda',
+  model: 'Mazda6 (GJ/GL)',
+  yearStart: 2013,
+  yearEnd: 2021,
+  engine: 'SKYACTIV-G 2.5 / 2.5T petrol',
+  fuel: 'Petrol',
+  conditionBased: true,
+  generationNote:
+      'From the 2020 Mazda6 owner-guide schedule. Flexible Maintenance oil '
+      'system. (U.S. Mazda6 ended MY2021.)',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 12000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMazda6Smg2020,
+      grade: OemGrade.a,
+      notes: 'CONDITION-BASED (Flexible Maintenance). Published fixed max: '
+          '12,000 km (7,500 mi) / 12 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 5000,
+      intervalMonths: 3,
+      severity: OemSeverity.severe,
+      source: _srcMazda6Smg2020,
+      grade: OemGrade.b,
+      notes: 'Severe: Mexico Schedule 2 = 5,000 km / 3 mo. (U.S./Canada fixed-'
+          'severe is 8,000 km / 6 mo.)',
+    ),
+    OemInterval(
+      service: 'Spark plugs (except 2.5 Turbo)',
+      intervalKm: 120000,
+      severity: OemSeverity.normal,
+      source: _srcMazda6Smg2020,
+      grade: OemGrade.a,
+      notes: 'SKYACTIV-G 2.5 NA: every 120,000 km (75,000 mi).',
+    ),
+    OemInterval(
+      service: 'Spark plugs (2.5 Turbo)',
+      intervalKm: 64000,
+      severity: OemSeverity.normal,
+      source: _srcMazda6Smg2020,
+      grade: OemGrade.a,
+      notes: 'SKYACTIV-G 2.5T: every 64,000 km (40,000 mi).',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 56000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcMazda6Smg2020,
+      grade: OemGrade.a,
+      notes: 'Canada table: every 56,000 km (35,000 mi) or 3 yr.',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMazda6Smg2020,
+      grade: OemGrade.a,
+      notes: 'Canada/Mexico tables: every 40,000 km (25,000 mi) / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Engine coolant (FL-22)',
+      firstKm: 192000,
+      intervalKm: 96000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcMazda6Smg2020,
+      grade: OemGrade.a,
+      notes: 'First 192,000 km / 10 yr, then 96,000 km / 5 yr. FL-22.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMazda6Smg2020,
+      grade: OemGrade.b,
+      notes: 'Mexico table: 40,000 km / 24 mo. (U.S./Canada table only '
+          'inspects fluid level.)',
+    ),
+  ],
+);
+
+const OemModelSchedule _mazdaCx30 = OemModelSchedule(
+  make: 'Mazda',
+  model: 'CX-30 (DM)',
+  yearStart: 2019,
+  engine: 'SKYACTIV-G 2.0 / 2.5 petrol',
+  fuel: 'Petrol',
+  conditionBased: true,
+  generationNote:
+      'From the 2020 CX-30 owner-guide schedule. Vehicle status monitor oil '
+      'system (16,000 km max, like Mazda3; unlike CX-5/6/9 at 12,000 km).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx30Smg2020,
+      grade: OemGrade.a,
+      notes: 'CONDITION-BASED: status monitor calls service before the max. '
+          'Published max (U.S./Canada): 16,000 km (10,000 mi) / 12 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcMazdaCx30Smg2020,
+      grade: OemGrade.a,
+      notes: 'Severe driving (dust, short trips, heat): every 8,000 km (5,000 '
+          'mi) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 120000,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx30Smg2020,
+      grade: OemGrade.a,
+      notes: 'NA 2.0 / 2.5: replace every 120,000 km (75,000 mi).',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 56000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx30Smg2020,
+      grade: OemGrade.a,
+      notes: 'Canada table: every 56,000 km (35,000 mi) or 3 yr.',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 48000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx30Smg2020,
+      grade: OemGrade.a,
+      notes: 'U.S. table: every 48,000 km (30,000 mi) / 24 mo. (Canada: '
+          '40,000 km / 24 mo.)',
+    ),
+    OemInterval(
+      service: 'Engine coolant (FL-22)',
+      firstKm: 192000,
+      intervalKm: 96000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx30Smg2020,
+      grade: OemGrade.a,
+      notes: 'First 192,000 km (120,000 mi) / 10 yr, then 96,000 km / 5 yr. '
+          'FL-22.',
+    ),
+    OemInterval(
+      service: 'Brake fluid (electric booster)',
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx30Smg2020,
+      grade: OemGrade.b,
+      notes: 'Electric-booster models: replaced at every 2nd service (~24 mo / '
+          '~32,000 km). No clean single km figure printed in the U.S./Canada '
+          'table, so only the ~24-month basis is recorded.',
+    ),
+  ],
+);
+
+const OemModelSchedule _mazdaCx9 = OemModelSchedule(
+  make: 'Mazda',
+  model: 'CX-9 (TC, 2nd gen)',
+  yearStart: 2016,
+  yearEnd: 2023,
+  engine: 'SKYACTIV-G 2.5T petrol (turbo only)',
+  fuel: 'Petrol',
+  conditionBased: true,
+  generationNote:
+      'From the 2019 CX-9 owner-guide schedule. CX-9 is 2.5-turbo only. '
+      'Flexible Maintenance oil system.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 12000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx9Smg2019,
+      grade: OemGrade.a,
+      notes: 'CONDITION-BASED (Flexible Maintenance). Published fixed max: '
+          '12,000 km (7,500 mi) / 12 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 5000,
+      intervalMonths: 3,
+      severity: OemSeverity.severe,
+      source: _srcMazdaCx9Smg2019,
+      grade: OemGrade.b,
+      notes: 'Severe: Mexico Schedule 2 = 5,000 km / 3 mo. (U.S./Canada fixed-'
+          'severe is 8,000 km / 6 mo.)',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 64000,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx9Smg2019,
+      grade: OemGrade.a,
+      notes: 'SKYACTIV-G 2.5T: replace every 64,000 km (40,000 mi).',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 56000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx9Smg2019,
+      grade: OemGrade.a,
+      notes: 'Canada table: every 56,000 km (35,000 mi) or 3 yr.',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx9Smg2019,
+      grade: OemGrade.a,
+      notes: 'Canada/Mexico/U.S.-severe tables: every 40,000 km (25,000 mi) / '
+          '24 mo.',
+    ),
+    OemInterval(
+      service: 'Engine coolant (FL-22)',
+      firstKm: 192000,
+      intervalKm: 96000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx9Smg2019,
+      grade: OemGrade.a,
+      notes: 'First 192,000 km / 10 yr, then 96,000 km / 5 yr. FL-22.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx9Smg2019,
+      grade: OemGrade.b,
+      notes: 'Mexico table replaces at 40,000 km / 24 mo (R at 40/80/120k).',
+    ),
+  ],
+);
+
+const OemModelSchedule _mazdaCx3 = OemModelSchedule(
+  make: 'Mazda',
+  model: 'CX-3 (DK)',
+  yearStart: 2015,
+  yearEnd: 2021,
+  engine: 'SKYACTIV-G 2.0 petrol',
+  fuel: 'Petrol',
+  conditionBased: true,
+  generationNote:
+      'From the 2019 CX-3 owner-guide schedule. 2.0 NA only. Flexible '
+      'Maintenance oil system.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 12000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx3Smg2019,
+      grade: OemGrade.a,
+      notes: 'CONDITION-BASED (Flexible Maintenance). Published fixed max: '
+          '12,000 km (7,500 mi) / 12 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 5000,
+      intervalMonths: 3,
+      severity: OemSeverity.severe,
+      source: _srcMazdaCx3Smg2019,
+      grade: OemGrade.b,
+      notes: 'Severe: Mexico Schedule 2 = 5,000 km / 3 mo. (U.S./Canada fixed-'
+          'severe is 8,000 km / 6 mo.)',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 120000,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx3Smg2019,
+      grade: OemGrade.a,
+      notes: 'SKYACTIV-G 2.0: replace every 120,000 km (75,000 mi).',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 56000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx3Smg2019,
+      grade: OemGrade.a,
+      notes: 'Canada table: every 56,000 km (35,000 mi) or 3 yr.',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx3Smg2019,
+      grade: OemGrade.a,
+      notes: 'Canada/Mexico/U.S.-severe tables: every 40,000 km (25,000 mi) / '
+          '24 mo.',
+    ),
+    OemInterval(
+      service: 'Engine coolant (FL-22)',
+      firstKm: 192000,
+      intervalKm: 96000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx3Smg2019,
+      grade: OemGrade.a,
+      notes: 'First 192,000 km / 10 yr, then 96,000 km / 5 yr. FL-22.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMazdaCx3Smg2019,
+      grade: OemGrade.b,
+      notes: 'Mexico table replaces at 40,000 km / 24 mo (R at 40/80/120k).',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// SSANGYONG / KGM — petrol models only (Lebanon bans diesel passenger cars).
+// Source is KGM Australia's official per-model service price menu + schedule,
+// which publishes the mandatory-item replacement intervals (coolant, plugs,
+// brake fluid, air filter, ATF). Grade A. KGM states severe conditions may
+// require more frequent servicing but does not quantify them, so no severe
+// column is recorded. Each model sourced from its own page; turbo vs NA plug
+// intervals differ and are NOT cross-copied.
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _ssangyongRextonPetrol = OemModelSchedule(
+  make: 'SsangYong',
+  model: 'Rexton petrol (Y450)',
+  engine: 'G20 GDi 2.0 turbo petrol',
+  fuel: 'Petrol',
+  generationNote:
+      'KGM Australia official petrol service schedule. Service base interval '
+      '15,000 km / 12 mo.',
+  intervals: [
+    OemInterval(
+      service: 'Scheduled service (incl. engine oil & filter)',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcKgmRextonPetrol,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 60000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcKgmRextonPetrol,
+      grade: OemGrade.a,
+      notes: '"48 months or 60,000 km, whichever occurs first."',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      intervalKm: 200000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcKgmRextonPetrol,
+      grade: OemGrade.a,
+      notes: '"60 months or 200,000 km, whichever occurs first."',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKgmRextonPetrol,
+      grade: OemGrade.a,
+      notes: 'Every 24 months (time-based; no km figure published).',
+    ),
+    OemInterval(
+      service: 'Engine air filter element',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKgmRextonPetrol,
+      grade: OemGrade.a,
+      notes: '"24 months or 30,000 km, whichever occurs first."',
+    ),
+    OemInterval(
+      service: 'Cabin / A-C filter',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKgmRextonPetrol,
+      grade: OemGrade.b,
+      notes: 'Replaced "at every second service" = the 30,000 km / 24-mo '
+          'service points.',
+    ),
+    OemInterval(
+      service: 'Fuel filter element',
+      intervalKm: 30000,
+      severity: OemSeverity.normal,
+      source: _srcKgmRextonPetrol,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 60000,
+      severity: OemSeverity.normal,
+      source: _srcKgmRextonPetrol,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Rear axle oil',
+      intervalKm: 60000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcKgmRextonPetrol,
+      grade: OemGrade.a,
+    ),
+  ],
+);
+
+const OemModelSchedule _ssangyongTivoliPetrol = OemModelSchedule(
+  make: 'SsangYong',
+  model: 'Tivoli petrol (X100)',
+  engine: 'G16DF 1.6 petrol (naturally aspirated)',
+  fuel: 'Petrol',
+  generationNote:
+      'KGM Australia official petrol service schedule. Service base interval '
+      '15,000 km / 12 mo.',
+  intervals: [
+    OemInterval(
+      service: 'Scheduled service (incl. engine oil & filter)',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcKgmTivoliPetrol,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 120000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcKgmTivoliPetrol,
+      grade: OemGrade.a,
+      notes: 'NA 1.6: "60 months or 120,000 km, whichever occurs first."',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      intervalKm: 200000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcKgmTivoliPetrol,
+      grade: OemGrade.a,
+      notes: '"60 months or 200,000 km, whichever occurs first."',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKgmTivoliPetrol,
+      grade: OemGrade.a,
+      notes: 'Every 24 months (time-based; no km figure published).',
+    ),
+    OemInterval(
+      service: 'Engine air filter element',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKgmTivoliPetrol,
+      grade: OemGrade.a,
+      notes: '"24 months or 30,000 km, whichever occurs first."',
+    ),
+    OemInterval(
+      service: 'Cabin / A-C filter',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKgmTivoliPetrol,
+      grade: OemGrade.b,
+      notes: 'Replaced "at every second service" = the 30,000 km / 24-mo '
+          'service points.',
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 100000,
+      severity: OemSeverity.normal,
+      source: _srcKgmTivoliPetrol,
+      grade: OemGrade.a,
+      notes: 'Manual transaxle oil: 120,000 km (per same page).',
+    ),
+  ],
+);
+
+const OemModelSchedule _ssangyongKorandoPetrol = OemModelSchedule(
+  make: 'SsangYong',
+  model: 'Korando petrol (C300)',
+  engine: 'G15DTF 1.5 turbo petrol',
+  fuel: 'Petrol',
+  generationNote:
+      'KGM Australia official petrol service schedule. Service base interval '
+      '15,000 km / 12 mo.',
+  intervals: [
+    OemInterval(
+      service: 'Scheduled service (incl. engine oil & filter)',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcKgmKorandoPetrol,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 60000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcKgmKorandoPetrol,
+      grade: OemGrade.a,
+      notes: 'Turbo 1.5: "48 months or 60,000 km, whichever occurs first."',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      intervalKm: 200000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcKgmKorandoPetrol,
+      grade: OemGrade.a,
+      notes: '"60 months or 200,000 km, whichever occurs first."',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKgmKorandoPetrol,
+      grade: OemGrade.a,
+      notes: 'Every 24 months (time-based; no km figure published).',
+    ),
+    OemInterval(
+      service: 'Engine air filter element',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKgmKorandoPetrol,
+      grade: OemGrade.a,
+      notes: '"24 months or 30,000 km, whichever occurs first."',
+    ),
+    OemInterval(
+      service: 'Cabin / A-C filter',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKgmKorandoPetrol,
+      grade: OemGrade.b,
+      notes: 'Replaced "at every second service" = the 30,000 km / 24-mo '
+          'service points.',
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 100000,
+      severity: OemSeverity.normal,
+      source: _srcKgmKorandoPetrol,
+      grade: OemGrade.a,
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// ACURA (Honda group) — Maintenance Minder is a CONDITION-BASED (algorithmic)
+// system: oil, filters, transmission fluid, spark plugs and coolant are called
+// by the on-board Minder, NOT by a fixed OEM mileage table. The owner's manual
+// prints fixed intervals only for the items BELOW. conditionBased = true.
+// Sourced from the Acura MDX owner's manual (2008 MY, via a faithful mirror —
+// current MDX/RDX/TLX manuals were on Cloudflare-gated/scanned hosts). These
+// Maintenance-Minder rules are Acura-wide, but are recorded here scoped to the
+// MDX document they were read from, and NOT asserted as exact for RDX/TLX.
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _acuraMdxMm = OemModelSchedule(
+  make: 'Acura',
+  model: 'MDX (Maintenance Minder; 2008 OM reference)',
+  yearStart: 2008,
+  engine: 'Petrol V6 (Maintenance Minder)',
+  fuel: 'Petrol',
+  conditionBased: true,
+  generationNote:
+      'Acura uses the Maintenance Minder (algorithmic) system; oil, plugs, '
+      'coolant, transmission and filters are Minder-driven with NO fixed OEM '
+      'mileage table. Only the fixed-interval items below are recorded. Legacy '
+      'MDX document; not asserted as exact for current RDX/TLX.',
+  intervals: [
+    OemInterval(
+      service: 'Brake fluid',
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcAcuraMdxOm2008,
+      grade: OemGrade.b,
+      notes: '"Independent of the maintenance messages... replace the brake '
+          'fluid every 3 years." No distance interval; Minder does not call it.',
+    ),
+    OemInterval(
+      service: 'Rear differential fluid (AWD, severe)',
+      firstKm: 12000,
+      intervalKm: 24000,
+      severity: OemSeverity.severe,
+      source: _srcAcuraMdxOm2008,
+      grade: OemGrade.b,
+      notes: 'Severe use (very-low-speed mountain driving or trailer towing): '
+          'change at first 12,000 km (7,500 mi), then every 24,000 km '
+          '(15,000 mi). Normal-use interval is Minder-driven.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
 // ISUZU — no rows (honest exclusion).
 //
 // The Isuzu D-Max (and MU-X) are DIESEL-ONLY across every current engine: the
@@ -570,8 +1343,20 @@ const List<OemModelSchedule> kOemJapaneseSchedules2 = [
   _suzukiGrandVitara,
   // Mazda
   _mazdaCx5,
+  _mazda3,
+  _mazda6,
+  _mazdaCx30,
+  _mazdaCx9,
+  _mazdaCx3,
   // Subaru
   _subaruRange,
+  // SsangYong / KGM (petrol only)
+  _ssangyongRextonPetrol,
+  _ssangyongTivoliPetrol,
+  _ssangyongKorandoPetrol,
+  // Acura (Honda group — Maintenance Minder, condition-based)
+  _acuraMdxMm,
   // Isuzu — diesel-only, excluded for Lebanon (see SOURCES.md).
   // Daihatsu — no OEM document reachable (see SOURCES.md).
+  // Mazda2 — not sourced from a clean OEM doc (see SOURCES.md).
 ];

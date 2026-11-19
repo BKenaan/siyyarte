@@ -1,7 +1,8 @@
 # OEM maintenance schedules — Japanese makes, set 2: sources & coverage
 
-Companion to `oem_schedules_japanese2.dart`, covering the Japanese makes NOT in
-`oem_schedules_japanese.dart`: **Suzuki, Mazda, Subaru, Isuzu, Daihatsu**. Every
+Companion to `oem_schedules_japanese2.dart`, covering the makes NOT in
+`oem_schedules_japanese.dart`: **Suzuki, Mazda, Subaru, Isuzu, Daihatsu**, plus
+(Round 2) **Acura** (Honda group) and **SsangYong / KGM** (petrol). Every
 interval in that file is traceable to one of the sources below, read from an
 actual document. This mirrors the `verified_specs` discipline
 (`data_backend/README.md`): **incomplete coverage is fine; an unverified
@@ -77,6 +78,51 @@ unreachable). **C** = figure only positionally implied by the source.
    40,000 km (Note 4); front/rear diff gear oil — normal inspect only, severe
    24,000 km / 15 mo (Note 3); fuel filter single replacement 115,200 km / 72 mo.
 
+### Mazda (additional models — Round 2)
+
+5. **Mazda USA owner-guide "Scheduled Maintenance" PDFs** (Grade A; Mexico-only items Grade B)
+   - Mazda3 (BP): `.../owners-optimized/2023/m3h/2023-mazda3-hatchback-scheduled-maintenance.pdf`
+   - Mazda6 (GJ/GL): `.../owner-manuals/2020/mazda6/2020-mazda6-scheduled-maintenance.pdf`
+   - CX-30 (DM): `.../owner-manuals/2020/cx-30/2020-cx-30-scheduled-maintenance.pdf`
+   - CX-9 (TC): `.../owner-manuals/2019/cx-9/2019-cx9-scheduled-maintenance.pdf`
+   - CX-3 (DK): `.../owner-manuals/2019/cx-3/2019-cx3-scheduled-maintenance.pdf`
+   Each read page-by-page from the official Mazda USA PDF. All SKYACTIV-G petrol
+   (diesel rows excluded). Common findings: spark plugs 120,000 km NA / 64,000 km
+   2.5T (CX-9 is 2.5T→64k; CX-3/CX-30 NA→120k); coolant first 192,000 km / 10 yr
+   then 96,000 km / 5 yr (FL-22); air filter 56,000 km / 3 yr (Canada statement);
+   cabin filter 40–48,000 km / 24 mo (per model); brake fluid 40,000 km / 24 mo
+   (Mexico table; CX-30 only had an electric-booster "every 2nd service" ≈24 mo).
+   Oil is **condition-based** (Flexible Maintenance / vehicle status monitor):
+   published max **12,000 km / 12 mo** (CX-5/6/9/3) or **16,000 km / 12 mo**
+   (Mazda3/CX-30); severe **8,000 km / 6 mo** (16k models) or **5,000 km / 3 mo**
+   (Mexico, 12k models).
+
+### SsangYong / KGM (Round 2)
+
+6. **KGM (SsangYong) Australia — official per-model petrol service schedules** (Grade A)
+   - Rexton petrol (G20 GDi turbo): `https://kgm.com.au/owners-and-service/servicing/rexton-petrol`
+   - Tivoli petrol (G16DF NA 1.6): `https://kgm.com.au/owners-and-service/servicing/tivoli-petrol`
+   - Korando petrol (G15DTF turbo 1.5): `https://kgm.com.au/owners-and-service/servicing/korando-petrol`
+   Base service 15,000 km / 12 mo (incl. oil). Coolant 200,000 km / 60 mo; brake
+   fluid 24 mo; air filter 30,000 km / 24 mo; cabin filter every 2nd service
+   (30,000 km). Spark plugs: NA Tivoli 120,000 km / 60 mo; turbo Rexton & Korando
+   60,000 km / 48 mo (not cross-copied — turbo vs NA differ). ATF: Rexton 60,000
+   km, Tivoli/Korando 100,000 km. KGM says severe conditions may need more
+   frequent service but does not quantify (no severe column recorded). Diesel
+   variants excluded (Lebanon).
+
+### Acura (Honda group — Round 2)
+
+7. **Acura MDX Owner's Manual — "Maintenance Minder" page (2008 MY)** (Grade B)
+   `https://www.manualsdir.com/manuals/33002/acura-2008-mdx.html?page=396` (faithful
+   mirror; Acura/Honda portals & ManualsLib are Cloudflare-gated). Acura's
+   Maintenance Minder is **algorithmic/condition-based**: oil, filters, spark
+   plugs, transmission fluid and coolant are called by the on-board Minder, with
+   **no fixed OEM mileage table**. The manual prints fixed intervals only for:
+   **brake fluid every 3 years** (independent of the Minder), and severe-use
+   **rear differential fluid** first 12,000 km (7,500 mi) then every 24,000 km
+   (15,000 mi). Only these two fixed values were recorded.
+
 ---
 
 ## Coverage summary (what was sourced)
@@ -84,10 +130,13 @@ unreachable). **C** = figure only positionally implied by the source.
 | Make | Models/engines sourced | Normal | Severe |
 |------|------------------------|:------:|:------:|
 | Suzuki | Current range service interval (NA 15k / turbo 10k km); Grand Vitara per-item (legacy ref) | ✓ | — |
-| Mazda | CX-5 (KF) SKYACTIV-G petrol | ✓ | ✓ |
+| Mazda | CX-5, Mazda3, Mazda6, CX-30, CX-9, CX-3 (SKYACTIV-G petrol) | ✓ | ✓ |
 | Subaru | Make-wide 2022 MY (Impreza/Forester/Outback/Crosstrek…) | ✓ | ✓ |
+| SsangYong/KGM | Rexton / Tivoli / Korando — petrol | ✓ | — |
+| Acura | MDX — Maintenance Minder fixed items only (brake fluid, severe diff) | ✓ | partial |
 | **Isuzu** | **none — diesel-only, excluded for Lebanon** | — | — |
 | **Daihatsu** | **none — no OEM document reachable** | — | — |
+| **Mazda2** | **none — not sold in U.S.; no clean OEM doc fetched** | — | — |
 
 ---
 
@@ -111,6 +160,23 @@ unreachable). **C** = figure only positionally implied by the source.
   maintenance page or Astra-Daihatsu service booklet (Indonesia) or a Perodua
   equivalent.
 
+- **Acura — Maintenance Minder (condition-based), only two fixed items.** Acura's
+  main services (oil, filters, spark plugs, transmission fluid, coolant) are
+  called by the algorithmic Maintenance Minder, so there is **no fixed OEM
+  mileage table** to record for them — only brake fluid (3 yr) and severe-use
+  rear diff fluid (first 12,000 km then 24,000 km) are fixed, and both were
+  recorded. These were read from the 2008 MDX manual (current MDX/RDX/TLX
+  manuals were Cloudflare-gated or image-only); they are **not** asserted as
+  exact for RDX/TLX. **Action:** source current MDX/RDX/TLX owner's-manual
+  Maintenance-Minder pages from a non-gated host if per-model confirmation is
+  wanted. (TLX/RDX 2.0T have no timing belt; MDX V6 timing-belt interval was not
+  on the read page.)
+
+- **SsangYong severe column — not published.** KGM's Australian schedules give
+  only normal-condition intervals and say severe use "may require more frequent
+  servicing" without numbers, so no severe figures were recorded. Diesel Tivoli/
+  Korando/Rexton variants were excluded (Lebanon diesel ban).
+
 - **Suzuki per-item fluids for the CURRENT range — partial.** Suzuki Australia's
   FAQ gives the current models' service/oil interval (15k NA / 10k turbo) but no
   per-item plug/coolant/brake intervals, and the current Swift/Vitara/Jimny/
@@ -122,14 +188,12 @@ unreachable). **C** = figure only positionally implied by the source.
   equivalent for Swift/Dzire/Baleno/Ertiga/Ciaz) from a non-Cloudflare host or
   by manual upload.
 
-- **Mazda other models — not covered.** Only the CX-5 (KF) was sourced from a
-  clean official document. Mazda 2/3/6, CX-3, CX-30 and CX-9 were NOT captured
-  and their CX-5 figures were **not** copied across. Mazda publishes per-model
-  scheduled-maintenance PDFs at the same `mazdausa.com/siteassets/.../owner-manuals/<year>/<model>/`
-  path and per-model tables at `owners-manual.mazda.com/gen/en/<model>/...`;
-  **action:** fetch those per model. (Mazda's `owners-manual.mazda.com` HTML
-  renders the schedule across many per-item sub-pages, so the PDF route is
-  faster.)
+- **Mazda2 — not covered.** Mazda 3, 6, CX-3, CX-30 and CX-9 are now each
+  sourced from their own official Mazda USA owner-guide PDF (see Round 2 sources
+  below); their figures were **not** copied across models. The Mazda2 is not
+  sold in the U.S., so there is no mazdausa.com PDF; its schedule was not
+  captured from a clean OEM document. **Action:** source the Mazda2 schedule from
+  Mazda Australia / Mazda Europe owner's manuals or `owners-manual.mazda.com/gen/en/demio`.
 
 - **Subaru model-specific / turbo tables — partial.** The recorded schedule is
   the make-wide 2022 MY table; it notes BRZ/WRX/Hybrid exceptions only where the
