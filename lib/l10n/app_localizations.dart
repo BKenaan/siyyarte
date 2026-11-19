@@ -554,6 +554,12 @@ abstract class AppLocalizations {
   /// **'Brake pads'**
   String get serviceBrakePads;
 
+  /// No description provided for @serviceBrakeFluid.
+  ///
+  /// In en, this message translates to:
+  /// **'Brake fluid'**
+  String get serviceBrakeFluid;
+
   /// No description provided for @serviceTires.
   ///
   /// In en, this message translates to:
@@ -577,6 +583,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Transmission fluid'**
   String get serviceTransmissionFluid;
+
+  /// No description provided for @serviceFuelFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel filter'**
+  String get serviceFuelFilter;
 
   /// No description provided for @serviceTimingBelt.
   ///
@@ -1243,6 +1255,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reliability reference'**
   String get commonFaultsSourceTypeReference;
+
+  /// No description provided for @oemScheduleBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturer schedule'**
+  String get oemScheduleBadge;
+
+  /// No description provided for @oemScheduleSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturer maintenance schedule'**
+  String get oemScheduleSheetTitle;
+
+  /// No description provided for @oemScheduleServiceItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Service item'**
+  String get oemScheduleServiceItem;
+
+  /// No description provided for @oemScheduleIntervalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval'**
+  String get oemScheduleIntervalLabel;
+
+  /// No description provided for @oemScheduleSevereNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Severe-conditions interval (Lebanon default)'**
+  String get oemScheduleSevereNote;
+
+  /// No description provided for @oemScheduleConditionBased.
+  ///
+  /// In en, this message translates to:
+  /// **'Condition-based service'**
+  String get oemScheduleConditionBased;
+
+  /// No description provided for @oemScheduleConditionBasedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This make calls service by a flexible / condition-based system. The figure shown is the manufacturer\'s baseline, not a fixed limit.'**
+  String get oemScheduleConditionBasedNote;
+
+  /// No description provided for @oemScheduleGradeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Source confidence'**
+  String get oemScheduleGradeLabel;
+
+  /// No description provided for @oemScheduleGradeA.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade A — official manufacturer document'**
+  String get oemScheduleGradeA;
+
+  /// No description provided for @oemScheduleGradeB.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade B — official market/footnote or faithful reproduction'**
+  String get oemScheduleGradeB;
+
+  /// No description provided for @oemScheduleGradeC.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade C — positionally implied; confirm before relying'**
+  String get oemScheduleGradeC;
+
+  /// No description provided for @oemScheduleGradeD.
+  ///
+  /// In en, this message translates to:
+  /// **'Grade D — unverified'**
+  String get oemScheduleGradeD;
+
+  /// No description provided for @oemScheduleSourceField.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get oemScheduleSourceField;
+
+  /// No description provided for @oemScheduleViewSource.
+  ///
+  /// In en, this message translates to:
+  /// **'View source document'**
+  String get oemScheduleViewSource;
+
+  /// No description provided for @oemScheduleDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown from the manufacturer\'s published maintenance schedule. Always confirm against your own owner\'s manual.'**
+  String get oemScheduleDisclaimer;
 }
 
 class _AppLocalizationsDelegate

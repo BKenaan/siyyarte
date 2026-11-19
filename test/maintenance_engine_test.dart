@@ -187,4 +187,102 @@ void main() {
       expect(inspection.kmRemaining, isNull);
     });
   });
+
+  group('MaintenanceEngine — sourced OEM schedules', () {
+    // A GM full-size SUV covered by the sourced Chevrolet/GMC Middle-East
+    // owner's manual (Tahoe/Suburban/Yukon, 2021–2026).
+    Vehicle tahoe({int odo = 0}) => Vehicle(
+          id: 'gm1',
+          make: 'Chevrolet',
+          model: 'Tahoe',
+          year: 2023,
+          fuelType: 'Petrol',
+          odometerKm: odo,
+          odometerUpdatedAt: DateTime(2026, 6, 11),
+          createdAt: DateTime(2026, 6, 11),
+        );
+
+    test('prefers the sourced SEVERE transmission interval (GM Tahoe 70,000 km)',
+        () {
+      final tx = engine
+          .buildSchedule(
+            vehicle: tahoe(),
+            history: const [],
+            now: DateTime(2026, 6, 11),
+            // Default severity is already severe; stated here for clarity.
+            severity: DrivingSeverity.severe,
+          )
+          .firstWhere((s) => s.type == ServiceType.transmissionFluid);
+
+      // The ME-edition manual publishes transmission fluid ONLY as a severe
+      // (70,000 km) item; Lebanon = severe, so that cited value must win over
+      // the generic computed 60,000 km severe fallback.
+      expect(tx.basis, IntervalBasis.factory);
+      expect(tx.oemCitation, isNotNull);
+      expect(tx.oemCitation!.usedSevere, isTrue);
+      expect(tx.oemCitation!.intervalKm, 70000);
+      expect(tx.oemCitation!.sourceLabel, contains('GM Tahoe'));
+      // With no history and odo 0, first due lands exactly on the interval.
+      expect(tx.nextDueOdometerKm, 70000);
+    });
+
+    test('condition-based make surfaces a concrete baseline + indicator', () {
+      final oil = engine
+          .buildSchedule(
+            vehicle: tahoe(),
+            history: const [],
+            now: DateTime(2026, 6, 11),
+          )
+          .firstWhere((s) => s.type == ServiceType.oilChange);
+
+      // GM uses the Oil Life System; the sourced row still carries a concrete
+      // baseline (12 months) and is flagged condition-based — never "varies".
+      expect(oil.oemCitation, isNotNull);
+      expect(oil.oemCitation!.conditionBased, isTrue);
+      expect(oil.oemCitation!.intervalMonths, 12);
+    });
+
+    test('un-sourced vehicle still gets the computed fallback schedule', () {
+      // Renault is in no sourced dataset — the engine must keep its computed
+      // make-level rule, with no OEM citation.
+      final renault = Vehicle(
+        id: 'rx',
+        make: 'Renault',
+        model: 'Clio',
+        year: 2019,
+        fuelType: 'Petrol',
+        odometerKm: 0,
+        odometerUpdatedAt: DateTime(2026, 6, 11),
+        createdAt: DateTime(2026, 6, 11),
+      );
+      final oil = engine
+          .buildSchedule(
+            vehicle: renault,
+            history: const [],
+            now: DateTime(2026, 6, 11),
+          )
+          .firstWhere((s) => s.type == ServiceType.oilChange);
+
+      expect(oil.oemCitation, isNull);
+      // Computed global severe oil interval is 5,000 km → first due at 5,000.
+      expect(oil.nextDueOdometerKm, 5000);
+      expect(oil.basis, IntervalBasis.factory);
+    });
+
+    test('Toyota Corolla (unknown fuel) does not match the hybrid-only table',
+        () {
+      // The only loosely-matching Toyota table is powertrain-specific (Hybrid);
+      // an unknown-fuel Corolla must fall back to computed, keeping legacy
+      // behaviour (severe plugs at the Toyota override of 100,000 km).
+      final plugs = engine
+          .buildSchedule(
+            vehicle: vehicle(odo: 0),
+            history: const [],
+            now: DateTime(2026, 6, 11),
+          )
+          .firstWhere((s) => s.type == ServiceType.sparkPlugs);
+      expect(plugs.oemCitation, isNull);
+      expect(plugs.nextDueOdometerKm, 100000);
+    });
+  });
 }

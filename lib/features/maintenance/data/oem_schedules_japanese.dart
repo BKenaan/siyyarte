@@ -1951,17 +1951,959 @@ const OemModelSchedule _lexusNx200t = OemModelSchedule(
   ],
 );
 
+// ===========================================================================
+// GAP-FILL PASS 2 (added later): Mitsubishi Eclipse Cross / Lancer + the
+// Outlander ZM coolant; Lexus RX / ES / LX; non-hybrid Toyota Corolla / Camry /
+// RAV4; Nissan Altima / Sentra.
+//
+// Sourcing routes that unblocked this pass:
+//   • Mitsubishi AU schedule PDFs (media.adtorqueedge.com) fetch cleanly; the
+//     older "R: Every X" template (Eclipse Cross 20MY, Lancer MY17) and the
+//     22/23MY ZM Outlander parse unambiguously with `pdftotext -table`.
+//   • The Lexus/Toyota Warranty-&-Services guides on assets.sia.toyota.com
+//     return HTTP 403 live (WAF/IP block), but the GENUINE publisher PDFs (not
+//     OCR — native text, column-aligned) are cached on the Wayback Machine and
+//     were read directly from there. Toyota RAV4 fetched live from toyota.com.
+//   • Nissan Altima/Sentra come from Nissan USA's official per-model schedule
+//     tool (maintenance-schedules.nissanusa.com) — a US-market schedule.
+//
+// All Lexus/Toyota/Nissan figures above are published in MILES; km shown are the
+// OEM's own 1 mi = 1.6 km convention (e.g. Nissan prints "7,500 miles
+// (12,000 km)"; Lexus prints "10,000 mi (16,000 km)"). The source mileage is
+// kept in each note. No value was invented or copied across makes/models.
+// ===========================================================================
+
+const String _srcMitsuAuEclipseCross =
+    'Mitsubishi Motors Australia — "20MY YA Eclipse Cross Periodic Inspection '
+    'and Maintenance Schedule" (petrol 1.5T, CVT; MY19 schedule identical) — '
+    'https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/ECLIPSE-CROSS-20MY-Maintenance-Schedule.pdf';
+
+const String _srcMitsuAuLancer =
+    'Mitsubishi Motors Australia — "MY17 CF Lancer Periodic Inspection and '
+    'Maintenance Schedule" (2.0/2.4 petrol) — '
+    'https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/LANCER-MY17_Maintenance-Schedule.pdf';
+
+const String _srcMitsuAuOutlanderZm =
+    'Mitsubishi Motors Australia — "22MY & 23MY ZM Outlander Inspection and '
+    'Maintenance Schedule" (2.5 PR25 petrol; both model years print the same '
+    'coolant row, same ZM generation as the 24MY entry above) — '
+    'https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/22MY-ZM-Outlander-service-schedule.pdf';
+
+const String _srcLexusRx350 =
+    'Lexus — 2025 RX 350 Warranty and Services Guide: Scheduled Maintenance Log '
+    '+ Special Operating Conditions (genuine publisher PDF, native text; live '
+    'host assets.sia.toyota.com is 403/WAF-blocked, read via Wayback Machine) — '
+    'https://web.archive.org/web/20260906010458/https://assets.sia.toyota.com/publications/en/omms-s/L-MMS-25RX350/pdf/L-MMS-25RX350.pdf';
+
+const String _srcLexusEs =
+    'Lexus — 2025 ES 250 / ES 350 Warranty and Services Guide: Scheduled '
+    'Maintenance Log + Special Operating Conditions (genuine publisher PDF, '
+    'native text; live host 403/WAF-blocked, read via Wayback Machine) — '
+    'https://web.archive.org/web/20260906062515/https://assets.sia.toyota.com/publications/en/omms-s/L-MMS-25ES250ES350/pdf/L-MMS-25ES250ES350.pdf';
+
+const String _srcLexusLx600 =
+    'Lexus — 2023 LX 600 Warranty and Services Guide (3.5L twin-turbo V6, '
+    'non-hybrid): oil + coolant only; the dense two-column maintenance pages did '
+    'not column-align unambiguously for the remaining items (honest gap). '
+    'Genuine publisher PDF read via Wayback Machine (live host 403) — '
+    'https://web.archive.org/web/20260823000342/https://assets.sia.toyota.com/publications/en/omms-s/L-MMS-23X600/pdf/L-MMS-23X600.pdf';
+
+const String _srcToyotaRav4 =
+    'Toyota — 2023 RAV4 Warranty & Maintenance Guide (2.5L A25A petrol): '
+    'Factory Scheduled Maintenance + Special Operating Conditions '
+    '(fetched live from toyota.com) — '
+    'https://www.toyota.com/content/dam/toyota/brochures/pdf/2023/T-MMS-23RAV4.pdf';
+
+const String _srcToyotaCamry =
+    'Toyota — 2024 Camry Warranty & Maintenance Guide (2.5L A25A petrol): '
+    'Factory Scheduled Maintenance + Special Operating Conditions (genuine '
+    'publisher PDF read via Wayback Machine; live host 403) — '
+    'https://web.archive.org/web/20260923041010/https://assets.sia.toyota.com/publications/en/omms-s/T-MMS-24Camry/pdf/T-MMS-24Camry.pdf';
+
+const String _srcToyotaCorolla =
+    'Toyota — 2024 Corolla Warranty & Maintenance Guide (2.0L M20A petrol): '
+    'Factory Scheduled Maintenance + Special Operating Conditions (genuine '
+    'publisher PDF read via Wayback Machine; live host 403) — '
+    'https://web.archive.org/web/20241206200326/https://assets.sia.toyota.com/publications/en/omms-s/T-MMS-24Corolla/pdf/T-MMS-24Corolla.pdf';
+
+const String _srcNissanAltima =
+    'Nissan USA — official per-model maintenance schedule tool, 2022 Altima '
+    '(L34; 2.5L I4 and 2.0T). US-market schedule; intervals published in miles — '
+    'https://maintenance-schedules.nissanusa.com/maintenance-schedules/2022/altima/components/';
+
+const String _srcNissanSentra =
+    'Nissan USA — official per-model maintenance schedule tool, 2019 Sentra '
+    '(B17; 1.8L MRA8, CVT). US-market schedule; intervals published in miles — '
+    'https://maintenance-schedules.nissanusa.com/maintenance-schedules/2019/sentra/components/';
+
+// ---------------------------------------------------------------------------
+// MITSUBISHI (gap-fill pass 2)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _mitsubishiEclipseCross = OemModelSchedule(
+  make: 'Mitsubishi',
+  model: 'Eclipse Cross (YA)',
+  yearStart: 2018,
+  yearEnd: 2020,
+  engine: '1.5L turbo petrol (4B40), CVT',
+  fuel: 'Petrol',
+  generationNote:
+      'Mitsubishi AU 20MY YA Eclipse Cross (MY19 schedule identical). Read with '
+      '`pdftotext -table`; the coolant value sits on its own "Replace engine '
+      'coolant" row once table-aligned (it is NOT the air-cleaner value).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 7500,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Spark plugs (platinum/iridium)',
+      intervalKm: 90000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 195000,
+      intervalKm: 120000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+      notes: 'First 195,000 km / 10 years, thereafter every 120,000 km / 6 years '
+          '(Mitsubishi Super Long Life Coolant).',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 45000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.c,
+      notes: 'Positionally implied: 4 column "R" markers at 45/90/135/180k; '
+          'corroborated by the identical-template Lancer (clean 6 markers @45k). '
+          'Confirm exact figure before display.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.b,
+      notes: 'Counted column "R" markers: 7 evenly spaced at 30/60/90/120/150/'
+          '180/210k = every 30,000 km (24 mo). Severe: inspect every 7,500 km.',
+    ),
+    OemInterval(
+      service: 'Fuel filter (petrol)',
+      intervalKm: 150000,
+      intervalMonths: 120,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'CVT fluid',
+      intervalKm: 90000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'CVT fluid',
+      intervalKm: 45000,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Transfer gear oil (FF-base 4WD)',
+      intervalKm: 75000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Transfer gear oil (FF-base 4WD)',
+      intervalKm: 45000,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Front/rear differential gear oil',
+      intervalKm: 90000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Front/rear differential gear oil',
+      intervalKm: 45000,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuEclipseCross,
+      grade: OemGrade.a,
+    ),
+  ],
+);
+
+const OemModelSchedule _mitsubishiLancer = OemModelSchedule(
+  make: 'Mitsubishi',
+  model: 'Lancer (CF)',
+  yearStart: 2016,
+  yearEnd: 2017,
+  engine: '2.0L / 2.4L petrol (4B11/4B12)',
+  fuel: 'Petrol',
+  generationNote:
+      'Mitsubishi AU MY17 CF Lancer. Same car (final CF generation) sold across '
+      'MENA. Column "R" markers counted via `pdftotext -table`.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 7500,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Spark plugs (platinum/iridium)',
+      intervalKm: 90000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 120000,
+      intervalKm: 75000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+      notes: 'First 120,000 km / 8 years, thereafter every 75,000 km / 5 years.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 45000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+      notes: 'Column "R" markers: 6 evenly spaced at 45/90/135/180/225/270k = '
+          'every 45,000 km.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+      notes: 'Column "R" markers: 10 evenly spaced at every 30,000 km (24 mo).',
+    ),
+    OemInterval(
+      service: 'Cabin / A-C (air purifier) filter',
+      intervalKm: 15000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+      notes: 'Air purifier filter replaced at every 15,000 km service.',
+    ),
+    OemInterval(
+      service: 'Fuel filter (petrol)',
+      intervalKm: 150000,
+      intervalMonths: 120,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Manual transmission gear oil',
+      intervalKm: 195000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Manual transmission gear oil',
+      intervalKm: 90000,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Automatic transmission / CVT fluid',
+      intervalKm: 90000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Automatic transmission / CVT fluid',
+      intervalKm: 45000,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuLancer,
+      grade: OemGrade.a,
+    ),
+  ],
+);
+
+const OemModelSchedule _mitsubishiOutlanderZmCoolant = OemModelSchedule(
+  make: 'Mitsubishi',
+  model: 'Outlander (ZM)',
+  yearStart: 2022,
+  yearEnd: 2023,
+  engine: '2.5L petrol (PR25 MIVEC), CVT',
+  fuel: 'Petrol',
+  generationNote:
+      'Supplements the 24MY ZM Outlander entry above, which had the coolant row '
+      'omitted. The 22MY and 23MY ZM schedules (same ZM generation, same PR25 '
+      'engine) BOTH print the coolant interval cleanly via `pdftotext -table`.',
+  intervals: [
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 150000,
+      intervalKm: 75000,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuOutlanderZm,
+      grade: OemGrade.a,
+      notes: 'First 150,000 km / 8 years, thereafter every 75,000 km / 4 years '
+          '(Mitsubishi Genuine Super Long Life Coolant Premium). Fills the ZM '
+          'Outlander coolant gap from the 24MY entry.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuOutlanderZm,
+      grade: OemGrade.a,
+      notes: 'PR25 engine; "R :30,000 km/24 months" on its own row.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// LEXUS (gap-fill pass 2 — genuine Warranty & Services Guides via Wayback;
+// native-text PDFs read directly. Miles are the source; km = OEM 1 mi=1.6 km.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _lexusRx350 = OemModelSchedule(
+  make: 'Lexus',
+  model: 'RX 350 (TALA1#)',
+  yearStart: 2025,
+  engine: '2.4L turbo (T24A-FTS)',
+  fuel: 'Petrol',
+  generationNote:
+      'Lexus 2025 RX 350 Warranty & Services Guide. Normal = "Recommended"; '
+      'severe = "Special Operating Conditions" (= Lebanon). Automatic '
+      'transmission fluid, rear-differential and transfer oils are inspect-only '
+      'under normal use and replace only under towing — not recorded as '
+      'replacement intervals here.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcLexusRx350,
+      grade: OemGrade.a,
+      notes: 'Every 12 mo / 10,000 mi (16,000 km), or when the oil maintenance '
+          'reminder appears.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcLexusRx350,
+      grade: OemGrade.a,
+      notes: 'Special operating conditions: every 6 mo / 5,000 mi (8,000 km).',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 64000,
+      severity: OemSeverity.normal,
+      source: _srcLexusRx350,
+      grade: OemGrade.a,
+      notes: 'Replaced at 40k/80k/120k mi — every 40,000 mi (64,000 km) '
+          '(turbo engine).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcLexusRx350,
+      grade: OemGrade.a,
+      notes: 'Replaced at every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcLexusRx350,
+      grade: OemGrade.a,
+      notes: 'Every 30,000 mi (48,000 km); inspect more often on dusty roads '
+          '(special operating conditions).',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 16000,
+      severity: OemSeverity.normal,
+      source: _srcLexusRx350,
+      grade: OemGrade.a,
+      notes: 'Every 10,000 mi (16,000 km).',
+    ),
+    OemInterval(
+      service: 'Engine coolant (engine & intercooler)',
+      firstKm: 160000,
+      intervalKm: 80000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcLexusRx350,
+      grade: OemGrade.a,
+      notes: 'Footnote: initial at 100,000 mi (160,000 km) / 120 mo, then every '
+          '50,000 mi (80,000 km) / 60 mo.',
+    ),
+  ],
+);
+
+const OemModelSchedule _lexusEs = OemModelSchedule(
+  make: 'Lexus',
+  model: 'ES 250 / ES 350 (AXZ1#)',
+  yearStart: 2025,
+  engine: '2.5L (A25A) / 3.5L V6 (2GR-FKS), naturally aspirated',
+  fuel: 'Petrol',
+  generationNote:
+      'Lexus 2025 ES 250 / ES 350 Warranty & Services Guide. Normal = '
+      '"Recommended"; severe = "Special Operating Conditions". ATF, rear-diff '
+      'and transfer oils (ES 250 AWD) are inspect-only normal / replace under '
+      'towing — not recorded as replacement intervals here.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcLexusEs,
+      grade: OemGrade.a,
+      notes: 'Every 12 mo / 10,000 mi (16,000 km), or when the reminder appears.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcLexusEs,
+      grade: OemGrade.a,
+      notes: 'Special operating conditions: every 6 mo / 5,000 mi (8,000 km).',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 192000,
+      severity: OemSeverity.normal,
+      source: _srcLexusEs,
+      grade: OemGrade.a,
+      notes: 'Replaced at 120,000 mi (192,000 km) (naturally-aspirated engine).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcLexusEs,
+      grade: OemGrade.a,
+      notes: 'Every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcLexusEs,
+      grade: OemGrade.a,
+      notes: 'Every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 16000,
+      severity: OemSeverity.normal,
+      source: _srcLexusEs,
+      grade: OemGrade.a,
+      notes: 'Every 10,000 mi (16,000 km).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 160000,
+      intervalKm: 80000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcLexusEs,
+      grade: OemGrade.a,
+      notes: 'Initial at 100,000 mi (160,000 km) / 120 mo, then every 50,000 mi '
+          '(80,000 km) / 60 mo.',
+    ),
+  ],
+);
+
+const OemModelSchedule _lexusLx600 = OemModelSchedule(
+  make: 'Lexus',
+  model: 'LX 600 (J310)',
+  yearStart: 2023,
+  engine: '3.5L twin-turbo V6 (F33A-FTS)',
+  fuel: 'Petrol',
+  generationNote:
+      'Lexus 2023 LX 600 Warranty & Services Guide (non-hybrid). Only oil and '
+      'coolant are recorded: the guide\'s dense two-column maintenance pages did '
+      'not column-align unambiguously for brake fluid / air filters / spark '
+      'plugs / transfer oil, so those are left as an honest gap.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcLexusLx600,
+      grade: OemGrade.a,
+      notes: 'Every 12 mo / 10,000 mi (16,000 km), or when the reminder appears.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcLexusLx600,
+      grade: OemGrade.a,
+      notes: 'Special operating conditions: every 6 mo / 5,000 mi (8,000 km).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 160000,
+      intervalKm: 80000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcLexusLx600,
+      grade: OemGrade.a,
+      notes: 'Guide note: initial at 100,000 mi (160,000 km) / 120 mo, then '
+          'every 50,000 mi (80,000 km).',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// TOYOTA non-hybrid (gap-fill pass 2 — per-model Warranty & Maintenance Guides.
+// Oil interval assumes factory 0W-16 fill (10,000 mi); if 0W-20 is used the
+// normal oil interval shortens to 5,000 mi per the guide footnote.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _toyotaRav4 = OemModelSchedule(
+  make: 'Toyota',
+  model: 'RAV4',
+  yearStart: 2023,
+  engine: '2.5L petrol (A25A-FKS)',
+  fuel: 'Petrol',
+  generationNote:
+      'Toyota 2023 RAV4 (non-hybrid). Factory Scheduled Maintenance (normal) + '
+      'Special Operating Conditions (severe). ATF / rear-diff / transfer oils '
+      'are inspect-only normal; ATF replaced at 60,000 mi under towing/idling.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcToyotaRav4,
+      grade: OemGrade.a,
+      notes: 'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-16; with '
+          '0W-20, every 5,000 mi (8,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcToyotaRav4,
+      grade: OemGrade.a,
+      notes: 'Special operating conditions (dusty, short trips, idling, towing): '
+          'every 5,000 mi (8,000 km) / 6 mo regardless of oil grade.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcToyotaRav4,
+      grade: OemGrade.a,
+      notes: 'Replaced at every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcToyotaRav4,
+      grade: OemGrade.a,
+      notes: 'Replaced at every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 192000,
+      severity: OemSeverity.normal,
+      source: _srcToyotaRav4,
+      grade: OemGrade.a,
+      notes: 'Replaced at 120,000 mi (192,000 km).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 160000,
+      intervalKm: 80000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcToyotaRav4,
+      grade: OemGrade.a,
+      notes: 'Super Long-Life Coolant: initial at 100,000 mi (160,000 km) / '
+          '120 mo, then every 50,000 mi (80,000 km) / 60 mo.',
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 96000,
+      severity: OemSeverity.severe,
+      source: _srcToyotaRav4,
+      grade: OemGrade.a,
+      notes: 'Normal = inspect; severe (towing / extensive idling) = replace at '
+          '60,000 mi (96,000 km).',
+    ),
+  ],
+);
+
+const OemModelSchedule _toyotaCamry = OemModelSchedule(
+  make: 'Toyota',
+  model: 'Camry',
+  yearStart: 2024,
+  engine: '2.5L petrol (A25A-FKS)',
+  fuel: 'Petrol',
+  generationNote:
+      'Toyota 2024 Camry (non-hybrid 2.5L). Note: this guide lists spark plugs '
+      'at the 60,000-mi milestone (not 120,000 like the RAV4/Corolla) — recorded '
+      'as read. Cabin-filter milestone was not legible on the two-column pages '
+      'and is omitted (gap).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcToyotaCamry,
+      grade: OemGrade.a,
+      notes: 'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-16; with '
+          '0W-20, every 5,000 mi (8,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcToyotaCamry,
+      grade: OemGrade.a,
+      notes: 'Special operating conditions: every 5,000 mi (8,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcToyotaCamry,
+      grade: OemGrade.a,
+      notes: 'Replaced at every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 96000,
+      severity: OemSeverity.normal,
+      source: _srcToyotaCamry,
+      grade: OemGrade.a,
+      notes: 'Replaced at 60,000 mi and 120,000 mi — every 60,000 mi '
+          '(96,000 km) per this guide.',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 160000,
+      intervalKm: 80000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcToyotaCamry,
+      grade: OemGrade.a,
+      notes: 'Initial at 100,000 mi (160,000 km) / 120 mo, then every 50,000 mi '
+          '(80,000 km) / 60 mo.',
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 96000,
+      severity: OemSeverity.severe,
+      source: _srcToyotaCamry,
+      grade: OemGrade.a,
+      notes: 'Normal = inspect; severe (towing / idling) = replace at 60,000 mi '
+          '(96,000 km).',
+    ),
+  ],
+);
+
+const OemModelSchedule _toyotaCorolla = OemModelSchedule(
+  make: 'Toyota',
+  model: 'Corolla',
+  yearStart: 2024,
+  engine: '2.0L petrol (M20A-FKS)',
+  fuel: 'Petrol',
+  generationNote:
+      'Toyota 2024 Corolla (non-hybrid 2.0L). Factory Scheduled Maintenance + '
+      'Special Operating Conditions. ATF inspect-only normal / replace under '
+      'towing.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcToyotaCorolla,
+      grade: OemGrade.a,
+      notes: 'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-16; with '
+          '0W-20, every 5,000 mi (8,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcToyotaCorolla,
+      grade: OemGrade.a,
+      notes: 'Special operating conditions: every 5,000 mi (8,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcToyotaCorolla,
+      grade: OemGrade.a,
+      notes: 'Replaced at every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcToyotaCorolla,
+      grade: OemGrade.a,
+      notes: 'Replaced at every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 192000,
+      severity: OemSeverity.normal,
+      source: _srcToyotaCorolla,
+      grade: OemGrade.a,
+      notes: 'Replaced at 120,000 mi (192,000 km).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 160000,
+      intervalKm: 80000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcToyotaCorolla,
+      grade: OemGrade.a,
+      notes: 'Initial at 100,000 mi (160,000 km) / 120 mo, then every 50,000 mi '
+          '(80,000 km) / 60 mo.',
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 96000,
+      severity: OemSeverity.severe,
+      source: _srcToyotaCorolla,
+      grade: OemGrade.a,
+      notes: 'Normal = inspect; severe (towing / idling) = replace at 60,000 mi '
+          '(96,000 km).',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// NISSAN (gap-fill pass 2 — Nissan USA official schedule tool; US-market.
+// Intervals published in miles; km = Nissan's own 1 mi = 1.6 km convention.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _nissanAltima = OemModelSchedule(
+  make: 'Nissan',
+  model: 'Altima (L34)',
+  yearStart: 2022,
+  engine: '2.5L petrol (PR25DD); 2.0T values in notes',
+  fuel: 'Petrol',
+  generationNote:
+      'Nissan USA 2022 Altima schedule tool (US-market). Figures below are the '
+      '2.5L I4; the 2.0T turbo differs on oil (7,500 mi) and brake fluid '
+      '(15,000 mi) as noted. Same intervals apply to normal & severe except '
+      'where a severe figure is given.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcNissanAltima,
+      grade: OemGrade.a,
+      notes: '2.5L: every 10,000 mi (16,000 km) / 12 mo (normal = severe). '
+          '2.0T: every 7,500 mi (12,000 km) / 12 mo.',
+    ),
+    OemInterval(
+      service: 'Spark plugs (iridium)',
+      intervalKm: 168000,
+      intervalMonths: 126,
+      severity: OemSeverity.normal,
+      source: _srcNissanAltima,
+      grade: OemGrade.a,
+      notes: 'Every 105,000 mi (168,000 km): 2.5L /126 mo, 2.0T /168 mo '
+          '(normal = severe).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 168000,
+      intervalKm: 120000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcNissanAltima,
+      grade: OemGrade.a,
+      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+          '(120,000 km) / 60 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'CVT fluid',
+      intervalKm: 96000,
+      intervalMonths: 72,
+      severity: OemSeverity.severe,
+      source: _srcNissanAltima,
+      grade: OemGrade.a,
+      notes: 'Normal = inspect every 10,000 mi; severe = replace every 60,000 mi '
+          '(96,000 km) / 72 mo. Genuine NISSAN CVT Fluid only.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 32000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcNissanAltima,
+      grade: OemGrade.a,
+      notes: '2.5L: 20,000 mi (32,000 km) / 24 mo. 2.0T: 15,000 mi (24,000 km).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcNissanAltima,
+      grade: OemGrade.a,
+      notes: '2.5L severe: 10,000 mi (16,000 km) / 12 mo. 2.0T: 7,500 mi.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 48000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcNissanAltima,
+      grade: OemGrade.a,
+      notes: 'Every 30,000 mi (48,000 km): 2.5L /36 mo, 2.0T /48 mo. Severe '
+          '(dusty) = more frequently.',
+    ),
+  ],
+);
+
+const OemModelSchedule _nissanSentra = OemModelSchedule(
+  make: 'Nissan',
+  model: 'Sentra (B17)',
+  yearStart: 2013,
+  yearEnd: 2019,
+  engine: '1.8L petrol (MRA8DE), CVT',
+  fuel: 'Petrol',
+  generationNote:
+      'Nissan USA 2019 Sentra schedule tool (B17 generation, US-market). '
+      'Intervals are the same under normal and severe except CVT fluid.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcNissanSentra,
+      grade: OemGrade.a,
+      notes: 'Every 5,000 mi (8,000 km) / 6 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Spark plugs (iridium)',
+      intervalKm: 168000,
+      severity: OemSeverity.normal,
+      source: _srcNissanSentra,
+      grade: OemGrade.a,
+      notes: 'Every 105,000 mi (168,000 km) (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 168000,
+      intervalKm: 120000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcNissanSentra,
+      grade: OemGrade.a,
+      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+          '(120,000 km) / 60 mo.',
+    ),
+    OemInterval(
+      service: 'CVT fluid',
+      intervalKm: 96000,
+      severity: OemSeverity.severe,
+      source: _srcNissanSentra,
+      grade: OemGrade.a,
+      notes: 'Normal = inspect every 10,000 mi; severe = replace every 60,000 mi '
+          '(96,000 km). Genuine NISSAN CVT Fluid only.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 48000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcNissanSentra,
+      grade: OemGrade.a,
+      notes: 'Every 30,000 mi (48,000 km) / 36 mo (normal = severe).',
+    ),
+  ],
+);
+
 // ---------------------------------------------------------------------------
 // The dataset.
 //
 // NOTE ON COVERAGE (see oem_schedules_japanese_SOURCES.md for full detail):
-//   • Kia now carries Sorento, Sportage, Forte/Cerato and Rio (Grade B, from
-//     official Kia owner's manuals via Internet Archive OCR). Picanto and Seltos
-//     remain gaps (not in the reachable US manual collection).
-//   • Lexus now carries the NX 200t (Grade B, official Warranty & Services Guide
-//     via Internet Archive). ES, IS, RX and LX remain gaps — their US guides are
-//     not on the Archive and the OEM/aggregator hosts are all WAF/Cloudflare-
-//     blocked even to a rendered browser.
+//   • Kia carries Sorento, Sportage, Forte/Cerato and Rio (Grade B, official
+//     Kia owner's manuals via Internet Archive OCR). Picanto and Seltos remain
+//     gaps (not in the reachable US manual collection).
+//   • Lexus carries NX 200t (Grade B, Archive OCR) plus RX 350, ES 250/350 and
+//     LX 600 (Grade A, genuine Warranty & Services Guides read via the Wayback
+//     Machine — the live assets.sia.toyota.com host is WAF-blocked). IS remains
+//     a gap (no reachable guide).
+//   • Toyota adds non-hybrid Corolla, Camry and RAV4 (Grade A). Hilux and Land
+//     Cruiser/Prado non-hybrid remain gaps (not in the US guide lineup; the US
+//     2024 Land Cruiser is hybrid-only).
+//   • Nissan adds Altima and Sentra (Grade A, Nissan USA schedule tool, US
+//     market). Patrol remains a gap (Gulf-market model, not on reachable hosts).
+//   • Mitsubishi adds Eclipse Cross and Lancer, and fills the Outlander ZM
+//     coolant gap. Honda per-model (Civic/Accord/CR-V) still relies on the
+//     make-wide schedule already recorded.
 //   • Per the GOLDEN RULE, nothing was invented or copied across makes/models.
 // ---------------------------------------------------------------------------
 
@@ -1982,6 +2924,8 @@ const List<OemModelSchedule> kOemJapaneseSchedules = [
   // Hyundai
   _hyundaiHevTurbo,
   _hyundaiPetrolMpi,
+  _nissanAltima,
+  _nissanSentra,
   // Mitsubishi
   _mitsubishiOutlander,
   _mitsubishiTriton,
@@ -1989,6 +2933,9 @@ const List<OemModelSchedule> kOemJapaneseSchedules = [
   _mitsubishiPajeroSport,
   _mitsubishiPajero,
   _mitsubishiAsx,
+  _mitsubishiEclipseCross,
+  _mitsubishiLancer,
+  _mitsubishiOutlanderZmCoolant,
   // Kia
   _kiaSorento,
   _kiaSportage,
@@ -1996,4 +2943,11 @@ const List<OemModelSchedule> kOemJapaneseSchedules = [
   _kiaRio,
   // Lexus
   _lexusNx200t,
+  _lexusRx350,
+  _lexusEs,
+  _lexusLx600,
+  // Toyota (non-hybrid, pass 2)
+  _toyotaRav4,
+  _toyotaCamry,
+  _toyotaCorolla,
 ];

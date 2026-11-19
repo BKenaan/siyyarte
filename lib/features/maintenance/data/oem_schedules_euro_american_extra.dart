@@ -811,4 +811,379 @@ const List<OemSchedule> kOemSchedulesEuroAmericanExtra = [
       ),
     ],
   ),
+
+  // ==========================================================================
+  // PEUGEOT (PSA / Stellantis) — EB2 "PureTech" petrol, official "PLAN
+  // D'ENTRETIEN" dealer sheets. Each sheet is the Peugeot per-engine maintenance
+  // plan (it carries the genuine Peugeot B71 oil specs and the Peugeot severe-use
+  // definition "taxi/ambulance/urban/dusty-country"); it is reproduced on the
+  // forum-peugeot.com enthusiast site, NOT fetched from a Peugeot-owned host, so
+  // each value is graded B with an explicit "forum-mirror" caveat. The plans were
+  // read individually per model via pdftotext table extraction — the intervals
+  // genuinely DIFFER between 208, 2008 and 5008 (oil 20k vs 25k; plugs/air 40k vs
+  // 50k; cabin 1 yr vs 2 yr), which is why nothing was copied across models.
+  //
+  // The PureTech publishes a FIXED normal/severe km+time table (the owner chooses
+  // the normal or "séverisé" plan at purchase), so conditionBased is false; an
+  // onboard service indicator (témoin) can only bring a service FORWARD, noted on
+  // the oil rows. Lebanon = severe, so the severe rows apply. Each sheet prints
+  // both columns; where severe differs it is a distinct OemSeverity.severe row.
+  // ==========================================================================
+  OemSchedule(
+    make: 'Peugeot',
+    model: '208',
+    yearStart: 2019,
+    yearEnd: 2024,
+    engine: '1.2 PureTech 100 BVM6 / 1.2 PureTech 130 EAT8 (identical plan)',
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 20000,
+        intervalMonths: 12,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes:
+            '"Révisions : opérations systématiques" every 20,000 km / 1 yr '
+            '(normal). Oils 0W20 B71 2010 / 0W30 B71 2312. Onboard service '
+            'indicator can bring it forward. Forum-mirrored reproduction of '
+            'Peugeot\'s official plan d\'entretien (both the PureTech 100 BVM6 '
+            'and 130 EAT8 sheets were opened; intervals identical).',
+      ),
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 15000,
+        intervalMonths: 12,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 15,000 km / 1 yr. Lebanon = severe.',
+      ),
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalKm: 20000,
+        intervalMonths: 12,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes: '"Remplacement du filtre d\'habitacle" every 20,000 km / 1 yr.',
+      ),
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalKm: 15000,
+        intervalMonths: 12,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 15,000 km / 1 yr.',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 24,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes:
+            '"Remplacement du liquide de frein" every 2 years, no km limit. '
+            'Same for normal and severe plans.',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 40000,
+        intervalMonths: 48,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes: '"Remplacement du filtre à air" every 40,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 30000,
+        intervalMonths: 48,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 30,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 40000,
+        intervalMonths: 48,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes: '"Remplacement des bougies d\'allumage" every 40,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 30000,
+        intervalMonths: 48,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 30,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Timing Belt',
+        intervalKm: 100000,
+        intervalMonths: 72,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes:
+            '"Remplacement de la courroie de distribution" at 100,000 km / 6 yr, '
+            'then every 200,000 km / 12 yr thereafter. EB2 PureTech uses a wet '
+            'belt. (NB: Peugeot later issued shorter wet-belt intervals via '
+            'service campaigns; this is the plan sheet value as printed.)',
+      ),
+      OemInterval(
+        service: 'Timing Belt',
+        intervalKm: 105000,
+        intervalMonths: 72,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: 105,000 km / 6 yr, then every 210,000 km / 12 yr.',
+      ),
+      OemInterval(
+        service: 'Coolant',
+        intervalKm: 180000,
+        intervalMonths: 120,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes:
+            '"Remplacement du liquide de refroidissement" every 180,000 km / '
+            '10 yr (a coolant pH check runs at 120,000 km / 4 yr then yearly).',
+      ),
+      OemInterval(
+        service: 'Coolant',
+        intervalKm: 165000,
+        intervalMonths: 120,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 208 1.2 PureTech Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 165,000 km / 10 yr.',
+      ),
+    ],
+  ),
+
+  OemSchedule(
+    make: 'Peugeot',
+    model: '2008',
+    yearStart: 2013,
+    yearEnd: 2019,
+    engine: '1.2 PureTech 82 BVM5',
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 25000,
+        intervalMonths: 12,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes:
+            '"Révisions : opérations systématiques" every 25,000 km / 1 yr '
+            '(normal). Onboard service indicator can bring it forward. '
+            'Forum-mirrored reproduction of Peugeot\'s official plan d\'entretien.',
+      ),
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 15000,
+        intervalMonths: 12,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 15,000 km / 1 yr. Lebanon = severe.',
+      ),
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalKm: 25000,
+        intervalMonths: 24,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes: '"Remplacement du filtre d\'habitacle" every 25,000 km / 2 yr.',
+      ),
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalKm: 15000,
+        intervalMonths: 12,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 15,000 km / 1 yr.',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 24,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes:
+            '"Remplacement du liquide de frein" every 2 years, no km limit. '
+            'Same for normal and severe plans.',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 50000,
+        intervalMonths: 48,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes: '"Remplacement du filtre à air" every 50,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 45000,
+        intervalMonths: 48,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 45,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 50000,
+        intervalMonths: 48,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes: '"Remplacement des bougies d\'allumage" every 50,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 45000,
+        intervalMonths: 48,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 45,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Timing Belt',
+        intervalKm: 175000,
+        intervalMonths: 120,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes:
+            '"Remplacement du kit de distribution" every 175,000 km / 10 yr. '
+            'EB2 PureTech wet belt. (Peugeot later shortened wet-belt intervals '
+            'via campaigns; this is the plan sheet value.)',
+      ),
+      OemInterval(
+        service: 'Timing Belt',
+        intervalKm: 165000,
+        intervalMonths: 120,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 2008 1.2 PureTech 82 Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 165,000 km / 10 yr.',
+      ),
+      // Coolant: the 2008 PT82 sheet prints only a pH check (125,000 km / 4 yr
+      // then yearly), no explicit coolant-replacement line — omitted, not guessed.
+    ],
+  ),
+
+  OemSchedule(
+    make: 'Peugeot',
+    model: '5008',
+    yearStart: 2017,
+    yearEnd: 2024,
+    engine: '1.2 PureTech 130 BVM6',
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 25000,
+        intervalMonths: 12,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes:
+            '"Révisions : opérations systématiques" every 25,000 km / 1 yr '
+            '(normal). Onboard service indicator can bring it forward. '
+            'Forum-mirrored reproduction of Peugeot\'s official plan d\'entretien.',
+      ),
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 15000,
+        intervalMonths: 12,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 15,000 km / 1 yr. Lebanon = severe.',
+      ),
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalKm: 50000,
+        intervalMonths: 24,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes: '"Remplacement du filtre d\'habitacle" every 50,000 km / 2 yr.',
+      ),
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalKm: 15000,
+        intervalMonths: 12,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 15,000 km / 1 yr.',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 24,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes:
+            '"Remplacement du liquide de frein" every 2 years, no km limit. '
+            'Same for normal and severe plans.',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 50000,
+        intervalMonths: 48,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes: '"Remplacement du filtre à air" every 50,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 45000,
+        intervalMonths: 48,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: every 45,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 50000,
+        intervalMonths: 48,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes: '"Remplacement des bougies d\'allumage" every 50,000 km / 4 yr.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 30000,
+        intervalMonths: 48,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes:
+            'SEVERE column: every 30,000 km / 4 yr (note: the 5008 severe plug '
+            'step is 30,000 km, shorter than its 45,000 km air-filter step).',
+      ),
+      OemInterval(
+        service: 'Timing Belt',
+        intervalKm: 100000,
+        intervalMonths: 72,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes:
+            '"Remplacement de la courroie de distribution" at 100,000 km / 6 yr, '
+            'then every 200,000 km / 12 yr. EB2 PureTech wet belt (later '
+            'shortened via campaigns; this is the plan sheet value).',
+      ),
+      OemInterval(
+        service: 'Timing Belt',
+        intervalKm: 105000,
+        intervalMonths: 72,
+        severity: OemSeverity.severe,
+        grade: OemGrade.b,
+        source: 'Peugeot 5008 1.2 PureTech 130 Plan d\'Entretien (forum-peugeot)',
+        notes: 'SEVERE column: 105,000 km / 6 yr, then every 210,000 km / 12 yr.',
+      ),
+      // Coolant: the 5008 PT130 sheet prints only a pH check (125,000 km / 4 yr
+      // then every 25,000 km), no explicit replacement line — omitted, not guessed.
+    ],
+  ),
 ];

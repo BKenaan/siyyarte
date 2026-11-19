@@ -127,6 +127,14 @@ abstract class DefaultMaintenanceRules {
       normalMonths: 96, severeMonths: 84,
       source: 'OEM factory schedule — timing belt (chain = inspect only)',
     ),
+    // Brake fluid is hygroscopic and universally time-based: most OEMs call for
+    // a 2–3 year change regardless of mileage. Generic baseline; sourced OEM
+    // schedules override it with the exact cited figure where available.
+    MaintenanceRule(
+      type: ServiceType.brakeFluid,
+      normalMonths: 36, severeMonths: 24,
+      source: 'OEM factory schedule — brake fluid (hygroscopic, time-based)',
+    ),
     // Inspection-based factory items (manufacturer says "inspect at each
     // service"); we schedule the inspection interval.
     MaintenanceRule(

@@ -123,6 +123,69 @@ confirmation before display).
     item figure: external fuel filter replaced every 30,000 km (in-tank filter
     maintenance-free). No other item intervals published on the page.
 
+### Chery / Omoda (ICE petrol — NEW)
+
+11. **Chery Malaysia (official) — per-model "Service Schedule & Pricing Guide" PDFs** (Grade A)
+    - Omoda 5 / Omoda C5 ("THE NEW CHERY O5"): `https://www.chery.my/wp-content/uploads/2025/09/Chery-Service-Maintenance-Schedule_O5_2025_compressed-1.pdf`
+    - Tiggo 7 Pro: `https://www.chery.my/wp-content/uploads/2025/08/Chery-Service-Pricing-Guide_TIGGO-7-PRO_2025.pdf`
+    - Tiggo 8 Pro: `https://www.chery.my/wp-content/uploads/2025/08/Chery-Service-Maintenance-Schedule_TIGGO-8-PRO_2025.pdf`
+    - Tiggo Cross (1.5T + 6DCT): `https://www.chery.my/wp-content/uploads/2025/07/tiggocross-service-maintenance-schedules.pdf`
+    Manufacturer compulsory-maintenance tables. Columns 1/10/20…150 ×1000 km at
+    1/6/12…84 months (base 10,000 km / 6 months; 1,000 km break-in is FOC). The
+    guides are scanned images with an embedded text layer; each sparse row was
+    cross-checked against the printed **TOTAL SERVICE & MAINTENANCE FEE** column
+    so the service→km mapping is exact. Backs — **Omoda C5/O5:** oil+filter
+    10k/6mo, air filter 20k/12mo, spark plugs 30k, brake fluid / DCT oil / coolant
+    all 40k/24mo. **Tiggo 7 Pro & Tiggo 8 Pro:** oil+filter 10k/6mo, air filter
+    20k/12mo, spark plugs 30k, brake fluid 40k/24mo, DCT oil + coolant 50k/30mo
+    (Tiggo 8 Pro is 1.6T / 0W20). **Tiggo Cross:** oil+filter 10k/6mo, air filter
+    20k/12mo, spark plugs 30k, brake fluid 40k/24mo, 6DCT oil 60k/36mo (no coolant
+    row on this guide — omitted). No normal/severe split published.
+
+### JAC (ICE petrol — NEW)
+
+12. **JAC Qatar (official importer) — "JAC JS4 1.5T CVT" periodic maintenance table** (Grade A)
+    `https://web.archive.org/web/20240831155910/https://www.jacqatar.com/wp-content/uploads/2024/01/JS4-1.pdf`
+    (Live jacqatar.com link now Cloudflare-blocked (403); read via Internet
+    Archive snapshot.) Clean R/I grid, columns 10K–120K km paired 10,000 km ⇄
+    6 months. Backs — oil+filter 10k/6mo; air + A/C filter 20k/12mo; fuel filter
+    40k/24mo; brake fluid 40k/24mo; CVT oil + filter 60k/36mo; spark plugs
+    60k/36mo; engine coolant first R at 80k/48mo (first-change baseline). JS6 NOT
+    in this doc → gap (not copied).
+
+### Deepal (Changan EV brand — NEW; BEV-vs-EREV determination)
+
+13. **Changan UK / Deepal (official importer, changaneurope.com) — "Service Schedules"** (Grade B)
+    `https://website-editor.changaneurope.com/uk/owners/service-schedules`
+    Year/mileage per-item schedule. UK market lists **S07 and S05 as BEV** and the
+    **S05 as PHEV** (the PHEV's engine item set — engine oil, spark plugs, engine
+    air filter — confirms it has an engine). Base service every 12 months /
+    12,000 mi; per-item intervals year-based (2/4/6th yr = 24 mo; 3/6th yr =
+    36 mo). Distances published in **miles only**, so `intervalKm` left null (mile
+    figure noted, not converted). Recorded: **S07 BEV** (brake fluid 24mo, cabin
+    filter 24mo, coolant 36mo, electric-drive/reducer oil 36mo, HV-battery check
+    36mo) and **S05 PHEV** (engine oil 12mo, spark plugs 24mo, engine air filter
+    24mo, e-drive transmission oil 36mo, brake fluid 24mo, cabin filter 24mo,
+    coolant 36mo). NOTE: a separate **S07 REEV / range-extender** variant exists
+    in other markets (its REEV owner's manual is online) but no reachable per-item
+    schedule was captured → NOT recorded (would need its own `fuel` + engine-oil
+    set). Nothing copied across variants.
+
+### Geely (ICE petrol — item-level, NEW)
+
+14. **Geely Chile (official importer) — "Geely Warranty book all models", "Mantención Programada" schedule** (Grade A)
+    `https://www.geely.cl/content/uploads/2026/03/Geely-Warranty-book-all-models.pdf`
+    75-page owner warranty & maintenance book. The "Mantención Programada" grid +
+    special-fluids pages for **New Coolray / Coolray Lite / Cityray** (engine
+    4G15TD, oil API SP 0W-20, brake DOT4): oil+filter 10k/12mo; air + A/C filter
+    20k/24mo; spark plugs (bujía) R at services 4 & 8 → 40k/48mo; coolant "cada
+    24 meses o 40.000 km"; brake fluid "cada 24 meses o 40.000 km"; fuel filter
+    "cada 1 año o 30.000 km"; drive belt "cada 36 meses o 60.000 km"; **CVT**
+    fluid single change at 40k then maintenance-free; **manual** transmission
+    first 10k then every 30k/24mo. Confirms base 10,000 km / 12 months (EX5
+    20,000 km). Upgrades the interval-only Geely entry for Coolray; Emgrand not
+    tabulated here → Emgrand item-level remains a gap.
+
 ---
 
 ## Coverage summary (what was sourced)
@@ -135,12 +198,18 @@ confirmation before display).
 | Chery | EQ7 (BEV) | item-level (partial) | ✓ | — |
 | Changan | Alsvin, CS15, CS35 Plus, CS55 Plus, X7, UNI-T, UNI-K | item-level (partial) | ✓ | — |
 | GWM/Haval | H6 petrol; H6 HEV/PHEV (DHT); H6 GT; H HEV (MY) | item-level | ✓ | ✓ (rear diff, air filter) |
+| Chery (Omoda) | Omoda C5 / Tiggo 7 Pro / Tiggo 8 Pro / Tiggo Cross (ICE petrol) | item-level | ✓ | — |
+| JAC | JS4 1.5T CVT (ICE petrol) | item-level | ✓ | — |
+| Deepal | S07 BEV; S05 PHEV (time-based) | item-level | ✓ | — |
 | MG | HS, ZS EV, MG5 EV, MG4 EV, S5 EV | interval only | ✓ | — |
-| Geely | Coolray, Emgrand, Azkarra, Tugella, GX3 Pro, A1 | interval + fuel filter | ✓ | — |
-| **Chery Tiggo/Omoda (ICE)** | **none** | — | — | — |
-| **Jetour** | **none** | — | — | — |
-| **JAC** | **none** | — | — | — |
-| **Avatr** | **none** | — | — | — |
+| Geely | Coolray (New/Lite/Cityray) — full item set | item-level | ✓ | — |
+| Geely | Emgrand, Azkarra, Tugella, GX3 Pro, A1 | interval + fuel filter | ✓ | — |
+| **Chery Tiggo 2 / Tiggo 4 Pro (ICE)** | **none** | — | — | — |
+| **Jetour X70 / Dashing** | **none** | — | — | — |
+| **JAC JS6** | **none** | — | — | — |
+| **Avatr 11/12** | **none** | — | — | — |
+| **Voyah (Free/Dreamer EREV, Courage BEV)** | **none** | — | — | — |
+| **Seres / Aito M5, M7 (EREV + BEV)** | **none** | — | — | — |
 
 ---
 
@@ -158,15 +227,16 @@ confirmation before display).
   **not** recorded. **Action:** obtain an MG Periodical Maintenance Table PDF
   from a working host (or MG Middle East importer), or manual upload.
 
-- **Chery Tiggo 2/4/7/8 & Omoda C5 (ICE) — complete gap.** Only the Chery Egypt
-  **EQ7 (BEV)** maintenance PDF was locatable by direct path; per-model Tiggo/
-  Omoda schedule PDFs on `chery-eg.com` could not be found by name (all guessed
-  paths 404), and the Tiggo 8 Pro warranty booklet downloaded as an HTML
-  redirect stub. Chery Egypt dealers/importer clearly host them (the EQ7 one is
-  real) — **action:** scrape the exact `chery-eg.com/media/...` links from the
-  Chery Egypt after-sales page, or get the owner's service booklet, then add
-  Tiggo/Omoda ICE item intervals. No Tiggo figure was taken from the EQ7 (BEV)
-  schedule or across models.
+- **Chery Tiggo 7 Pro / Tiggo 8 Pro / Omoda C5 / Tiggo Cross (ICE) — RESOLVED
+  (item-level).** Captured from Chery Malaysia official Service Schedule &
+  Pricing Guides (source 11). See that entry for the per-item figures.
+  **Remaining gap — Chery Tiggo 2 / Tiggo 4 Pro (ICE):** Malaysia does not
+  publish these (all `chery.my` guide-URL probes 301-redirected), and the Chery
+  Egypt `chery-eg.com/media/maintenance_schedules/...` path (which hosts the real
+  EQ7 PDF) returned 404 for every Tiggo-name guess. **Action:** scrape the exact
+  media links from the Chery Egypt / South Africa after-sales pages (JS-rendered),
+  or get the owner's service booklet. No figure was copied from Tiggo 7/8 Pro or
+  across models for the 2 / 4 Pro.
 
 - **Changan per-item ICE detail — partial.** The PMS cadence and the
   transmission/transfer/brake-fluid figures are solid; the per-cell R/I grid
@@ -176,28 +246,49 @@ confirmation before display).
   **Action:** fetch per-model Changan owner's-manual schedules (or the Changan
   MENA/KSA service-plan sheets) for the grid items.
 
-- **Geely item-level — gap.** Service intervals + external fuel filter captured
-  from Geely KSA; oil, plugs, coolant, brake-fluid and transmission figures are
-  not on that page. `geely.co.il` (Geometry C checklist) and other importer PDFs
-  returned stubs. **Action:** fetch a Geely owner's warranty/maintenance booklet
-  (Geely Chile `geely.cl` hosts an all-models warranty book; Coolray/Emgrand
-  owner's manuals carry the grid).
+- **Geely Coolray item-level — RESOLVED.** Full item set (oil, air/cabin filter,
+  spark plugs, coolant, brake fluid, fuel filter, belt, CVT + manual transmission
+  fluid) captured from the Geely Chile all-models warranty & maintenance book
+  (source 14). **Remaining gap — Geely Emgrand item-level:** not tabulated in
+  that book; base interval only (Geely KSA). **Action:** fetch an Emgrand owner's
+  maintenance booklet for its grid.
 
-- **Jetour (X70 / Dashing) — complete gap.** Only distributor **marketing**
-  PMS summaries (Philippines, UAE, KSA) were found — no fetchable official
-  schedule table. The Jetour Dashing Malaysia PMS PDF link failed to download.
-  **Action:** obtain the Jetour owner's service booklet or a working importer
-  PMS PDF.
+- **Jetour (X70 / Dashing) — complete gap.** Only distributor **marketing** PMS
+  summaries (Philippines, UAE, KSA) were found — no fetchable official schedule
+  table. `jetourksa.com/aftersales/services-warranty` now 404s. **Action:**
+  obtain the Jetour owner's service booklet or a working importer PMS PDF.
 
-- **JAC — complete gap.** No official maintenance schedule located from a
-  fetchable source. **Action:** source a JAC owner's-manual schedule per model
-  (e.g. JS-series, T-series) or an importer service sheet.
+- **JAC JS4 — RESOLVED (item-level)** from the JAC Qatar JS4 1.5T CVT table via
+  the Internet Archive (source 12). **Remaining gap — JAC JS6:** no published
+  JS6 schedule was reachable (JS6-1.pdf on jacqatar.com is Cloudflare-blocked and
+  not in the Wayback Machine). No JS6 figure was copied from JS4. **Action:**
+  source a JAC JS6 owner's-manual schedule or importer sheet.
 
 - **Avatr 11/12 — complete gap.** Avatr publishes the schedule only in-car / in
   the Avatr app; no public owner's-manual or importer schedule was reachable.
   Avatr is BEV/EREV; the BYD EV sheet was **not** copied across (different
   brand). **Action:** capture the Avatr in-app/owner's-manual schedule, or an
   Avatr Europe/MENA importer sheet.
+
+- **Deepal S07 REEV (range-extender) — gap.** The Changan UK schedule (source 13)
+  covers the S07/S05 **BEV** and the S05 **PHEV**, all recorded. The separate
+  **S07 REEV** (range-extender, has an engine + oil) has an English owner's manual
+  online (flippingbook) but no reachable per-item *schedule* table, so it was NOT
+  recorded — it needs its own `fuel: 'Range-extender'` + engine-oil set. No REEV
+  figure was inferred from the BEV schedule.
+
+- **Voyah — gap (powertrain confirmed, no schedule).** Determined from sources:
+  **Voyah Free** and **Voyah Dreamer** are EREV (1.5T range-extender generator +
+  battery; Free also has a PHEV "318" variant), **Voyah Courage** is BEV. No
+  official/importer maintenance schedule (BEV *or* EREV) was reachable, so no
+  intervals were recorded. **Action:** obtain a Voyah owner's-manual maintenance
+  table per variant.
+
+- **Seres / Aito (M5, M7) — gap (powertrain confirmed, no schedule).** Both M5
+  and M7 ship in **EREV** (1.5T range-extender, has engine oil) **and BEV**
+  variants. No official maintenance schedule was reachable for either, so nothing
+  was recorded (and EREV vs BEV must not share a schedule). **Action:** obtain a
+  Seres/Aito owner's-manual maintenance table per variant.
 
 - **BYD DM-i / PHEV item-level — partial.** Song Plus DM-i gives only the
   12,000 km / 12-month cadence (BYD Brazil pricing schedule). The per-item ICE

@@ -14,7 +14,9 @@ Units note: the Stellantis / MINI / Volvo / Land Rover documents publish in
 ×1.6 factor (10k mi = 16,000 km, 60k mi = 96,000 km, 100k mi = 160,000 km,
 150k mi = 240,000 km), matching `verified_specs.json` and the sibling corpora.
 Where a document printed a round km value itself (e.g. the Mopar cabin filter
-"12,000 miles (19,000 km)"), that km value is stored verbatim.
+"12,000 miles (19,000 km)"), that km value is stored verbatim. The **Peugeot
+plan d'entretien** sheets publish in **kilometres natively**, so their values are
+stored verbatim with no conversion.
 
 Method note: the Mopar / Volvo maintenance schedules are **X-mark grid tables**.
 Plain text extraction destroys the column alignment, so each table page was
@@ -191,6 +193,48 @@ fixed number published); **spark plugs**, **engine air filter**, **pollen/cabin
 filter** (these live in the model-specific *Passport to Service* / Maintenance
 Check Sheet, which was not openable). Not guessed.
 
+## Peugeot — PureTech petrol (official "plan d'entretien", forum-mirrored)
+
+**Service system:** PSA's EB2 "PureTech" plan publishes a **fixed normal/severe
+km+time table** (`conditionBased: false`). The owner picks the *normal* or
+*séverisé* plan at purchase; an on-board service indicator (*témoin*) can only
+bring a service **forward**. Each sheet carries the genuine Peugeot **B71** oil
+specs and PSA's own severe-use definition (*"taxi/ambulance, urban < 20 km/h,
+repeated short cold trips < 10 km, dusty countries"*), confirming it is the real
+Peugeot plan — but each is a **Microsoft-Word reproduction hosted on the
+forum-peugeot.com enthusiast site, not fetched from a Peugeot-owned host**, so
+every value is graded **B** with that caveat recorded in the Dart `notes`.
+
+**Why not copied across models:** the three sheets were read individually (via
+`pdftotext -table`) and the intervals genuinely **differ** — 208 oil 20,000 km vs
+2008/5008 25,000 km; 208 plugs/air 40,000 km vs 2008/5008 50,000 km; 208 cabin
+20,000 km/1 yr vs 5008 50,000 km/2 yr; 5008 *severe* plugs 30,000 km vs 2008
+*severe* plugs 45,000 km. A reproduction could not have invented three distinct,
+internally-consistent engine plans, which corroborates authenticity.
+
+| `source` key | Document | Publisher (reproduced on) | URL |
+|---|---|---|---|
+| `Peugeot 208 1.2 PureTech Plan d'Entretien (forum-peugeot)` | "208 (P21E) – INJECTION 1.2 PURETECH 100 S&S BVM6 – PLAN D'ENTRETIEN" and the identical "…130 S&S EAT8" sheet | Peugeot (PSA), via forum-peugeot.com | https://www.forum-peugeot.com/wp-content/uploads/2020/05/planentretien208puretech100bvm.pdf · https://www.forum-peugeot.com/wp-content/uploads/2020/05/planentretien208puretech130.pdf |
+| `Peugeot 2008 1.2 PureTech 82 Plan d'Entretien (forum-peugeot)` | "2008 – INJECTION 1.2 PURETECH 82 BVM5 – PLAN D'ENTRETIEN" | Peugeot (PSA), via forum-peugeot.com | https://www.forum-peugeot.com/wp-content/uploads/2016/06/planentretien2008puretech82.pdf |
+| `Peugeot 5008 1.2 PureTech 130 Plan d'Entretien (forum-peugeot)` | "5008 (P87) – INJECTION 1.2 PURETECH 130 S&S BVM6 – PLAN D'ENTRETIEN" | Peugeot (PSA), via forum-peugeot.com | https://www.forum-peugeot.com/wp-content/uploads/2017/03/planentretien5008puretech130bvm6.pdf |
+
+**Backs (read verbatim from each sheet's normal | severe columns, Grade B):**
+- **208** (PureTech 100 BVM6 / 130 EAT8, identical): oil 20,000 km/1 yr | 15,000/1;
+  cabin filter 20,000/1 | 15,000/1; brake fluid 2 yr (both); air filter 40,000/4 |
+  30,000/4; spark plugs 40,000/4 | 30,000/4; timing belt (courroie de distribution)
+  100,000 km/6 yr then 200,000/12 | 105,000/6 then 210,000/12; coolant replace
+  180,000 km/10 yr | 165,000/10 (pH check 120,000/4 then yearly).
+- **2008** (PureTech 82 BVM5): oil 25,000/1 | 15,000/1; cabin filter 25,000/2 |
+  15,000/1; brake fluid 2 yr; air filter 50,000/4 | 45,000/4; spark plugs 50,000/4 |
+  45,000/4; timing-belt kit 175,000 km/10 yr | 165,000/10. **Coolant gap:** this
+  sheet prints only a pH check (125,000/4 then yearly), no replacement line → omitted.
+- **5008** (PureTech 130 BVM6): oil 25,000/1 | 15,000/1; cabin filter 50,000/2 |
+  15,000/1; brake fluid 2 yr; air filter 50,000/4 | 45,000/4; spark plugs 50,000/4 |
+  **30,000/4 severe**; timing belt 100,000 km/6 yr then 200,000/12 | 105,000/6 then
+  210,000/12. **Coolant gap:** only a pH check (125,000/4 then every 25,000 km) →
+  omitted. Wet-belt note: Peugeot later shortened PureTech belt intervals via
+  service campaigns; the stored figures are the plan-sheet values as printed.
+
 ---
 
 ## Honest GAPS — makes/models NOT recorded (no OEM document opened)
@@ -199,12 +243,18 @@ The GOLDEN RULE forced these out rather than filling them with secondary or
 conflicting figures. Each was searched; none yielded an openable, model-specific
 **manufacturer** maintenance table.
 
-- **Jaguar — F-Pace / XE / XF.** jaguarusa.com/owners/service-warranties/servicing
-  301-redirects to the Jaguar home page (no schedule served). Only the
-  complimentary-maintenance coverage (5 yr / 60,000 mi) and third-party (KBB)
+- **Jaguar — F-Pace / XE / XF.** Confirmed Jaguar uses a **variable Service
+  Interval Indicator** (the XJ Owner's Handbook, Publication JJM 10 02 21 802 on
+  jaguar.fr/content/dam, §"Service interval indicator", prints the indicator
+  mechanism but **no fixed interval table** — the same regime as Land Rover). The
+  concrete F-Pace schedule lives behind VIN navigation on ownerinfo.jaguar.com
+  (iGuide) and in the model-specific Passport to Service; the topix.jaguar.jlrext.com
+  service-procedure PDFs are scanned JPEG-2000 images (not text-extractable here).
+  jaguarusa.com/owners/service-warranties/servicing 301-redirects to the home page.
+  Only complimentary-maintenance coverage (5 yr / 60,000 mi) and third-party (KBB)
   figures (service ~16,000 mi, plugs ~32,000 mi) were found — **not OEM**, so
-  **omitted**. Jaguar's component intervals were NOT copied from the Land Rover
-  handbook (different make).
+  **omitted**, and NOT copied from the Land Rover handbook (different make). No
+  single fixed odometer figure is published → honest gap (as with Land Rover).
 - **Škoda — Octavia / Kodiaq / Superb.** Only secondary sources (Haynes,
   CompleteCar, forums) and dealer fixed-price-plan brochures (no interval table).
   The official interval table lives in the owner's manual "Service Intervals"
@@ -214,21 +264,32 @@ conflicting figures. Each was searched; none yielded an openable, model-specific
   documents** → **omitted**.
 - **SEAT — Leon / Ateca.** Same situation as Škoda (shared VW-group regime); no
   openable official interval table → **omitted**.
-- **Peugeot — 208 / 2008 / 301 / 3008 / 5008.** PSA PureTech petrol uses a service
-  indicator; secondary sources conflict badly (oil 10,000–30,000 km depending on
-  engine code/market; plugs 40,000–60,000 km; brake fluid 2 yr) and no official
-  PSA maintenance table was openable → **omitted**.
+- **Peugeot — 208 / 2008 / 5008: NOW SOURCED** (Grade B) — see the Peugeot section
+  above. **Still gaps: Peugeot 301 and 3008.** The 301 uses the older 1.2 VTi 72 /
+  1.6 VTi 115 (no openable plan sheet found). For the **3008** every
+  forum-peugeot.com PureTech plan link was dead (404) or the model page returned
+  HTTP 403; only diesel (HDi/BlueHDi) 3008 sheets opened, which are out of scope
+  (diesel banned). The 3008 PureTech sheet was NOT substituted from the 5008 sheet
+  despite the shared engine, because the per-model tables proved to differ. →
+  **omitted** for 301 and 3008.
 - **Renault — Megane / Duster / Captur / Koleos / Symbol.** No official Renault
-  maintenance schedule located → **omitted**.
-- **Citroën — C3 / C5 Aircross.** Shares PSA PureTech; same gap as Peugeot →
-  **omitted**.
+  maintenance schedule located; only third-party carnet aggregators (idgarages,
+  piecesetpneus) with conflicting figures → **omitted**.
+- **Citroën — C3 / C5 Aircross.** Shares PSA PureTech, but no Citroën-branded plan
+  d'entretien was openable (Planète-Citroën / forum-citroen searches returned only
+  third-party carnets and sales brochures). The Peugeot PureTech sheets were NOT
+  copied across to Citroën (different make) → **omitted**.
 - **Fiat — Tipo / 500.** These are EU-market models for Lebanon; no openable
   official Fiat maintenance table (the US Fiat 500 was discontinued 2019). Not
   copied from the Stellantis US (Jeep/Dodge/RAM) books — different models/engines.
   → **omitted**.
 
-### Priorities that WERE fully sourced (Grade A)
-RAM 1500; Dodge Charger; Dodge Durango; Jeep Grand Cherokee; Jeep Wrangler (both
-engines); Jeep Compass; Jeep Cherokee (all engines); MINI (all models); Volvo
-(XC40/XC60/XC90/S60/S90 + V60/V90). Land Rover coolant (Grade A) + brake fluid
-(Grade B). Everything else above is an honest, documented gap.
+### Priorities that WERE fully sourced
+**Grade A:** RAM 1500; Dodge Charger; Dodge Durango; Jeep Grand Cherokee; Jeep
+Wrangler (both engines); Jeep Compass; Jeep Cherokee (all engines); MINI (all
+models); Volvo (XC40/XC60/XC90/S60/S90 + V60/V90). Land Rover coolant (Grade A) +
+brake fluid (Grade B).
+**Grade B (official Peugeot plan d'entretien, forum-mirrored):** Peugeot 208
+(PureTech 100 BVM6 / 130 EAT8), 2008 (PureTech 82 BVM5), 5008 (PureTech 130 BVM6)
+— full normal + severe columns.
+Everything else above is an honest, documented gap.

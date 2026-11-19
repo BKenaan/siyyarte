@@ -10,6 +10,7 @@ import '../../maintenance/models/scheduled_service.dart';
 import '../../maintenance/models/service_type.dart';
 import '../../maintenance/screens/mark_service_done_sheet.dart';
 import '../../maintenance/ui/maintenance_ui.dart';
+import '../../maintenance/widgets/oem_source_badge.dart';
 import '../../history/resale_passport.dart';
 import '../../history/screens/history_screen.dart';
 import '../../fuel/fuel_log_screen.dart';
@@ -334,8 +335,9 @@ class _ScheduleCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            // Field-level verification state: official interval + source badge
-            // where available, otherwise an honest "general schedule" label.
+            // Field-level provenance. Precedence: a manufacturer-verified spec
+            // (separate dataset) → a sourced OEM schedule interval → an honest
+            // "general schedule" label for computed-fallback rows.
             if (verified != null) ...[
               if (_verifiedIntervalText != null)
                 Padding(
@@ -352,7 +354,9 @@ class _ScheduleCard extends StatelessWidget {
                 sourcePage: verified!.sourcePage,
                 sourceUrl: verified!.sourceUrl,
               ),
-            ] else
+            ] else if (service.oemCitation != null)
+              OemSourceBadge(citation: service.oemCitation!)
+            else
               const GeneralScheduleNote(),
           ],
         ),

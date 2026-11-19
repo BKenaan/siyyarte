@@ -1,4 +1,5 @@
 import 'maintenance_rule.dart';
+import 'oem_citation.dart';
 import 'service_type.dart';
 
 /// Health status of a scheduled service — drives the Green/Yellow/Red UI.
@@ -29,6 +30,11 @@ class ScheduledService {
   /// Human-readable provenance for the interval (shown in the detail UI).
   final String source;
 
+  /// Set when this row's interval came from a SOURCED OEM schedule (not the
+  /// generic computed fallback). Drives the citation badge. Null for computed
+  /// rows, which keep their "general schedule" note.
+  final OemCitation? oemCitation;
+
   const ScheduledService({
     required this.type,
     this.lastDoneDate,
@@ -40,5 +46,6 @@ class ScheduledService {
     required this.status,
     required this.basis,
     required this.source,
+    this.oemCitation,
   });
 }

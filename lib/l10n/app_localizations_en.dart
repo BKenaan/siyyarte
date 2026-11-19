@@ -249,6 +249,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serviceBrakePads => 'Brake pads';
 
   @override
+  String get serviceBrakeFluid => 'Brake fluid';
+
+  @override
   String get serviceTires => 'Tires';
 
   @override
@@ -259,6 +262,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get serviceTransmissionFluid => 'Transmission fluid';
+
+  @override
+  String get serviceFuelFilter => 'Fuel filter';
 
   @override
   String get serviceTimingBelt => 'Timing belt / chain';
@@ -621,4 +627,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonFaultsSourceTypeReference => 'Reliability reference';
+
+  @override
+  String get oemScheduleBadge => 'Manufacturer schedule';
+
+  @override
+  String get oemScheduleSheetTitle => 'Manufacturer maintenance schedule';
+
+  @override
+  String get oemScheduleServiceItem => 'Service item';
+
+  @override
+  String get oemScheduleIntervalLabel => 'Interval';
+
+  @override
+  String get oemScheduleSevereNote =>
+      'Severe-conditions interval (Lebanon default)';
+
+  @override
+  String get oemScheduleConditionBased => 'Condition-based service';
+
+  @override
+  String get oemScheduleConditionBasedNote =>
+      'This make calls service by a flexible / condition-based system. The figure shown is the manufacturer\'s baseline, not a fixed limit.';
+
+  @override
+  String get oemScheduleGradeLabel => 'Source confidence';
+
+  @override
+  String get oemScheduleGradeA => 'Grade A — official manufacturer document';
+
+  @override
+  String get oemScheduleGradeB =>
+      'Grade B — official market/footnote or faithful reproduction';
+
+  @override
+  String get oemScheduleGradeC =>
+      'Grade C — positionally implied; confirm before relying';
+
+  @override
+  String get oemScheduleGradeD => 'Grade D — unverified';
+
+  @override
+  String get oemScheduleSourceField => 'Source';
+
+  @override
+  String get oemScheduleViewSource => 'View source document';
+
+  @override
+  String get oemScheduleDisclaimer =>
+      'Shown from the manufacturer\'s published maintenance schedule. Always confirm against your own owner\'s manual.';
 }

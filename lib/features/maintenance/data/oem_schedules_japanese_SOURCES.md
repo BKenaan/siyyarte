@@ -228,17 +228,107 @@ positionally implied by the source (needs confirmation before display).
 
 ---
 
+## Sources added in gap-fill pass 2
+
+**Sourcing breakthrough this pass:** the Lexus/Toyota Warranty-&-Services guides on
+`assets.sia.toyota.com` return **HTTP 403** live (WAF/IP block, re-confirmed), but the
+**genuine publisher PDFs** (native text — not OCR; they column-align with
+`pdftotext -table`) are cached on the **Wayback Machine** and were read directly from
+there via the `…/web/<timestamp>id_/<url>` raw-original form. Toyota RAV4 fetched live
+from `toyota.com`. Mitsubishi AU PDFs fetch cleanly from `media.adtorqueedge.com`.
+Nissan Altima/Sentra come from Nissan USA's official per-model schedule tool.
+
+> Lexus/Toyota/Nissan intervals are published in **miles**; km shown are the OEM's own
+> **1 mi = 1.6 km** convention (Nissan prints "7,500 miles (12,000 km)"; Lexus prints
+> "10,000 mi (16,000 km)"). The source mileage is kept in each interval's note.
+
+### Mitsubishi (Grade A)
+
+22. **Mitsubishi AU — "20MY YA Eclipse Cross Maintenance Schedule"** (MY19 identical)
+    `…/pdfs/ECLIPSE-CROSS-20MY-Maintenance-Schedule.pdf`
+    1.5T petrol, CVT. Oil 15,000 km/12 mo (severe 7,500 km); spark plugs 90,000 km;
+    **coolant first 195,000 km/10 yr then 120,000 km/6 yr** (value confirmed on its own
+    "Replace engine coolant" row with `pdftotext -table` — it is NOT the air-cleaner
+    value, which the plain text layer mis-rowed); engine air filter 45,000 km (Grade C,
+    4 positional column markers, corroborated by the Lancer's clean 6-marker row); brake
+    fluid 30,000 km/24 mo (7 even column markers); fuel filter 150,000 km/10 yr; CVT
+    90,000 km (severe 45,000 km); transfer 75,000 km (severe 45,000 km); diff 90,000 km
+    (severe 45,000 km).
+
+23. **Mitsubishi AU — "MY17 CF Lancer Maintenance Schedule"** `…/pdfs/LANCER-MY17_Maintenance-Schedule.pdf`
+    2.0/2.4 petrol. Oil 15,000 km/12 mo (severe 7,500 km); spark plugs 90,000 km;
+    coolant first 120,000 km/8 yr then 75,000 km/5 yr; air filter 45,000 km (6 even
+    markers); brake fluid 30,000 km/24 mo (10 even markers); cabin (air purifier) filter
+    15,000 km; fuel filter 150,000 km/10 yr; manual trans 195,000 km (severe 90,000 km);
+    auto/CVT 90,000 km (severe 45,000 km).
+
+24. **Mitsubishi AU — "22MY & 23MY ZM Outlander Maintenance Schedule"** `…/pdfs/22MY-ZM-Outlander-service-schedule.pdf`
+    **Fills the Outlander ZM coolant gap.** 2.5 PR25 petrol. Both model years (same ZM
+    generation as the 24MY entry) print **coolant first 150,000 km/8 yr then 75,000 km/
+    4 yr** and air cleaner "R: 30,000 km/24 months" cleanly via `pdftotext -table`.
+
+### Lexus (Grade A — genuine Warranty & Services Guides via Wayback Machine)
+
+25. **Lexus 2025 RX 350 W&S Guide** (`L-MMS-25RX350`, 2.4T) — oil 16,000 km (10k mi)/12 mo
+    normal, 8,000 km (5k mi)/6 mo special-ops; spark plugs 64,000 km (40k mi); brake
+    fluid 48,000 km (30k mi); engine air filter 48,000 km (30k mi); cabin filter
+    16,000 km (10k mi); **coolant first 160,000 km (100k mi)/120 mo then 80,000 km
+    (50k mi)/60 mo** (footnote). ATF/diff/transfer inspect-only normal, replace under
+    towing (not recorded as intervals).
+
+26. **Lexus 2025 ES 250/ES 350 W&S Guide** (`L-MMS-25ES250ES350`, NA) — oil 16,000 km/
+    12 mo (severe 8,000 km/6 mo); spark plugs 192,000 km (120k mi); brake fluid 48,000 km;
+    engine air filter 48,000 km; cabin filter 16,000 km; coolant first 160,000 km/120 mo
+    then 80,000 km/60 mo.
+
+27. **Lexus 2023 LX 600 W&S Guide** (`L-MMS-23X600`, 3.5TT, non-hybrid) — **oil & coolant
+    only.** Oil 16,000 km/12 mo (severe 8,000 km/6 mo); coolant first 160,000 km (100k
+    mi)/120 mo then 80,000 km (50k mi). The dense two-column maintenance pages did not
+    column-align unambiguously for brake fluid / air filters / spark plugs / transfer —
+    left as an honest gap.
+
+### Toyota non-hybrid (Grade A — per-model Warranty & Maintenance Guides)
+
+28. **Toyota 2023 RAV4 W&M Guide** (2.5 A25A; fetched live from toyota.com) — oil
+    16,000 km (10k mi)/12 mo (0W-16 fill; 0W-20 → 5k mi), severe 8,000 km (5k mi)/6 mo;
+    engine air filter 48,000 km (30k mi); cabin filter 48,000 km (30k mi); spark plugs
+    192,000 km (120k mi); **coolant first 160,000 km (100k mi)/120 mo then 80,000 km
+    (50k mi)/60 mo**; ATF inspect normal / replace 96,000 km (60k mi) under towing.
+
+29. **Toyota 2024 Camry W&M Guide** (2.5 A25A, non-hybrid; via Wayback) — oil as RAV4;
+    engine air filter 48,000 km; **spark plugs 96,000 km (listed at 60k AND 120k mi —
+    recorded as read; differs from RAV4/Corolla's 120k)**; coolant 160k→80k km; ATF
+    severe 96,000 km. Cabin-filter milestone not legible on two-column pages → omitted.
+
+30. **Toyota 2024 Corolla W&M Guide** (2.0 M20A; via Wayback) — oil as RAV4; engine air
+    filter 48,000 km; cabin filter 48,000 km; spark plugs 192,000 km (120k mi); coolant
+    160k→80k km; ATF severe 96,000 km.
+
+### Nissan (Grade A — Nissan USA official schedule tool, US-market)
+
+31. **Nissan 2022 Altima** (`maintenance-schedules.nissanusa.com/.../2022/altima/`) —
+    2.5L: oil 16,000 km (10k mi)/12 mo; 2.0T: 12,000 km (7.5k mi). Spark plugs 168,000 km
+    (105k mi); **coolant first 168,000 km (105k mi)/84 mo then 120,000 km (75k mi)/60 mo**;
+    CVT inspect normal / replace 96,000 km (60k mi) severe; brake fluid 32,000 km (20k mi)/
+    24 mo normal, 16,000 km (10k mi)/12 mo severe; engine air filter 48,000 km (30k mi).
+
+32. **Nissan 2019 Sentra** (`…/2019/sentra/`, B17, 1.8 MRA8) — oil 8,000 km (5k mi)/6 mo;
+    spark plugs 168,000 km (105k mi); coolant first 168,000 km/84 mo then 120,000 km/60 mo;
+    CVT inspect normal / replace 96,000 km (60k mi) severe; engine air filter 48,000 km.
+
+---
+
 ## Coverage summary (what was sourced)
 
 | Make | Models/engines sourced | Normal | Severe |
 |------|------------------------|:------:|:------:|
-| Toyota | Petrol-hybrid range (S1); general tropical PMS (S2) | ✓ | partial |
-| Nissan | X-Trail T32; Qashqai J11; **Almera/Sunny (1.5)**; **Navara (2.3 TD)** | ✓ | ✓ |
+| Toyota | Petrol-hybrid range (S1); general tropical PMS (S2); **non-hybrid RAV4 2.5, Camry 2.5, Corolla 2.0** (S28–30) | ✓ | ✓ |
+| Nissan | X-Trail T32; Qashqai J11; Almera/Sunny; Navara 2.3 TD; **Altima L34; Sentra B17** (S31–32) | ✓ | ✓ |
 | Honda | General EU schedule (oil, air, plugs, coolant, brake, trans) | ✓ | partial |
 | Hyundai | Tucson/Santa Fe/Palisade HEV; Kona/Venue/Tucson MPI | ✓ | ✓ (= half) |
-| Mitsubishi | Outlander ZM; Triton MR; **Mirage LA**; **Pajero Sport QG**; **Pajero NX**; **ASX XD** | ✓ | ✓ |
-| **Lexus** | **NX 200t (2016)** — Grade B | ✓ | ✓ (special-ops) |
-| **Kia** | **Sorento UM; Sportage QL; Cerato/Forte YD; Rio UB** — Grade B | ✓ | ✓ (Sportage normal only) |
+| Mitsubishi | Outlander ZM (+**coolant now filled**); Triton MR; Mirage LA; Pajero Sport QG; Pajero NX; ASX XD; **Eclipse Cross YA; Lancer CF** (S22–24) | ✓ | ✓ |
+| **Lexus** | NX 200t (Grade B); **RX 350, ES 250/350, LX 600** (Grade A, via Wayback) (S25–27) | ✓ | ✓ (special-ops) |
+| **Kia** | Sorento UM; Sportage QL; Cerato/Forte YD; Rio UB — Grade B | ✓ | ✓ (Sportage normal only) |
 
 ---
 
@@ -249,50 +339,54 @@ positionally implied by the source (needs confirmation before display).
   Kia owner's manuals (OCR full text on the Internet Archive) — see sources 17–20.
   The OEM/aggregator hosts remain Cloudflare/WAF-blocked (re-confirmed this pass
   in a fully-rendered browser), and `kia.co.za`'s schedule tool served only
-  placeholder data. **Still gaps:** Picanto and Seltos (not present in the
-  reachable US manual collection); the Sportage severe table (OCR columns not
-  legibly aligned). No Hyundai value was copied across. **Action:** obtain Kia
-  Picanto/Seltos manuals and the Sportage severe table from a legible source.
+  placeholder data. **Still gaps:** Picanto and Seltos (re-confirmed this pass via
+  the archive.org advancedsearch API — the `car-service-manuals-kia-*` collection is
+  US-market and lists no Picanto/Seltos, which are not sold in the US); the Sportage
+  severe table (OCR columns not legibly aligned). No Hyundai value was copied across.
+  **Action:** obtain Kia Picanto/Seltos manuals (a MENA/AU owner's manual that
+  embeds the schedule) and the Sportage severe table from a legible source.
 
-- **Lexus — PARTIALLY FILLED (gap-fill pass).** NX 200t (2016) is now recorded
-  at **Grade B** from the official Lexus Warranty & Services Guide (Internet
-  Archive, source 21), including the Special Operating Conditions (severe)
-  schedule. `assets.sia.toyota.com` returns S3 `AccessDenied` to both fetch and a
-  rendered browser (WAF/IP block), and the Lexus US owner's manuals on the
-  Archive defer all intervals to the separate guide — only the NX guide was found
-  there. **Still gaps:** ES, IS, RX, LX scheduled-maintenance logs. **Action:**
-  source each remaining model's Warranty & Services Guide (or a non-US Lexus
-  manual that embeds the schedule) from a reachable host / manual upload.
+- **Lexus — MOSTLY FILLED (pass 2).** NX 200t (Grade B, Archive OCR) plus **RX 350,
+  ES 250/350 and LX 600 (Grade A)** from the genuine Warranty & Services Guides,
+  read via the **Wayback Machine** (the live `assets.sia.toyota.com` host 403s to
+  both fetch and a rendered browser, but Wayback caches the real native-text PDFs —
+  sources 25–27). The LX records oil + coolant only (two-column pages illegible for
+  the rest). **Still gaps:** IS (no reachable guide — all IS snapshots missing from
+  Wayback and the live host is blocked); the LX's non-oil/coolant items. **Action:**
+  source an IS Warranty & Services Guide from a reachable host / upload.
 
-- **Toyota non-hybrid normal/severe split — partial.** The clean, fully-cited
-  normal+severe table obtained is for the petrol-hybrid range (S1). The
-  conventional-petrol owner's-manual normal/severe table (per model: Corolla,
-  Camry, RAV4, Hilux, Land Cruiser/Prado, Yaris) was not captured from a single
-  fetchable document; the Brunei PMS (S2) stands in as a hot-climate schedule.
-  Hyundai/Kia/Toyota manual portals that would carry these are Cloudflare-gated.
-  **Action:** source per-model Toyota Scheduled Maintenance Guides (the
-  `assets.sia.toyota.com` SMGs) via a route that bypasses hotlink protection, or
-  manual upload.
+- **Toyota non-hybrid — MOSTLY FILLED (pass 2).** Non-hybrid **RAV4 (2.5), Camry
+  (2.5) and Corolla (2.0)** are now recorded at **Grade A** from the per-model
+  Warranty & Maintenance Guides (RAV4 live from toyota.com; Camry/Corolla via
+  Wayback — sources 28–30), with normal + Special Operating Conditions. **Still
+  gaps:** **Hilux** (not in the US guide lineup) and **Land Cruiser/Prado
+  non-hybrid** (the US 2024 Land Cruiser is the 2.4T i-FORCE MAX **hybrid** only;
+  the non-hybrid Prado is a MENA/AU model not on the reachable US hosts). **Action:**
+  source Hilux and Prado petrol schedules from a Gulf/AU Toyota importer or upload.
 
-- **Honda model-specific tables — partial.** The Honda schedule recorded is
+- **Honda model-specific tables — STILL PARTIAL.** The Honda schedule recorded is
   Honda's common/general owner's-manual schedule (via the Prelude 2026 OM page).
   Model-specific confirmation for the volume sellers in Lebanon (Civic, Accord,
-  CR-V, Jazz/Fit) was not separately captured — `techinfo.honda.com` OM PDFs
-  failed TLS verification. The general figures are expected to apply, but
-  per-model confirmation is pending. Honda's Maintenance Minder (algorithmic oil
-  life) also overrides the fixed oil interval on many models.
+  CR-V, Jazz/Fit) was **not** captured this pass either — Honda does not publish
+  the assets.sia-style per-model guide, and `techinfo.honda.com` OM PDFs failed TLS
+  verification. The general figures are expected to apply, but per-model
+  confirmation is pending. Honda's Maintenance Minder (algorithmic oil life) also
+  overrides the fixed oil interval on many models. **Action:** capture Civic/Accord/
+  CR-V maintenance from an owner's-manual "Maintenance" section via a reachable host.
 
-- **Nissan sedans/trucks — PARTIALLY FILLED.** Almera/Sunny (1.5) and Navara
-  (2.3 TD) are now recorded (Grade A) from Nissan SA PDFs (sources 10–11).
-  **Still gaps:** Sentra, Altima and Patrol are **404 on the Nissan SA CDN**
-  (not hosted there). **Action:** source those from another Nissan importer.
+- **Nissan sedans/trucks — MOSTLY FILLED (pass 2).** Almera/Sunny and Navara (Grade
+  A, Nissan SA) plus **Altima (L34, 2022) and Sentra (B17, 2019)** (Grade A, Nissan
+  USA official schedule tool — sources 31–32, US-market). **Still gaps:** **Patrol**
+  (Gulf-market Nissan ME model, 404 on Nissan SA and not on the US tool); a current
+  **B18 Sentra (2020+)** would be more fleet-relevant than the B17 recorded.
+  **Action:** source Patrol and a 2020+ Sentra from Nissan ME / a Gulf importer.
 
-- **Mitsubishi — MOSTLY FILLED.** Mirage (LA), Pajero Sport (QG), Pajero (NX)
-  and ASX (XD) are now recorded (sources 12–15). **Still gaps:** the Outlander ZM
-  coolant row (new-template PDF renders it with detached markers — source 16);
-  Eclipse Cross and Lancer were not captured. Attrage shares the Mirage LA
-  platform but is a distinct model and was **not** copied across. **Action:**
-  capture Outlander coolant + Eclipse Cross/Lancer from a legible render.
+- **Mitsubishi — FILLED (pass 2).** Mirage, Pajero Sport, Pajero and ASX (sources
+  12–15) plus **Eclipse Cross (YA) and Lancer (CF)** (sources 22–23), and the
+  **Outlander ZM coolant gap is now filled** from the 22/23MY ZM schedules (source
+  24: first 150,000 km/8 yr then 75,000 km/4 yr). Attrage shares the Mirage LA
+  platform but is a distinct model and was **not** copied across. The only residual:
+  Eclipse Cross air-cleaner is Grade C (positional column markers).
 
 - **General:** a few long-life-coolant "first X then every Y" items and the
   Nissan 1.6T brake-fluid row carried ambiguous month/km cells; only the

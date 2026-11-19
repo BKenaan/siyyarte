@@ -199,6 +199,45 @@ const String _srcGeelyKsa =
     'Maintenance / Service Cost" page (per-model service intervals + fuel '
     'filter note) — https://geelyksa.com/service-cost/';
 
+const String _srcCheryMyOmodaO5 =
+    'Chery Malaysia (official) — "THE NEW CHERY O5 — Service Schedule & Pricing '
+    'Guide" (eff. 10 Sept 2025) — '
+    'https://www.chery.my/wp-content/uploads/2025/09/Chery-Service-Maintenance-Schedule_O5_2025_compressed-1.pdf';
+
+const String _srcCheryMyTiggo7Pro =
+    'Chery Malaysia (official) — "TIGGO 7 PRO — Service Schedule & Pricing Guide" '
+    '(eff. 29 Aug 2025) — '
+    'https://www.chery.my/wp-content/uploads/2025/08/Chery-Service-Pricing-Guide_TIGGO-7-PRO_2025.pdf';
+
+const String _srcCheryMyTiggo8Pro =
+    'Chery Malaysia (official) — "TIGGO 8 PRO — Service Schedule & Pricing Guide" '
+    '(eff. 29 Aug 2025) — '
+    'https://www.chery.my/wp-content/uploads/2025/08/Chery-Service-Maintenance-Schedule_TIGGO-8-PRO_2025.pdf';
+
+const String _srcCheryMyTiggoCross =
+    'Chery Malaysia (official) — "TIGGO CROSS — Service Schedule & Pricing Guide" '
+    '(1.5T + 6DCT) — '
+    'https://www.chery.my/wp-content/uploads/2025/07/tiggocross-service-maintenance-schedules.pdf';
+
+const String _srcJacQatarJs4 =
+    'JAC Qatar (official importer) — "JAC JS4 1.5T CVT" periodic maintenance '
+    'schedule (R/I table, 10K–120K km) (PDF; original jacqatar.com link now '
+    'Cloudflare-blocked, read via Internet Archive snapshot 2024-08-31) — '
+    'https://web.archive.org/web/20240831155910/https://www.jacqatar.com/wp-content/uploads/2024/01/JS4-1.pdf';
+
+const String _srcChanganUkDeepal =
+    'Changan UK / Deepal (official importer, changaneurope.com) — "Service '
+    'Schedules" (Deepal S07 BEV, S05 BEV, S05 PHEV; year/mileage per-item table, '
+    'intervals in years + miles) — '
+    'https://website-editor.changaneurope.com/uk/owners/service-schedules';
+
+const String _srcGeelyClBook =
+    'Geely Chile (official importer) — "Geely Warranty book all models" '
+    '(owner warranty & maintenance book, "Mantención Programada" scheduled-'
+    'maintenance R/I grid + special-fluids pages for New Coolray / Coolray Lite '
+    '/ Cityray, engine 4G15TD) — '
+    'https://www.geely.cl/content/uploads/2026/03/Geely-Warranty-book-all-models.pdf';
+
 // ---------------------------------------------------------------------------
 // BYD  (battery-electric unless noted)
 // ---------------------------------------------------------------------------
@@ -763,17 +802,679 @@ const OemModelSchedule _geelyKsaRange = OemModelSchedule(
 );
 
 // ---------------------------------------------------------------------------
+// CHERY / OMODA  (ICE petrol — item-level, from Chery Malaysia official
+// Service Schedule & Pricing Guides. These are machine-readable manufacturer
+// tables; each sparse-row interval below was cross-checked against the printed
+// TOTAL SERVICE & MAINTENANCE FEE column so the service/km mapping is exact.
+// The km↔month pairing printed in every guide is 10,000 km ⇄ 6 months
+// (10k/6mo, 20k/12mo, 30k/18mo, 40k/24mo, 50k/30mo, 60k/36mo …). No
+// normal/severe split is published. Engine displacement is not printed on the
+// guides; it is recorded from the oil spec / known Malaysia-market engine.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _cheryOmodaC5 = OemModelSchedule(
+  make: 'Chery (Omoda)',
+  model: 'Omoda 5 / Omoda C5 (facelift "Chery O5")',
+  engine: 'Petrol 1.5T + DCT (oil spec: Fully Synthetic SP 5W30, 4.7L)',
+  fuel: 'Petrol',
+  generationNote:
+      'Chery Malaysia "THE NEW CHERY O5" Service Schedule & Pricing Guide. '
+      'Omoda 5 / Omoda C5 are the same vehicle (Omoda C5 is the international / '
+      'MENA badge). Columns 1/10/20…150 ×1000 km at 1/6/12…84 months; base '
+      'interval 10,000 km / 6 months (first 1,000 km break-in is FOC, not a '
+      'replacement). Intervals verified against the printed total-fee column.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyOmodaO5,
+      grade: OemGrade.a,
+      notes: 'Fully Synthetic SP 5W30 (4.7L) + filter at every service '
+          '(10,000 km / 6 months).',
+    ),
+    OemInterval(
+      service: 'Element air filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyOmodaO5,
+      grade: OemGrade.a,
+      notes: 'Replaced at 20/40/60/80/100/120/140 ×1000 km → every 20,000 km / '
+          '12 months.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 30000,
+      intervalMonths: 18,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyOmodaO5,
+      grade: OemGrade.a,
+      notes: 'Replaced at 30/60/90/120/150 ×1000 km → every 30,000 km (18-month '
+          'column). Kilometres are the governing figure.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyOmodaO5,
+      grade: OemGrade.a,
+      notes: 'Replaced at 40/80/120 ×1000 km → every 40,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'DCT transmission oil',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyOmodaO5,
+      grade: OemGrade.a,
+      notes: 'DCT Transmission Oil (4.3L) at 40/80/120 ×1000 km → every '
+          '40,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Radiator coolant',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyOmodaO5,
+      grade: OemGrade.a,
+      notes: 'Radiator Coolant (4L) at 40/80/120 ×1000 km → every 40,000 km / '
+          '24 months.',
+    ),
+  ],
+);
+
+const OemModelSchedule _cheryTiggo7Pro = OemModelSchedule(
+  make: 'Chery',
+  model: 'Tiggo 7 Pro',
+  engine: 'Petrol 1.5T + DCT (oil spec: SP 5W30, 4.7L)',
+  fuel: 'Petrol',
+  generationNote:
+      'Chery Malaysia "TIGGO 7 PRO" Service Schedule & Pricing Guide. Base '
+      'interval 10,000 km / 6 months. DCT oil and coolant fall on a 50,000 km '
+      'cadence here (vs 40,000 km on the Omoda O5) — recorded per model, not '
+      'copied across. Intervals verified against the printed total-fee column.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo7Pro,
+      grade: OemGrade.a,
+      notes: 'Engine Oil SP 5W30 (4.7L) + filter at every service.',
+    ),
+    OemInterval(
+      service: 'Element air filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo7Pro,
+      grade: OemGrade.a,
+      notes: 'At 20/40/60/80/100/120/140 ×1000 km → every 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 30000,
+      intervalMonths: 18,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo7Pro,
+      grade: OemGrade.a,
+      notes: 'At 30/60/90/120/150 ×1000 km → every 30,000 km (18-month column).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo7Pro,
+      grade: OemGrade.a,
+      notes: 'At 40/80/120 ×1000 km → every 40,000 km / 24 months (120,000 km '
+          'occurrence confirmed by total-fee decomposition).',
+    ),
+    OemInterval(
+      service: 'DCT transmission oil',
+      intervalKm: 50000,
+      intervalMonths: 30,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo7Pro,
+      grade: OemGrade.a,
+      notes: 'DCT Transmission Oil (4.25L) at 50/100/150 ×1000 km → every '
+          '50,000 km / 30 months.',
+    ),
+    OemInterval(
+      service: 'Radiator coolant (long life)',
+      intervalKm: 50000,
+      intervalMonths: 30,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo7Pro,
+      grade: OemGrade.a,
+      notes: 'Radiator Coolant Long Life (4L) at 50/100/150 ×1000 km → every '
+          '50,000 km / 30 months.',
+    ),
+  ],
+);
+
+const OemModelSchedule _cheryTiggo8Pro = OemModelSchedule(
+  make: 'Chery',
+  model: 'Tiggo 8 Pro',
+  engine: 'Petrol 1.6T + DCT (oil spec: C5 0W20, 4.0L)',
+  fuel: 'Petrol',
+  generationNote:
+      'Chery Malaysia "TIGGO 8 PRO" Service Schedule & Pricing Guide. 1.6TGDI '
+      '(0W20 oil). Base interval 10,000 km / 6 months. DCT oil + coolant on a '
+      '50,000 km cadence. Intervals verified against the printed total-fee '
+      'column.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo8Pro,
+      grade: OemGrade.a,
+      notes: 'Engine Oil C5 0W20 (4.0L) + filter at every service.',
+    ),
+    OemInterval(
+      service: 'Element air filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo8Pro,
+      grade: OemGrade.a,
+      notes: 'At 20/40/60/80/100/120/140 ×1000 km → every 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 30000,
+      intervalMonths: 18,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo8Pro,
+      grade: OemGrade.a,
+      notes: 'At 30/60/90/120/150 ×1000 km → every 30,000 km (18-month column).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo8Pro,
+      grade: OemGrade.a,
+      notes: 'At 40/80/120 ×1000 km → every 40,000 km / 24 months (120,000 km '
+          'occurrence confirmed by total-fee decomposition).',
+    ),
+    OemInterval(
+      service: 'DCT transmission oil',
+      intervalKm: 50000,
+      intervalMonths: 30,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo8Pro,
+      grade: OemGrade.a,
+      notes: 'DCT Transmission Oil (4.25L) at 50/100/150 ×1000 km → every '
+          '50,000 km / 30 months.',
+    ),
+    OemInterval(
+      service: 'Radiator coolant (long life)',
+      intervalKm: 50000,
+      intervalMonths: 30,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggo8Pro,
+      grade: OemGrade.a,
+      notes: 'Radiator Coolant Long Life (4L) at 50/100/150 ×1000 km → every '
+          '50,000 km / 30 months.',
+    ),
+  ],
+);
+
+const OemModelSchedule _cheryTiggoCross = OemModelSchedule(
+  make: 'Chery',
+  model: 'Tiggo Cross',
+  engine: 'Petrol 1.5T + 6DCT (oil 4.7L)',
+  fuel: 'Petrol',
+  generationNote:
+      'Chery Malaysia "TIGGO CROSS" Service Schedule & Pricing Guide (1.5T + '
+      '6DCT page). Base interval 10,000 km / 6 months. This guide prints no '
+      'coolant row, so coolant is intentionally omitted. Transmission oil is a '
+      '6DCT (3.4L) on a 60,000 km cadence. Verified against the total-fee '
+      'column.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggoCross,
+      grade: OemGrade.a,
+      notes: 'Engine oil (4.7L) + filter at every service.',
+    ),
+    OemInterval(
+      service: 'Element air filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggoCross,
+      grade: OemGrade.a,
+      notes: 'At 20/40/60/80/100/120/140 ×1000 km → every 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 30000,
+      intervalMonths: 18,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggoCross,
+      grade: OemGrade.a,
+      notes: 'At 30/60/90/120/150 ×1000 km → every 30,000 km (18-month column).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggoCross,
+      grade: OemGrade.a,
+      notes: 'At 40/80/120 ×1000 km → every 40,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Transmission oil (6DCT)',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcCheryMyTiggoCross,
+      grade: OemGrade.a,
+      notes: 'Transmission Oil (3.4L) at 60/120 ×1000 km → every 60,000 km / '
+          '36 months.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// JAC  (ICE petrol — item-level, from JAC Qatar official importer R/I table)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _jacJs4 = OemModelSchedule(
+  make: 'JAC',
+  model: 'JS4',
+  engine: 'Petrol 1.5T + CVT',
+  fuel: 'Petrol',
+  generationNote:
+      'JAC Qatar official "JAC JS4 1.5T CVT" periodic maintenance table — a '
+      'clean R(replace)/I(inspect) grid, columns 10K–120K km paired 10,000 km ⇄ '
+      '6 months. Every replacement interval below is read directly from an R '
+      'cell. No normal/severe split is published. Only the JS4 1.5T CVT is '
+      'covered by this document (JS6 not included — left as a gap, not copied).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcJacQatarJs4,
+      grade: OemGrade.a,
+      notes: 'R at every 10,000 km column (drain-plug washer also replaced each '
+          'service).',
+    ),
+    OemInterval(
+      service: 'Air filter element',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcJacQatarJs4,
+      grade: OemGrade.a,
+      notes: 'R at 20/40/60/80/100/120 ×1000 km (inspected at the alternate '
+          '10K services) → every 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'A/C (cabin) filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcJacQatarJs4,
+      grade: OemGrade.a,
+      notes: 'R at 20/40/60/80/100/120 ×1000 km → every 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Fuel filter',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcJacQatarJs4,
+      grade: OemGrade.a,
+      notes: 'R at 40/80/120 ×1000 km → every 40,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcJacQatarJs4,
+      grade: OemGrade.a,
+      notes: 'R at 40/80/120 ×1000 km → every 40,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Transmission (CVT) oil & filter',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcJacQatarJs4,
+      grade: OemGrade.a,
+      notes: 'Transmission oil and transmission oil filter both R at 60/120 '
+          '×1000 km → every 60,000 km / 36 months.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcJacQatarJs4,
+      grade: OemGrade.a,
+      notes: 'R at 60/120 ×1000 km → every 60,000 km / 36 months (inspected at '
+          'intermediate services).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      intervalKm: 80000,
+      intervalMonths: 48,
+      firstKm: 80000,
+      severity: OemSeverity.normal,
+      source: _srcJacQatarJs4,
+      grade: OemGrade.b,
+      notes: 'First (and only) R in the 120K-km table is at 80,000 km / '
+          '48 months; inspected at all other services. Recurring interval '
+          'beyond 120K not shown on this table — firstKm recorded, treat the '
+          'interval as the first-change baseline.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// DEEPAL  (Changan's EV brand. Per-model BEV vs PHEV is taken from the Changan
+// UK importer schedule, which itemises engine-bearing items only for the PHEV.
+// The UK market sells the S07 and S05 as BEV and the S05 as PHEV; intervals are
+// published in YEARS + MILES, so months are exact and km are left null rather
+// than converted. A separate S07 REEV / range-extender variant exists in other
+// markets — no reachable schedule was found for it, so it is NOT recorded
+// (would need its own fuel + engine-oil set). Nothing copied across variants.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _deepalS07Bev = OemModelSchedule(
+  make: 'Deepal',
+  model: 'S07 (BEV)',
+  engine: 'Battery-electric',
+  fuel: 'Electric',
+  generationNote:
+      'Changan UK / Deepal official service schedule. S07 BEV: base service '
+      'every 12 months / 12,000 miles, first service at 24 months / 24,000 '
+      'miles. Per-item intervals are year-based (2nd/4th/6th year = every '
+      '24 months; 3rd/6th year = every 36 months). Distances are published in '
+      'miles only, so intervalKm is left null and the mile figure is noted.',
+  intervals: [
+    OemInterval(
+      service: 'Scheduled service (general)',
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: 'Every 12 months or 12,000 miles (~19,300 km), whichever first; '
+          'first service at 24 months / 24,000 miles.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: 'Replaced at the 2nd, 4th and 6th year → every 24 months.',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: '2nd, 4th and 6th year → every 24 months.',
+    ),
+    OemInterval(
+      service: 'Coolant',
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: '3rd and 6th year → every 36 months.',
+    ),
+    OemInterval(
+      service: 'Electric drive system (reducer) lubricating oil',
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: '3rd and 6th year → every 36 months.',
+    ),
+    OemInterval(
+      service: 'High-voltage battery check',
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: 'Battery check at the 3rd and 6th year → every 36 months '
+          '(inspection, not replacement).',
+    ),
+  ],
+);
+
+const OemModelSchedule _deepalS05Phev = OemModelSchedule(
+  make: 'Deepal',
+  model: 'S05 (PHEV)',
+  engine: 'Plug-in hybrid (petrol engine + electric drive)',
+  fuel: 'Plug-in hybrid',
+  generationNote:
+      'Changan UK / Deepal official service schedule. S05 PHEV has a petrol '
+      'engine, so the engine item set (oil, spark plugs, engine air filter) is '
+      'present in addition to the EV items. Base service every 12 months / '
+      '12,000 miles, first service at 12 months / 12,000 miles. Per-item '
+      'intervals are year-based; distances published in miles only (km null).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: 'Replaced every year (1st–7th) → every 12 months / ~12,000 miles.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: '2nd, 4th and 6th year → every 24 months.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: '2nd, 4th and 6th year → every 24 months.',
+    ),
+    OemInterval(
+      service: 'E-drive transmission oil',
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: '3rd and 6th year → every 36 months.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: '2nd, 4th and 6th year → every 24 months.',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: '2nd, 4th and 6th year → every 24 months.',
+    ),
+    OemInterval(
+      service: 'Coolant',
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcChanganUkDeepal,
+      grade: OemGrade.b,
+      notes: '3rd and 6th year → every 36 months.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// GEELY  (ICE petrol — item-level Coolray schedule, from the Geely Chile
+// official owner warranty & maintenance book "Mantención Programada" table.
+// This upgrades the earlier Geely entry, which had only the base interval +
+// fuel filter from Geely KSA. Engine 4G15TD (1.5T), oil 0W-20, brake DOT4.
+// Items with an explicit Spanish prose interval ("Reemplazar cada …") are
+// Grade A; R/I-grid items are read from the printed grid.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _geelyCoolrayItems = OemModelSchedule(
+  make: 'Geely',
+  model: 'Coolray (New Coolray / Coolray Lite / Cityray)',
+  engine: 'Petrol 1.5T (4G15TD); oil API SP 0W-20',
+  fuel: 'Petrol',
+  generationNote:
+      'Geely Chile all-models warranty & maintenance book, "Mantención '
+      'Programada" schedule for New Coolray / Coolray Lite / Cityray. Grid '
+      'columns are services 1–10 at 10,000 km ⇄ 12 months (10k/12mo, 20k/24mo, '
+      '40k/48mo, …). Base service interval 10,000 km / 12 months (already '
+      'captured from Geely KSA); this entry adds the per-item intervals. CVT '
+      'and manual-transmission fluids differ — both recorded.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGeelyClBook,
+      grade: OemGrade.a,
+      notes: 'Engine oil (API SP 0W-20) + oil filter: R at every service → '
+          '10,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Air filter',
+      intervalKm: 20000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGeelyClBook,
+      grade: OemGrade.a,
+      notes: 'R at services 2/4/6/8/10 → every 20,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'A/C (cabin) filter',
+      intervalKm: 20000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGeelyClBook,
+      grade: OemGrade.a,
+      notes: 'Filtro de Aire Acondicionado: R at services 2/4/6/8/10 → every '
+          '20,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 40000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcGeelyClBook,
+      grade: OemGrade.a,
+      notes: 'Bujía: R at services 4 and 8 → every 40,000 km / 48 months.',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGeelyClBook,
+      grade: OemGrade.a,
+      notes: 'Prose: "Reemplazar cada 24 meses o 40.000 km" → every 40,000 km '
+          '/ 24 months.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGeelyClBook,
+      grade: OemGrade.a,
+      notes: 'Prose: "Reemplazar cada 24 meses o 40.000 km" (DOT4) → every '
+          '40,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Fuel filter',
+      intervalKm: 30000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGeelyClBook,
+      grade: OemGrade.a,
+      notes: 'Prose: "Reemplazar cada 1 año o 30.000 km" → every 30,000 km / '
+          '12 months.',
+    ),
+    OemInterval(
+      service: 'Drive (accessory) belt',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcGeelyClBook,
+      grade: OemGrade.a,
+      notes: 'Prose: "Reemplazar cada 36 meses o 60.000 km" → every 60,000 km '
+          '/ 36 months. (Timing is by chain — no scheduled replacement.)',
+    ),
+    OemInterval(
+      service: 'CVT transmission fluid',
+      firstKm: 40000,
+      severity: OemSeverity.normal,
+      source: _srcGeelyClBook,
+      grade: OemGrade.a,
+      notes: 'Prose: "Reemplazar a los 40.000 km. Después sin mantención" — '
+          'single change at 40,000 km, then maintenance-free.',
+    ),
+    OemInterval(
+      service: 'Manual transmission fluid',
+      firstKm: 10000,
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGeelyClBook,
+      grade: OemGrade.a,
+      notes: 'Prose: "Reemplazar a los 10.000 km, luego cada 24 meses o '
+          '30.000 km" → first at 10,000 km, then every 30,000 km / 24 months.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
 // The dataset.
 //
 // COVERAGE / GAPS (full detail in oem_schedules_chinese_SOURCES.md):
-//   • Solid item-level data: BYD BEV range, Chery EQ7 (BEV), Changan ICE
-//     range, GWM/Haval H6 (petrol + DHT hybrid/PHEV + GT + Malaysia HEV).
-//   • Interval-only (item-level gap): MG (HS + EV range), Geely (+ fuel filter),
-//     BYD Song Plus DM-i (plug-in hybrid cadence).
+//   • Solid item-level data: BYD BEV range, Chery EQ7 (BEV), Chery Omoda C5 /
+//     Tiggo 7 Pro / Tiggo 8 Pro / Tiggo Cross (ICE petrol, Chery Malaysia),
+//     Changan ICE range, GWM/Haval H6 (petrol + DHT hybrid/PHEV + GT + Malaysia
+//     HEV), JAC JS4 (ICE petrol), Geely Coolray (ICE petrol, full item set),
+//     Deepal S07 BEV + S05 PHEV (Changan UK, time-based).
+//   • Interval-only (item-level gap): MG (HS + EV range), Geely KSA range
+//     (+ fuel filter; Coolray now item-level), BYD Song Plus DM-i (PHEV cadence).
 //   • COMPLETE GAPS — no reachable official schedule, nothing recorded:
-//     Chery Tiggo 2/4/7/8 & Omoda C5 (ICE), Jetour X70/Dashing, JAC, Avatr
-//     11/12, Changan Eado/UNI per-model confirmation. Per the GOLDEN RULE no
-//     figures were invented or copied across brands/models for these.
+//     Chery Tiggo 2 / Tiggo 4 Pro (ICE; Malaysia has no guide, Chery Egypt media
+//     links not resolvable), Jetour X70/Dashing (no fetchable official table),
+//     JAC JS6 (only JS4 was published), Avatr 11/12, Voyah (Free/Dreamer EREV,
+//     Courage BEV — powertrain known but no reachable schedule), Seres/Aito
+//     M5/M7 (EREV + BEV variants — no reachable schedule). Per the GOLDEN RULE
+//     no figures were invented or copied across brands/models for these.
 // ---------------------------------------------------------------------------
 
 const List<OemModelSchedule> kOemChineseSchedules = [
@@ -783,8 +1484,17 @@ const List<OemModelSchedule> kOemChineseSchedules = [
   _bydSongDmi,
   // Chery
   _cheryEq7,
+  _cheryOmodaC5,
+  _cheryTiggo7Pro,
+  _cheryTiggo8Pro,
+  _cheryTiggoCross,
   // Changan
   _changanPms,
+  // JAC
+  _jacJs4,
+  // Deepal (Changan EV brand)
+  _deepalS07Bev,
+  _deepalS05Phev,
   // GWM / Haval
   _gwmH6Petrol,
   _gwmH6Hev,
@@ -794,4 +1504,5 @@ const List<OemModelSchedule> kOemChineseSchedules = [
   _mgBaseIntervals,
   // Geely
   _geelyKsaRange,
+  _geelyCoolrayItems,
 ];

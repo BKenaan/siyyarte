@@ -248,6 +248,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get serviceBrakePads => 'تيل الفرامل';
 
   @override
+  String get serviceBrakeFluid => 'زيت الفرامل';
+
+  @override
   String get serviceTires => 'الإطارات';
 
   @override
@@ -258,6 +261,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get serviceTransmissionFluid => 'زيت الغير';
+
+  @override
+  String get serviceFuelFilter => 'فلتر البنزين';
 
   @override
   String get serviceTimingBelt => 'سير/سلسلة التايمنغ';
@@ -622,4 +628,53 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get commonFaultsSourceTypeReference => 'مرجع موثوقية';
+
+  @override
+  String get oemScheduleBadge => 'جدول الشركة المصنّعة';
+
+  @override
+  String get oemScheduleSheetTitle => 'جدول الصيانة من الشركة المصنّعة';
+
+  @override
+  String get oemScheduleServiceItem => 'بند الصيانة';
+
+  @override
+  String get oemScheduleIntervalLabel => 'الفترة';
+
+  @override
+  String get oemScheduleSevereNote => 'فترة الظروف القاسية (الافتراضي للبنان)';
+
+  @override
+  String get oemScheduleConditionBased => 'صيانة حسب الحالة';
+
+  @override
+  String get oemScheduleConditionBasedNote =>
+      'تعتمد هذه الشركة نظام صيانة مرن/حسب الحالة. الرقم المعروض هو الأساس الذي تحدّده الشركة المصنّعة وليس حدّاً ثابتاً.';
+
+  @override
+  String get oemScheduleGradeLabel => 'موثوقية المصدر';
+
+  @override
+  String get oemScheduleGradeA => 'الدرجة A — وثيقة رسمية من الشركة المصنّعة';
+
+  @override
+  String get oemScheduleGradeB =>
+      'الدرجة B — مصدر رسمي للسوق/حاشية أو نسخة أمينة';
+
+  @override
+  String get oemScheduleGradeC =>
+      'الدرجة C — مستنتَج من الموضع؛ تأكّد قبل الاعتماد';
+
+  @override
+  String get oemScheduleGradeD => 'الدرجة D — غير مُتحقَّق منه';
+
+  @override
+  String get oemScheduleSourceField => 'المصدر';
+
+  @override
+  String get oemScheduleViewSource => 'عرض وثيقة المصدر';
+
+  @override
+  String get oemScheduleDisclaimer =>
+      'معروض من جدول الصيانة المنشور من الشركة المصنّعة. تحقّق دائماً من دليل مالك سيّارتك.';
 }
