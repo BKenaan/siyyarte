@@ -2,7 +2,8 @@
 //
 // Second Japanese-makes corpus, covering makes NOT in
 // `oem_schedules_japanese.dart`: SUZUKI, MAZDA, SUBARU, ISUZU, DAIHATSU — plus
-// (added Round 2) ACURA (Honda group) and SsangYong/KGM (petrol).
+// (added Round 2) ACURA (Honda group) and SsangYong/KGM (petrol), and (Round 3)
+// one MITSUBISHI ASX petrol entry that completes the sibling file's sparser one.
 //
 // This file is SOURCED RESEARCH DATA, not yet wired into the maintenance
 // engine. It mirrors the discipline of the sibling datasets
@@ -214,6 +215,14 @@ const String _srcAcuraMdxOm2008 =
     '(2008 MY), faithful reproduction (Acura/Honda portals & ManualsLib are '
     'Cloudflare-gated) — '
     'https://www.manualsdir.com/manuals/33002/acura-2008-mdx.html?page=396';
+
+// --- Round 3 addition: Mitsubishi ASX (petrol) — completes the sparser 24MY
+// ASX entry in the sibling oem_schedules_japanese.dart (which omits plugs &
+// coolant as "not legible"); read cleanly from the 23MY schedule. ---
+const String _srcMitsuAuAsx23My =
+    'Mitsubishi Motors Australia (official) — "23MY XD ASX Inspection and '
+    'Maintenance Schedule" (v1.2, 2023-01-12) — '
+    'https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/23MY-XD-ASX-INSPECTION-AND-MAINTENANCE-SCHEDULE.pdf';
 
 // ---------------------------------------------------------------------------
 // SUZUKI
@@ -1317,6 +1326,98 @@ const OemModelSchedule _acuraMdxMm = OemModelSchedule(
 );
 
 // ---------------------------------------------------------------------------
+// MITSUBISHI — ASX (petrol). NOTE: the sibling oem_schedules_japanese.dart
+// already carries a Mitsubishi ASX (XD) entry from the 24MY schedule, but it
+// has ONLY oil + CVT (its plug/coolant rows were "not legible"). This entry is
+// read from the 23MY schedule and ADDS the spark-plug, coolant, brake-fluid and
+// cabin-filter intervals that the sibling omits. The two overlap on oil & CVT —
+// kept separate because this file must not edit the sibling; a maintainer may
+// dedupe. Fixed schedule (not condition-based). Petrol/CVT; diesel n/a (Lebanon).
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _mitsubishiAsxPetrol = OemModelSchedule(
+  make: 'Mitsubishi',
+  model: 'ASX / Outlander Sport (XD)',
+  yearStart: 2023,
+  engine: '2.0 / 2.4 MIVEC petrol, CVT',
+  fuel: 'Petrol',
+  generationNote:
+      'Mitsubishi AU 23MY XD ASX inspection & maintenance schedule. Base '
+      'inspection interval 15,000 km / 12 mo (severe 7,500 km / 6 mo). '
+      'Completes the sibling file\'s 24MY ASX entry (which lacked plugs & '
+      'coolant). Air-cleaner-element replace spacing and normal-CVT replace '
+      'spacing were not legible and are omitted.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuAsx23My,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 7500,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuAsx23My,
+      grade: OemGrade.a,
+      notes: '"R: Every 7,500 km" severe-usage text.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 90000,
+      intervalMonths: 72,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuAsx23My,
+      grade: OemGrade.a,
+      notes: 'Replace at the 90,000 km / 72-mo and 180,000 km points.',
+    ),
+    OemInterval(
+      service: 'Engine coolant (Super Long Life Coolant Premium)',
+      firstKm: 165000,
+      intervalKm: 105000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuAsx23My,
+      grade: OemGrade.a,
+      notes: '"R: First 165,000 km or 8 years, thereafter every 105,000 km or '
+          '5 years." Mitsubishi Super Long Life Coolant Premium, 50/50.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuAsx23My,
+      grade: OemGrade.a,
+      notes: 'Change every 24 mo / 30,000 km (R at each 2nd service column).',
+    ),
+    OemInterval(
+      service: 'Cabin / air-purifier filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcMitsuAuAsx23My,
+      grade: OemGrade.a,
+      notes: 'Normal usage: replaced at every service (15,000 km / 12 mo); '
+          'severe = more frequently.',
+    ),
+    OemInterval(
+      service: 'CVT fluid',
+      intervalKm: 40000,
+      severity: OemSeverity.severe,
+      source: _srcMitsuAuAsx23My,
+      grade: OemGrade.a,
+      notes: 'Severe usage: "R: Every 40,000 km" (explicit). Normal-usage '
+          'replace spacing was not legible and is omitted; CVT level is '
+          'inspected every service.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
 // ISUZU — no rows (honest exclusion).
 //
 // The Isuzu D-Max (and MU-X) are DIESEL-ONLY across every current engine: the
@@ -1356,6 +1457,8 @@ const List<OemModelSchedule> kOemJapaneseSchedules2 = [
   _ssangyongKorandoPetrol,
   // Acura (Honda group — Maintenance Minder, condition-based)
   _acuraMdxMm,
+  // Mitsubishi — ASX petrol (completes the sibling file's sparser 24MY entry)
+  _mitsubishiAsxPetrol,
   // Isuzu — diesel-only, excluded for Lebanon (see SOURCES.md).
   // Daihatsu — no OEM document reachable (see SOURCES.md).
   // Mazda2 — not sourced from a clean OEM doc (see SOURCES.md).

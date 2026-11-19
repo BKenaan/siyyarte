@@ -2,7 +2,8 @@
 
 Companion to `oem_schedules_japanese2.dart`, covering the makes NOT in
 `oem_schedules_japanese.dart`: **Suzuki, Mazda, Subaru, Isuzu, Daihatsu**, plus
-(Round 2) **Acura** (Honda group) and **SsangYong / KGM** (petrol). Every
+(Round 2) **Acura** (Honda group) and **SsangYong / KGM** (petrol), and (Round 3)
+a **Mitsubishi ASX** petrol entry completing the sibling file's sparser one. Every
 interval in that file is traceable to one of the sources below, read from an
 actual document. This mirrors the `verified_specs` discipline
 (`data_backend/README.md`): **incomplete coverage is fine; an unverified
@@ -123,6 +124,23 @@ unreachable). **C** = figure only positionally implied by the source.
    **rear differential fluid** first 12,000 km (7,500 mi) then every 24,000 km
    (15,000 mi). Only these two fixed values were recorded.
 
+### Mitsubishi (Round 3 — OLX Lebanon scan)
+
+8. **Mitsubishi Motors Australia — "23MY XD ASX Inspection and Maintenance Schedule" (v1.2)** (Grade A; CVT-normal & air-element omitted)
+   `https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/23MY-XD-ASX-INSPECTION-AND-MAINTENANCE-SCHEDULE.pdf`
+   Petrol (2.0/2.4 MIVEC), CVT. Base inspection 15,000 km / 12 mo (severe
+   7,500 km / 6 mo). Backs: oil & filter 15,000 km / 12 mo (severe 7,500 km /
+   6 mo); spark plugs 90,000 km / 72 mo; engine coolant first 165,000 km / 8 yr
+   then 105,000 km / 5 yr (Super Long Life Coolant Premium); brake fluid
+   30,000 km / 24 mo; cabin/air-purifier filter 15,000 km / 12 mo; CVT fluid
+   severe "every 40,000 km". **Cross-file note:** the sibling
+   `oem_schedules_japanese.dart` already carries a Mitsubishi **ASX (XD)** entry
+   from the **24MY** schedule, but that one has only oil + CVT (its plug/coolant
+   rows were "not legible"). This 23MY entry adds the spark-plug, coolant,
+   brake-fluid and cabin-filter intervals the 24MY entry omits; the two overlap
+   on oil & CVT. I could not edit the sibling file, so a maintainer should
+   dedupe (prefer whichever is kept; the data agrees where both exist).
+
 ---
 
 ## Coverage summary (what was sourced)
@@ -131,9 +149,10 @@ unreachable). **C** = figure only positionally implied by the source.
 |------|------------------------|:------:|:------:|
 | Suzuki | Current range service interval (NA 15k / turbo 10k km); Grand Vitara per-item (legacy ref) | ✓ | — |
 | Mazda | CX-5, Mazda3, Mazda6, CX-30, CX-9, CX-3 (SKYACTIV-G petrol) | ✓ | ✓ |
-| Subaru | Make-wide 2022 MY (Impreza/Forester/Outback/Crosstrek…) | ✓ | ✓ |
+| Subaru | Make-wide 2022 MY (Impreza/Forester/Outback/Crosstrek/XV) | ✓ | ✓ |
 | SsangYong/KGM | Rexton / Tivoli / Korando — petrol | ✓ | — |
 | Acura | MDX — Maintenance Minder fixed items only (brake fluid, severe diff) | ✓ | partial |
+| Mitsubishi | ASX / Outlander Sport (XD) petrol — 23MY (adds plugs/coolant/brake the sibling 24MY entry lacks) | ✓ | ✓ |
 | **Isuzu** | **none — diesel-only, excluded for Lebanon** | — | — |
 | **Daihatsu** | **none — no OEM document reachable** | — | — |
 | **Mazda2** | **none — not sold in U.S.; no clean OEM doc fetched** | — | — |
@@ -183,10 +202,30 @@ unreachable). **C** = figure only positionally implied by the source.
   Baleno/Dzire/Ertiga/Ciaz owner's manuals were only on Cloudflare-gated hosts
   (suzuki.com.au owner manuals, ManualsLib — both 403). The per-item figures
   recorded are from the **legacy Grand Vitara** manual and are labelled as such;
-  they are **not** asserted for current models. **Action:** obtain a current
-  Suzuki owner's-manual Periodic Maintenance Schedule (or a Maruti Suzuki
-  equivalent for Swift/Dzire/Baleno/Ertiga/Ciaz) from a non-Cloudflare host or
-  by manual upload.
+  they are **not** asserted for current models. **Round 3 (OLX Swift target) —
+  exhausted without a fetchable per-item document:** ManualsLib Swift pages
+  (periodic-maintenance table) are Cloudflare-403; Suzuki NZ's service page lists
+  the checked items but no intervals; the Suzuki Australia capped-price-service
+  PDF (`i-motor.com.au/.../46599_suzuki_capped-price-service-oct2019.pdf`, read
+  in full) gives only service **prices** and the 10,000 km / 6 mo (older
+  program) interval, and explicitly defers per-item detail to the "Australian
+  Supplement of the Owner's Manual" which it does not reproduce; archive.org had
+  no copy; other mirrors were spam or scanned (JBIG2). Search snippets of the
+  Swift manual recur (coolant Green 45,000 km / 36 mo; plugs ~30,000 km; air
+  ~30,000 km) but a snippet is **not** a fetched document, so nothing was
+  recorded. The current Swift service/oil interval **is** captured (Suzuki AU
+  FAQ: 15k NA DualJet / 10k turbo BoosterJet), and the Suzuki long-life-coolant
+  system via the Grand Vitara entry. **Action:** obtain the Swift owner's-manual
+  Australian Supplement periodic-maintenance table (or a Maruti equivalent) from
+  a non-gated host or by manual upload.
+
+- **Subaru XV / Crosstrek — confirmed already covered, no separate entry.** The
+  recorded `_subaruRange` is the make-wide "2022 MY All Vehicles" booklet, whose
+  schedule covers the Crosstrek (= the XV in most RHD markets; same FB20 NA
+  boxer as the Impreza it shares the table with). The booklet prints one table
+  for all non-turbo models, so XV/Crosstrek figures do **not** differ from the
+  recorded make-wide values — a separate XV entry would duplicate them, so none
+  was added (per the "only add if figures actually differ" rule).
 
 - **Mazda2 — not covered.** Mazda 3, 6, CX-3, CX-30 and CX-9 are now each
   sourced from their own official Mazda USA owner-guide PDF (see Round 2 sources
