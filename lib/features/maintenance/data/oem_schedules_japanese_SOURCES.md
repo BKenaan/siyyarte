@@ -318,17 +318,87 @@ Nissan Altima/Sentra come from Nissan USA's official per-model schedule tool.
 
 ---
 
+## Sources added in gap-fill pass 3
+
+Routes: official per-model schedule **tools** (Infiniti USA, sibling of the Nissan
+tool), a **Genesis Canada** metric schedule PDF, genuine **Kia Australia** and
+**Nissan NZ** / **Toyota NZ** documents. Infiniti is mile-based (1 mi = 1.6 km, source
+miles in notes); Genesis/Kia/Nissan/Toyota here are metric-native.
+
+### Infiniti (Grade A — Infiniti USA schedule tool, US-market)
+
+33. **Infiniti 2022 Q50** (`maintenance-schedules.infinitiusa.com/.../2022/q50/`, 3.0TT V6
+    VR30DDTT) — oil 16,000 km (10k mi)/12 mo; spark plugs 168,000 km (105k mi)/126 mo;
+    **coolant first 168,000 km (105k mi)/84 mo then 120,000 km (75k mi)/60 mo**; brake
+    fluid 32,000 km (20k mi)/24 mo normal, 16,000 km (10k mi)/12 mo severe. No scheduled
+    transmission-fluid component (lifetime fill).
+
+34. **Infiniti 2022 QX60** (`.../2022/qx60/`, 3.5 V6 VQ35DD) — oil 16,000 km (10k mi)/
+    12 mo; plugs 168,000 km/126 mo; coolant first 168,000 km/84 mo then 120,000 km/60 mo;
+    brake fluid 32,000 km/24 mo normal, 16,000 km/12 mo severe.
+
+35. **Infiniti 2022 QX80** (`.../2022/qx80/`, 5.6 V8 VK56VD) — **oil 12,000 km (7.5k mi)/
+    6 mo normal, 8,000 km (5k mi)/6 mo severe**; plugs 168,000 km (105k mi)/84 mo; coolant
+    first 168,000 km/84 mo then 120,000 km/60 mo; brake fluid 48,000 km (30k mi)/24 mo
+    normal, 16,000 km (10k mi)/12 mo severe.
+
+### Genesis (Grade A — Genesis Canada "Service Maintenance Schedules", metric)
+
+36. **Genesis G70 / G80 / GV70 / GV80 (gasoline)** —
+    `genesis.com/.../Genesis-Service-Maintenance-Schedules-EN.pdf`
+    The doc lists each gasoline model with the SAME long-interval figures, recorded once
+    as a range: engine oil 10,000 km / 12 mo (every service); **spark plugs 70,000 km /
+    84 mo**; LSD differential oil (AWD) 60,000 km / 72 mo. Coolant and brake-fluid
+    intervals are stated only for the EV variants in this doc → gap for the gasoline
+    models. EV variants excluded. No Hyundai value copied.
+
+### Kia Picanto (Grade A — genuine Kia Australia owner's manual)
+
+37. **Kia Picanto MY24 (AU/NZ, 1.2 MPI)** —
+    `kia.com/.../owners-manuals/picanto/kia-picanto-owners-manual-my24.pdf`
+    The manual embeds a subset font with a constant −31 byte offset that garbles
+    `pdftotext`; **PyMuPDF decodes it natively** (digits intact). Normal: oil 15,000 km/
+    12 mo; spark plugs 150,000 km; **coolant first 180,000 km/120 mo then 30,000 km/
+    24 mo**; air cleaner 45,000 km; cabin filter 30,000 km. Severe (Non-Turbo, conditions
+    A–L): oil 7,500 km/6 mo; manual trans 120,000 km; auto trans 90,000 km; plugs "more
+    frequently".
+
+### Nissan Patrol (Grade A/B — Nissan NZ capped-price service, Y62 V8)
+
+38. **Nissan Patrol Y62 (VK56VD V8)** —
+    `nissan.co.nz/.../capped-price-service/Y62 - Patrol Capped Price Service.pdf`
+    Normal 10,000 km/12 mo schedule. Oil 10,000 km/12 mo; **coolant first 160,000 km/
+    96 mo then 80,000 km/48 mo** (Note-3; mixture check every 40,000 km/24 mo); brake
+    fluid 40,000 km/24 mo; spark plugs 100,000 km (Grade B, single R); air cleaner and
+    differential oil 40,000 km (Grade B, counted R markers). ATF/transfer replacement km
+    are in un-captured notes → gap.
+
+### Toyota conventional petrol (Grade A/C — Toyota NZ make-wide sheet)
+
+39. **Toyota NZ "Service Requirements: Petrol Vehicles" (Sept 2023)** —
+    `toyota.co.nz/globalassets/owners/servicing-your-toyota/toyota-petrol-service-requirements.pdf`
+    Make-wide conventional-petrol schedule (so **Hilux / Land Cruiser / Prado petrol**
+    fall under it), normal conditions. Only the unambiguous items recorded: engine oil
+    15,000 km/12 mo (every service, Grade A); engine coolant "then every 75,000 km/5 yr"
+    (Grade A for the subsequent interval; first ≈150,000 km positionally, Grade C).
+    Spark-plug km is "at specified Kms only" (not printed) and the A–G coded brake/ATF/
+    transfer grid was not recorded → per-model gaps remain.
+
+---
+
 ## Coverage summary (what was sourced)
 
 | Make | Models/engines sourced | Normal | Severe |
 |------|------------------------|:------:|:------:|
-| Toyota | Petrol-hybrid range (S1); general tropical PMS (S2); **non-hybrid RAV4 2.5, Camry 2.5, Corolla 2.0** (S28–30) | ✓ | ✓ |
-| Nissan | X-Trail T32; Qashqai J11; Almera/Sunny; Navara 2.3 TD; **Altima L34; Sentra B17** (S31–32) | ✓ | ✓ |
+| Toyota | Hybrid range (S1); tropical PMS (S2); non-hybrid RAV4/Camry/Corolla (S28–30); **make-wide conventional petrol incl. Hilux/LC/Prado** (S39) | ✓ | partial |
+| Nissan | X-Trail; Qashqai; Almera/Sunny; Navara; Altima; Sentra; **Patrol Y62** (S38) | ✓ | ✓ |
 | Honda | General EU schedule (oil, air, plugs, coolant, brake, trans) | ✓ | partial |
 | Hyundai | Tucson/Santa Fe/Palisade HEV; Kona/Venue/Tucson MPI | ✓ | ✓ (= half) |
-| Mitsubishi | Outlander ZM (+**coolant now filled**); Triton MR; Mirage LA; Pajero Sport QG; Pajero NX; ASX XD; **Eclipse Cross YA; Lancer CF** (S22–24) | ✓ | ✓ |
-| **Lexus** | NX 200t (Grade B); **RX 350, ES 250/350, LX 600** (Grade A, via Wayback) (S25–27) | ✓ | ✓ (special-ops) |
-| **Kia** | Sorento UM; Sportage QL; Cerato/Forte YD; Rio UB — Grade B | ✓ | ✓ (Sportage normal only) |
+| Mitsubishi | Outlander ZM (coolant filled); Triton; Mirage; Pajero Sport; Pajero; ASX; Eclipse Cross; Lancer | ✓ | ✓ |
+| **Lexus** | NX 200t (Grade B); RX 350, ES 250/350, LX 600 (Grade A, Wayback) | ✓ | ✓ (special-ops) |
+| **Kia** | Sorento; Sportage; Cerato/Forte; Rio (Grade B); **Picanto JA (Grade A, Kia AU)** (S37) | ✓ | ✓ (Picanto + most) |
+| **Infiniti** | **Q50; QX60; QX80** (Grade A, Infiniti USA tool) (S33–35) | ✓ | ✓ (brake/oil) |
+| **Genesis** | **G70 / G80 / GV70 / GV80 gasoline** (Grade A, Genesis CA) (S36) | ✓ | — (doc is normal-schedule) |
 
 ---
 
@@ -343,8 +413,11 @@ Nissan Altima/Sentra come from Nissan USA's official per-model schedule tool.
   the archive.org advancedsearch API — the `car-service-manuals-kia-*` collection is
   US-market and lists no Picanto/Seltos, which are not sold in the US); the Sportage
   severe table (OCR columns not legibly aligned). No Hyundai value was copied across.
-  **Action:** obtain Kia Picanto/Seltos manuals (a MENA/AU owner's manual that
-  embeds the schedule) and the Sportage severe table from a legible source.
+  **Pass 3:** **Picanto (JA) is now FILLED at Grade A** from the genuine Kia Australia
+  owner's manual (source 37, decoded with PyMuPDF). **Still gaps:** **Seltos** (the Kia
+  AU owner-manual URL now 404s / has moved; US and UK paths also 404) and the Sportage
+  severe table. **Action:** obtain a current Kia Seltos owner's manual (AU/GCC/UK) and
+  the Sportage severe table from a legible source.
 
 - **Lexus — MOSTLY FILLED (pass 2).** NX 200t (Grade B, Archive OCR) plus **RX 350,
   ES 250/350 and LX 600 (Grade A)** from the genuine Warranty & Services Guides,
@@ -361,8 +434,12 @@ Nissan Altima/Sentra come from Nissan USA's official per-model schedule tool.
   Wayback — sources 28–30), with normal + Special Operating Conditions. **Still
   gaps:** **Hilux** (not in the US guide lineup) and **Land Cruiser/Prado
   non-hybrid** (the US 2024 Land Cruiser is the 2.4T i-FORCE MAX **hybrid** only;
-  the non-hybrid Prado is a MENA/AU model not on the reachable US hosts). **Action:**
-  source Hilux and Prado petrol schedules from a Gulf/AU Toyota importer or upload.
+  the non-hybrid Prado is a MENA/AU model not on the reachable US hosts). **Pass 3:**
+  a make-wide Toyota NZ conventional-petrol sheet (source 39) now covers Hilux / Land
+  Cruiser / Prado **petrol** for the unambiguous items (oil 15,000 km/12 mo; coolant
+  "then every 75,000 km/5 yr"). **Still gaps:** per-model Hilux/LC/Prado spark-plug and
+  transmission figures (the sheet is make-wide and prints "spark plugs at specified Kms
+  only"). **Action:** source a per-model Hilux/Prado/LC logbook from a Gulf/AU importer.
 
 - **Honda model-specific tables — STILL PARTIAL.** The Honda schedule recorded is
   Honda's common/general owner's-manual schedule (via the Prelude 2026 OM page).
@@ -376,10 +453,18 @@ Nissan Altima/Sentra come from Nissan USA's official per-model schedule tool.
 
 - **Nissan sedans/trucks — MOSTLY FILLED (pass 2).** Almera/Sunny and Navara (Grade
   A, Nissan SA) plus **Altima (L34, 2022) and Sentra (B17, 2019)** (Grade A, Nissan
-  USA official schedule tool — sources 31–32, US-market). **Still gaps:** **Patrol**
-  (Gulf-market Nissan ME model, 404 on Nissan SA and not on the US tool); a current
-  **B18 Sentra (2020+)** would be more fleet-relevant than the B17 recorded.
-  **Action:** source Patrol and a 2020+ Sentra from Nissan ME / a Gulf importer.
+  USA official schedule tool — sources 31–32, US-market). **Pass 3: Patrol Y62 is now
+  FILLED** (Grade A/B) from the Nissan NZ capped-price service document (source 38:
+  oil 10,000 km/12 mo; coolant first 160,000 km/96 mo then 80,000 km/48 mo; brake fluid
+  40,000 km/24 mo; plugs 100,000 km; air cleaner & diff 40,000 km). **Still gaps:** the
+  Patrol ATF/transfer replacement km (in un-captured notes); a current B18 Sentra
+  (2020+) would be more fleet-relevant than the B17 recorded.
+
+- **Infiniti & Genesis — FILLED (pass 3).** Infiniti Q50, QX60, QX80 (Grade A, Infiniti
+  USA schedule tool — sources 33–35) and Genesis G70/G80/GV70/GV80 gasoline (Grade A,
+  Genesis Canada schedule — source 36). Residual: Infiniti air-filter/cabin-filter not
+  recorded (secondary); Genesis gasoline coolant & brake-fluid intervals are EV-only in
+  the CA doc (gap — would need a Genesis owner's manual). EV variants excluded by design.
 
 - **Mitsubishi — FILLED (pass 2).** Mirage, Pajero Sport, Pajero and ASX (sources
   12–15) plus **Eclipse Cross (YA) and Lancer (CF)** (sources 22–23), and the

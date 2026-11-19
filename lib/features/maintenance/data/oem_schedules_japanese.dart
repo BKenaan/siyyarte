@@ -2885,25 +2885,541 @@ const OemModelSchedule _nissanSentra = OemModelSchedule(
   ],
 );
 
+// ===========================================================================
+// GAP-FILL PASS 3 (added later): Infiniti (Q50 / QX60 / QX80), Genesis
+// (G70 / G80 / GV70 / GV80 gasoline), Kia Picanto, Nissan Patrol (Y62), and a
+// make-wide conventional-petrol Toyota schedule (covers Hilux / Land Cruiser /
+// Prado petrol among others).
+//
+// Sourcing routes (GCC/MENA + Australia/NZ + official schedule tools):
+//   • Infiniti — Infiniti USA's official per-model schedule tool
+//     (maintenance-schedules.infinitiusa.com), the Nissan-family sibling of the
+//     Nissan tool used in pass 2. US-market; miles, 1 mi = 1.6 km.
+//   • Genesis — Genesis Canada "Service Maintenance Schedules" PDF (metric km),
+//     which lists G70/G80/GV70/GV80 explicitly. The gasoline models share one
+//     set of long-interval figures (oil 10,000 km, plugs 70,000 km, LSD diff
+//     60,000 km). EV variants were excluded.
+//   • Kia Picanto — the genuine Kia Australia owner's manual (kia.com, native
+//     text once the subset-font byte offset is undone via PyMuPDF).
+//   • Nissan Patrol Y62 — Nissan NZ Capped Price Service document (VK56VD V8),
+//     which prints the normal-conditions schedule + notes.
+//   • Toyota conventional petrol — Toyota NZ "Service Requirements: Petrol
+//     Vehicles" (Sept 2023), the non-hybrid sibling of the pass-1 hybrid sheet;
+//     make-wide (so Hilux/LC/Prado petrol fall under it), not per-model.
+//
+// No value was invented or copied across makes/models. Honest gaps remain:
+// Kia Seltos (AU manual URL 404s / moved), Lexus IS (no reachable guide), Honda
+// per-model (only the make-wide Maintenance-Minder schedule exists), and the
+// per-model Hilux/LC/Prado spark-plug figures (the NZ sheet is make-wide).
+// ===========================================================================
+
+const String _srcInfinitiQ50 =
+    'Infiniti USA — official per-model maintenance schedule tool, 2022 Q50 '
+    '(V37; 3.0L twin-turbo V6 VR30DDTT). US-market; intervals in miles — '
+    'https://maintenance-schedules.infinitiusa.com/maintenance-schedules/2022/q50/components/';
+
+const String _srcInfinitiQx60 =
+    'Infiniti USA — official per-model maintenance schedule tool, 2022 QX60 '
+    '(L51; 3.5L V6 VQ35DD). US-market; intervals in miles — '
+    'https://maintenance-schedules.infinitiusa.com/maintenance-schedules/2022/qx60/components/';
+
+const String _srcInfinitiQx80 =
+    'Infiniti USA — official per-model maintenance schedule tool, 2022 QX80 '
+    '(Z62; 5.6L V8 VK56VD). US-market; intervals in miles — '
+    'https://maintenance-schedules.infinitiusa.com/maintenance-schedules/2022/qx80/components/';
+
+const String _srcGenesisCaSchedule =
+    'Genesis Canada — "Service Maintenance Schedules" (metric; lists G70, G80, '
+    'GV70, GV80 gasoline explicitly) — '
+    'https://www.genesis.com/content/dam/genesis-p2/ca/assets/owners/owners-resources/documents/Genesis-Service-Maintenance-Schedules-EN.pdf';
+
+const String _srcKiaPicantoAu =
+    'Kia — Picanto MY24 Owner\'s Manual (Australia/NZ), "Normal Maintenance '
+    'Schedule - For petrol Engine" + "Maintenance Under Severe Usage Conditions" '
+    '(1.2 MPI petrol; genuine kia.com PDF, native text via PyMuPDF) — '
+    'https://www.kia.com/content/dam/kwcms/au/en/files/owners-manuals/picanto/kia-picanto-owners-manual-my24.pdf';
+
+const String _srcNissanPatrolNz =
+    'Nissan New Zealand — "Capped Price Service Program: Patrol Y62 Series" '
+    '(VK56VD V8, normal-conditions 10,000 km/12 mo schedule + Notes) — '
+    'https://www.nissan.co.nz/content/dam/Nissan/new-zealand/files/Owners/Servicing/capped-price-service/Y62%20-%20Patrol%20Capped%20Price%20Service.pdf';
+
+const String _srcToyotaNzPetrol =
+    'Toyota New Zealand — "Service Requirements: Petrol Vehicles" (v. Sept 2023); '
+    'make-wide conventional-petrol schedule (covers Hilux / Land Cruiser / Prado '
+    'petrol among others), normal conditions — '
+    'https://www.toyota.co.nz/globalassets/owners/servicing-your-toyota/toyota-petrol-service-requirements.pdf';
+
+// ---------------------------------------------------------------------------
+// INFINITI (gap-fill pass 3 — Infiniti USA schedule tool; US-market.
+// Intervals in miles; km = 1 mi = 1.6 km, with source mileage in each note.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _infinitiQ50 = OemModelSchedule(
+  make: 'Infiniti',
+  model: 'Q50 (V37)',
+  yearStart: 2022,
+  engine: '3.0L twin-turbo V6 (VR30DDTT)',
+  fuel: 'Petrol',
+  generationNote:
+      'Infiniti USA 2022 Q50 schedule tool (US-market). Automatic-transmission '
+      'fluid is not a scheduled component in the tool (lifetime fill). Same '
+      'interval for normal & severe except brake fluid.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQ50,
+      grade: OemGrade.a,
+      notes: 'Every 10,000 mi (16,000 km) / 12 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Spark plugs (iridium)',
+      intervalKm: 168000,
+      intervalMonths: 126,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQ50,
+      grade: OemGrade.a,
+      notes: 'Every 105,000 mi (168,000 km) / 126 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 168000,
+      intervalKm: 120000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQ50,
+      grade: OemGrade.a,
+      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+          '(120,000 km) / 60 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 32000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQ50,
+      grade: OemGrade.a,
+      notes: 'Every 20,000 mi (32,000 km) / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcInfinitiQ50,
+      grade: OemGrade.a,
+      notes: 'Severe: every 10,000 mi (16,000 km) / 12 mo.',
+    ),
+  ],
+);
+
+const OemModelSchedule _infinitiQx60 = OemModelSchedule(
+  make: 'Infiniti',
+  model: 'QX60 (L51)',
+  yearStart: 2022,
+  engine: '3.5L V6 (VQ35DD)',
+  fuel: 'Petrol',
+  generationNote:
+      'Infiniti USA 2022 QX60 schedule tool (US-market). Same interval for '
+      'normal & severe except brake fluid.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQx60,
+      grade: OemGrade.a,
+      notes: 'Every 10,000 mi (16,000 km) / 12 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Spark plugs (iridium)',
+      intervalKm: 168000,
+      intervalMonths: 126,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQx60,
+      grade: OemGrade.a,
+      notes: 'Every 105,000 mi (168,000 km) / 126 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 168000,
+      intervalKm: 120000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQx60,
+      grade: OemGrade.a,
+      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+          '(120,000 km) / 60 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 32000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQx60,
+      grade: OemGrade.a,
+      notes: 'Every 20,000 mi (32,000 km) / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcInfinitiQx60,
+      grade: OemGrade.a,
+      notes: 'Severe: every 10,000 mi (16,000 km) / 12 mo.',
+    ),
+  ],
+);
+
+const OemModelSchedule _infinitiQx80 = OemModelSchedule(
+  make: 'Infiniti',
+  model: 'QX80 (Z62)',
+  yearStart: 2022,
+  engine: '5.6L V8 (VK56VD)',
+  fuel: 'Petrol',
+  generationNote:
+      'Infiniti USA 2022 QX80 schedule tool (US-market). The V8 has a shorter '
+      'oil interval than the V6 models.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 12000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQx80,
+      grade: OemGrade.a,
+      notes: 'Normal: every 7,500 mi (12,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcInfinitiQx80,
+      grade: OemGrade.a,
+      notes: 'Severe: every 5,000 mi (8,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Spark plugs (iridium)',
+      intervalKm: 168000,
+      intervalMonths: 84,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQx80,
+      grade: OemGrade.a,
+      notes: 'Every 105,000 mi (168,000 km) / 84 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 168000,
+      intervalKm: 120000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQx80,
+      grade: OemGrade.a,
+      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+          '(120,000 km) / 60 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 48000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcInfinitiQx80,
+      grade: OemGrade.a,
+      notes: 'Every 30,000 mi (48,000 km) / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcInfinitiQx80,
+      grade: OemGrade.a,
+      notes: 'Severe: every 10,000 mi (16,000 km) / 12 mo.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// GENESIS (gap-fill pass 3 — Genesis Canada Service Maintenance Schedules.
+// The gasoline G70/G80/GV70/GV80 share one set of long-interval figures;
+// recorded once as a range. EV variants excluded. Metric (km) native.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _genesisGasolineRange = OemModelSchedule(
+  make: 'Genesis',
+  model: 'G70 / G80 / GV70 / GV80 (gasoline)',
+  engine: 'Turbo & NA petrol (G70 2.0T/3.3T, G80 2.5T/3.5, GV70 2.5T/3.5, '
+      'GV80 2.5T/3.5)',
+  fuel: 'Petrol',
+  generationNote:
+      'Genesis Canada "Service Maintenance Schedules" lists each gasoline model '
+      'with the SAME long-interval figures, so they are recorded once. The doc '
+      'is a complimentary-maintenance schedule; engine oil is replaced at every '
+      '10,000 km service. Coolant and brake-fluid intervals are not stated for '
+      'the gasoline models in this doc (EV-only) — left as a gap. EV variants '
+      'excluded. No value copied from the Hyundai platform.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGenesisCaSchedule,
+      grade: OemGrade.a,
+      notes: 'Replaced at every service (10,000 km / 12 months) through the '
+          '100,000 km complimentary schedule.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 70000,
+      intervalMonths: 84,
+      severity: OemSeverity.normal,
+      source: _srcGenesisCaSchedule,
+      grade: OemGrade.a,
+      notes: 'Replace every 70,000 km / 84 months (all gasoline G70/G80/GV70/'
+          'GV80 variants).',
+    ),
+    OemInterval(
+      service: 'Differential oil (LSD, AWD)',
+      intervalKm: 60000,
+      intervalMonths: 72,
+      severity: OemSeverity.normal,
+      source: _srcGenesisCaSchedule,
+      grade: OemGrade.a,
+      notes: 'Replace differential oil with LSD every 60,000 km / 72 months '
+          '(AWD models).',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// KIA (gap-fill pass 3 — genuine Kia AU owner's manual, Picanto)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _kiaPicanto = OemModelSchedule(
+  make: 'Kia',
+  model: 'Picanto (JA)',
+  engine: '1.2L MPI petrol',
+  fuel: 'Petrol',
+  generationNote:
+      'Kia Picanto MY24 owner\'s manual, AU/NZ petrol "Normal Maintenance '
+      'Schedule" + "Maintenance Under Severe Usage Conditions (Non-Turbo)". '
+      'Read via PyMuPDF (the manual uses a subset font that pdftotext garbles).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcKiaPicantoAu,
+      grade: OemGrade.a,
+      notes: 'R at every 15,000 km column (15/30/45…120k) = every 15,000 km / '
+          '12 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 7500,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcKiaPicantoAu,
+      grade: OemGrade.a,
+      notes: 'Severe usage (conditions A–L): every 7,500 km or 6 months.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 150000,
+      severity: OemSeverity.normal,
+      source: _srcKiaPicantoAu,
+      grade: OemGrade.a,
+      notes: 'Replace every 150,000 km (1.2 MPI unleaded). Severe = "more '
+          'frequently" (not quantified).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 180000,
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcKiaPicantoAu,
+      grade: OemGrade.a,
+      notes: 'At first replace 180,000 km / 120 mo, after that replace every '
+          '30,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Air cleaner filter',
+      intervalKm: 45000,
+      severity: OemSeverity.normal,
+      source: _srcKiaPicantoAu,
+      grade: OemGrade.a,
+      notes: 'R at the 45,000 km and 90,000 km columns = every 45,000 km.',
+    ),
+    OemInterval(
+      service: 'Climate control (cabin) air filter',
+      intervalKm: 30000,
+      severity: OemSeverity.normal,
+      source: _srcKiaPicantoAu,
+      grade: OemGrade.a,
+      notes: 'R at 30/60/90/120k columns = every 30,000 km.',
+    ),
+    OemInterval(
+      service: 'Manual transmission fluid',
+      intervalKm: 120000,
+      severity: OemSeverity.severe,
+      source: _srcKiaPicantoAu,
+      grade: OemGrade.a,
+      notes: 'Normal = no service required; severe = every 120,000 km.',
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 90000,
+      severity: OemSeverity.severe,
+      source: _srcKiaPicantoAu,
+      grade: OemGrade.a,
+      notes: 'Normal = no service required; severe = every 90,000 km.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// NISSAN PATROL (gap-fill pass 3 — Nissan NZ capped-price service, Y62 V8)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _nissanPatrol = OemModelSchedule(
+  make: 'Nissan',
+  model: 'Patrol (Y62)',
+  engine: '5.6L V8 petrol (VK56VD)',
+  fuel: 'Petrol',
+  generationNote:
+      'Nissan NZ Capped Price Service document, Y62 Patrol (VK56VD V8). '
+      'Normal-conditions 10,000 km / 12 month schedule; severe shortens (the '
+      'doc flags diamond items for more-frequent service but does not quantify).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcNissanPatrolNz,
+      grade: OemGrade.a,
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 160000,
+      intervalKm: 80000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcNissanPatrolNz,
+      grade: OemGrade.a,
+      notes: 'Note-3: first replacement 160,000 km / 96 mo, after first replace '
+          'every 80,000 km / 48 mo. Mixture-ratio check every 40,000 km / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcNissanPatrolNz,
+      grade: OemGrade.a,
+      notes: 'Brake fluid replaced every 40,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 100000,
+      severity: OemSeverity.normal,
+      source: _srcNissanPatrolNz,
+      grade: OemGrade.b,
+      notes: 'Single "R" at the 100,000 km service. Note-5: replace sooner if '
+          'plug gap exceeds 1.25 mm.',
+    ),
+    OemInterval(
+      service: 'Engine air cleaner filter',
+      intervalKm: 40000,
+      severity: OemSeverity.normal,
+      source: _srcNissanPatrolNz,
+      grade: OemGrade.b,
+      notes: '"R" markers at 40/80/120k (inspect between) = every 40,000 km.',
+    ),
+    OemInterval(
+      service: 'Differential gear oil',
+      intervalKm: 40000,
+      severity: OemSeverity.normal,
+      source: _srcNissanPatrolNz,
+      grade: OemGrade.b,
+      notes: '"R" markers at 40/80/120k (inspect between) = every 40,000 km.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// TOYOTA conventional petrol (gap-fill pass 3 — Toyota NZ make-wide sheet;
+// covers Hilux / Land Cruiser / Prado petrol among others. Per-model
+// spark-plug / transmission figures are NOT isolated here — honest gap.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _toyotaNzPetrol = OemModelSchedule(
+  make: 'Toyota',
+  model: 'Conventional petrol range (incl. Hilux / Land Cruiser / Prado petrol)',
+  engine: 'Conventional petrol (non-hybrid), excl. GR models',
+  fuel: 'Petrol',
+  generationNote:
+      'Toyota NZ "Service Requirements: Petrol Vehicles" (Sept 2023), make-wide '
+      'for conventional petrol Toyotas. Only the unambiguous figures are '
+      'recorded: engine oil (every service) and the coolant subsequent interval. '
+      'Spark-plug km is "at specified Kms only" (not printed) and the A–G coded '
+      'brake/ATF/transfer grid is not recorded per the GOLDEN RULE. Severe = '
+      '"shorten normal interval" (not quantified).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcToyotaNzPetrol,
+      grade: OemGrade.a,
+      notes: 'R at every service (15,000 km / 12 months) under normal '
+          'conditions; severe shortens.',
+    ),
+    OemInterval(
+      service: 'Engine/heater coolant',
+      firstKm: 150000,
+      intervalKm: 75000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcToyotaNzPetrol,
+      grade: OemGrade.c,
+      notes: 'Sheet states "then every 75,000 km / 5 years" (Grade A for the '
+          'subsequent interval); first replacement is positionally ~150,000 km '
+          'in the coded grid (Grade C) — confirm before display.',
+    ),
+  ],
+);
+
 // ---------------------------------------------------------------------------
 // The dataset.
 //
 // NOTE ON COVERAGE (see oem_schedules_japanese_SOURCES.md for full detail):
-//   • Kia carries Sorento, Sportage, Forte/Cerato and Rio (Grade B, official
-//     Kia owner's manuals via Internet Archive OCR). Picanto and Seltos remain
-//     gaps (not in the reachable US manual collection).
-//   • Lexus carries NX 200t (Grade B, Archive OCR) plus RX 350, ES 250/350 and
-//     LX 600 (Grade A, genuine Warranty & Services Guides read via the Wayback
-//     Machine — the live assets.sia.toyota.com host is WAF-blocked). IS remains
-//     a gap (no reachable guide).
-//   • Toyota adds non-hybrid Corolla, Camry and RAV4 (Grade A). Hilux and Land
-//     Cruiser/Prado non-hybrid remain gaps (not in the US guide lineup; the US
-//     2024 Land Cruiser is hybrid-only).
-//   • Nissan adds Altima and Sentra (Grade A, Nissan USA schedule tool, US
-//     market). Patrol remains a gap (Gulf-market model, not on reachable hosts).
-//   • Mitsubishi adds Eclipse Cross and Lancer, and fills the Outlander ZM
-//     coolant gap. Honda per-model (Civic/Accord/CR-V) still relies on the
-//     make-wide schedule already recorded.
+//   • Kia carries Sorento, Sportage, Forte/Cerato, Rio (Grade B, Archive OCR)
+//     and now Picanto (Grade A, Kia AU owner's manual). Seltos remains a gap
+//     (its Kia AU manual URL 404s / has moved).
+//   • Lexus carries NX 200t (Grade B) plus RX 350, ES 250/350 and LX 600
+//     (Grade A, via Wayback). IS remains a gap (no reachable guide).
+//   • Toyota carries non-hybrid Corolla, Camry, RAV4 (Grade A, US guides) and a
+//     make-wide conventional-petrol NZ sheet that covers Hilux / Land Cruiser /
+//     Prado petrol (oil + coolant only). Per-model Hilux/LC/Prado spark-plug and
+//     transmission figures remain gaps.
+//   • Nissan carries Altima, Sentra (Grade A) and now Patrol Y62 (Grade A/B,
+//     Nissan NZ capped-price doc).
+//   • Infiniti (Q50, QX60, QX80) and Genesis (G70/G80/GV70/GV80 gasoline) are
+//     now covered (Grade A). GV/sedan EV variants were excluded.
+//   • Mitsubishi carries Eclipse Cross, Lancer and the filled Outlander ZM
+//     coolant. Honda per-model (Civic/Accord/CR-V) still relies on the make-wide
+//     Maintenance-Minder schedule already recorded.
 //   • Per the GOLDEN RULE, nothing was invented or copied across makes/models.
 // ---------------------------------------------------------------------------
 
@@ -2950,4 +3466,12 @@ const List<OemModelSchedule> kOemJapaneseSchedules = [
   _toyotaRav4,
   _toyotaCamry,
   _toyotaCorolla,
+  // Pass 3
+  _toyotaNzPetrol,
+  _nissanPatrol,
+  _kiaPicanto,
+  _infinitiQ50,
+  _infinitiQx60,
+  _infinitiQx80,
+  _genesisGasolineRange,
 ];
