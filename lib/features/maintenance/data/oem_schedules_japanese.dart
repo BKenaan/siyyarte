@@ -239,7 +239,8 @@ const OemModelSchedule _toyotaPetrolHybrid = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaNzHybrid,
       grade: OemGrade.a,
-      notes: 'Source: "important to ensure the timing belt is changed at the '
+      notes:
+          'Source: "important to ensure the timing belt is changed at the '
           'equivalent of 150,000 kilometres". Chain-driven engines: inspect only.',
     ),
   ],
@@ -319,7 +320,8 @@ const OemModelSchedule _toyotaBruneiPms = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcToyotaBruneiPms,
       grade: OemGrade.b,
-      notes: 'Brunei tropical schedule; differs from Toyota global SLLC '
+      notes:
+          'Brunei tropical schedule; differs from Toyota global SLLC '
           '(first 160,000 km) — market-conservative value.',
     ),
     OemInterval(
@@ -385,7 +387,8 @@ const OemModelSchedule _nissanXtrailPetrol = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaXtrail,
       grade: OemGrade.a,
-      notes: 'First change 150,000 km / 96 mo, then 75,000 km / 48 mo. Use '
+      notes:
+          'First change 150,000 km / 96 mo, then 75,000 km / 48 mo. Use '
           'Genuine NISSAN Engine Coolant (Blue).',
     ),
     OemInterval(
@@ -410,7 +413,8 @@ const OemModelSchedule _nissanXtrailPetrol = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaXtrail,
       grade: OemGrade.a,
-      notes: 'Inspect/change by 90,000 km; change (not just inspect) at '
+      notes:
+          'Inspect/change by 90,000 km; change (not just inspect) at '
           '90,000 km if not inspected. Genuine NISSAN CVT Fluid only.',
     ),
     OemInterval(
@@ -428,7 +432,8 @@ const OemModelSchedule _nissanXtrailPetrol = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcNissanZaXtrail,
       grade: OemGrade.a,
-      notes: 'Normal = inspect; severe (dusty/towing) = replace 30,000 km/24 mo.',
+      notes:
+          'Normal = inspect; severe (dusty/towing) = replace 30,000 km/24 mo.',
     ),
   ],
 );
@@ -523,7 +528,8 @@ const OemModelSchedule _nissanQashqai12t = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaQashqai,
       grade: OemGrade.a,
-      notes: 'Replaced at 60,000 / 120,000 km ("at the specified mileage only").',
+      notes:
+          'Replaced at 60,000 / 120,000 km ("at the specified mileage only").',
     ),
     OemInterval(
       service: 'Engine air filter',
@@ -684,7 +690,8 @@ const OemModelSchedule _nissanQashqai16t = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaQashqai,
       grade: OemGrade.a,
-      notes: 'First 160,000 km / 96 mo, then 80,000 km / 48 mo; mixture check '
+      notes:
+          'First 160,000 km / 96 mo, then 80,000 km / 48 mo; mixture check '
           'every 40,000 km / 24 mo.',
     ),
   ],
@@ -734,7 +741,8 @@ const OemModelSchedule _hondaGeneral = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcHondaOmPrelude,
       grade: OemGrade.c,
-      notes: 'Positioned at the 20,000 km service points; exact figure is '
+      notes:
+          'Positioned at the 20,000 km service points; exact figure is '
           'positionally implied rather than printed — confirm before display.',
     ),
     OemInterval(
@@ -770,7 +778,8 @@ const OemModelSchedule _hondaGeneral = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcHondaOmPrelude,
       grade: OemGrade.a,
-      notes: 'Lebanon (also Jordan, HK, Macao, Morocco, Tunisia) uses '
+      notes:
+          'Lebanon (also Jordan, HK, Macao, Morocco, Tunisia) uses '
           '80,000 km / 48 mo per the same table — directly market-relevant.',
     ),
     OemInterval(
@@ -1150,10 +1159,6 @@ const String _srcMitsuAuPajero =
     'Mitsubishi Motors Australia — "22MY NX Pajero Periodic Inspection and Maintenance Schedule" — '
     'https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/22MY-NX-Pajero-service-schedule.pdf';
 
-const String _srcMitsuAuAsx =
-    'Mitsubishi Motors Australia — "24MY XD ASX Inspection and Maintenance Schedule" — '
-    'https://media.adtorqueedge.com/mitsubishi-au/maintenance-schedule/pdfs/24MY-XD-ASX-INSPECTION-AND-MAINTENANCE-SCHEDULE-WEB.pdf';
-
 const String _srcKiaSorento =
     'Kia — 2015 Sorento (UM) Owner\'s Manual: "Normal Maintenance Schedule" + '
     '"Maintenance Under Severe Usage Conditions" (official Kia manual, OCR full text via Internet Archive) — '
@@ -1232,7 +1237,8 @@ const OemModelSchedule _nissanAlmera = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaAlmera,
       grade: OemGrade.a,
-      notes: 'First 150,000 km / 96 mo, then 75,000 km / 48 mo; mixture check '
+      notes:
+          'First 150,000 km / 96 mo, then 75,000 km / 48 mo; mixture check '
           'every 30,000 km / 24 mo. Genuine NISSAN Coolant (Blue).',
     ),
     OemInterval(
@@ -1259,7 +1265,8 @@ const OemModelSchedule _nissanAlmera = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcNissanZaAlmera,
       grade: OemGrade.a,
-      notes: 'Normal = inspect; severe (towing / rough roads) = replace. '
+      notes:
+          'Normal = inspect; severe (towing / rough roads) = replace. '
           'Fuel filter is maintenance-free.',
     ),
   ],
@@ -1281,7 +1288,8 @@ const OemModelSchedule _nissanNavara = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaNavara,
       grade: OemGrade.a,
-      notes: 'If the oil-replacement indicator lights, change sooner. The '
+      notes:
+          'If the oil-replacement indicator lights, change sooner. The '
           'severe table does NOT shorten engine oil for the Navara.',
     ),
     OemInterval(
@@ -1290,7 +1298,8 @@ const OemModelSchedule _nissanNavara = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaNavara,
       grade: OemGrade.a,
-      notes: 'Replace every 30,000 km (R at 30/60/90/120); clean every '
+      notes:
+          'Replace every 30,000 km (R at 30/60/90/120); clean every '
           '5,000 km. Severe = more frequently.',
     ),
     OemInterval(
@@ -1299,7 +1308,8 @@ const OemModelSchedule _nissanNavara = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaNavara,
       grade: OemGrade.a,
-      notes: 'Replace (R shown at 45,000 & 90,000 km); drain water at each '
+      notes:
+          'Replace (R shown at 45,000 & 90,000 km); drain water at each '
           'service when the water-level lamp lights.',
     ),
     OemInterval(
@@ -1318,7 +1328,8 @@ const OemModelSchedule _nissanNavara = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaNavara,
       grade: OemGrade.a,
-      notes: 'First 150,000 km / 96 mo, then 75,000 km / 48 mo; mixture check '
+      notes:
+          'First 150,000 km / 96 mo, then 75,000 km / 48 mo; mixture check '
           'every 30,000 km / 24 mo.',
     ),
     OemInterval(
@@ -1376,7 +1387,8 @@ const OemModelSchedule _nissanNavara = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaNavara,
       grade: OemGrade.b,
-      notes: 'Single scheduled replacement at the 120,000 km service (R in an '
+      notes:
+          'Single scheduled replacement at the 120,000 km service (R in an '
           'otherwise inspect row).',
     ),
     OemInterval(
@@ -1393,7 +1405,8 @@ const OemModelSchedule _nissanNavara = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanZaNavara,
       grade: OemGrade.b,
-      notes: 'Single scheduled replacement at the 105,000 km service (R in an '
+      notes:
+          'Single scheduled replacement at the 105,000 km service (R in an '
           'otherwise inspect row).',
     ),
     OemInterval(
@@ -1574,45 +1587,6 @@ const OemModelSchedule _mitsubishiPajero = OemModelSchedule(
   ],
 );
 
-const OemModelSchedule _mitsubishiAsx = OemModelSchedule(
-  make: 'Mitsubishi',
-  model: 'ASX (XD)',
-  yearStart: 2024,
-  engine: '2.0L / 2.4L petrol (MIVEC), CVT',
-  fuel: 'Petrol',
-  generationNote:
-      'Mitsubishi AU 24MY XD ASX. Engine oil from the every-column normal row + '
-      'severe "R: Every 7,500km" text; CVT fluid from the explicit "R: Every '
-      '40,000km" text. Spark-plug and coolant rows were not legible and are '
-      'omitted.',
-  intervals: [
-    OemInterval(
-      service: 'Engine oil & filter',
-      intervalKm: 15000,
-      intervalMonths: 12,
-      severity: OemSeverity.normal,
-      source: _srcMitsuAuAsx,
-      grade: OemGrade.a,
-    ),
-    OemInterval(
-      service: 'Engine oil & filter',
-      intervalKm: 7500,
-      severity: OemSeverity.severe,
-      source: _srcMitsuAuAsx,
-      grade: OemGrade.a,
-    ),
-    OemInterval(
-      service: 'CVT fluid',
-      intervalKm: 40000,
-      severity: OemSeverity.normal,
-      source: _srcMitsuAuAsx,
-      grade: OemGrade.b,
-      notes: '"R: Every 40,000km" in the schedule; corroborated by the 23MY XD '
-          'ASX schedule.',
-    ),
-  ],
-);
-
 // ---------------------------------------------------------------------------
 // KIA  (Grade B: official Kia owner's-manual text via Internet Archive OCR;
 // never copied from the sibling Hyundai platform.)
@@ -1654,7 +1628,8 @@ const OemModelSchedule _kiaSorento = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcKiaSorento,
       grade: OemGrade.b,
-      notes: 'First 96,000 km (60,000 mi) / 60 mo, then every 48,000 km '
+      notes:
+          'First 96,000 km (60,000 mi) / 60 mo, then every 48,000 km '
           '(30,000 mi) / 24 mo.',
     ),
     OemInterval(
@@ -1681,7 +1656,8 @@ const OemModelSchedule _kiaSorento = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcKiaSorento,
       grade: OemGrade.b,
-      notes: 'Normal = inspect every 64,000 km (40,000 mi) / 48 mo; severe = '
+      notes:
+          'Normal = inspect every 64,000 km (40,000 mi) / 48 mo; severe = '
           'replace 120,000 km.',
     ),
     OemInterval(
@@ -1729,7 +1705,8 @@ const OemModelSchedule _kiaSportage = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcKiaSportage,
       grade: OemGrade.b,
-      notes: 'Turbo GDI: first change 5,000 km / 6 mo, then every 8,000 km / '
+      notes:
+          'Turbo GDI: first change 5,000 km / 6 mo, then every 8,000 km / '
           '6 mo.',
     ),
     OemInterval(
@@ -1796,7 +1773,8 @@ const OemModelSchedule _kiaForte = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcKiaForte,
       grade: OemGrade.b,
-      notes: 'First 192,000 km (120,000 mi) / 120 mo, then every 48,000 km '
+      notes:
+          'First 192,000 km (120,000 mi) / 120 mo, then every 48,000 km '
           '(30,000 mi) / 24 mo.',
     ),
     OemInterval(
@@ -1881,7 +1859,8 @@ const OemModelSchedule _lexusNx200t = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusNx200t,
       grade: OemGrade.b,
-      notes: 'Baseline: every 12 months or 10,000 mi (16,000 km), or when the '
+      notes:
+          'Baseline: every 12 months or 10,000 mi (16,000 km), or when the '
           'oil maintenance reminder appears.',
     ),
     OemInterval(
@@ -1891,7 +1870,8 @@ const OemModelSchedule _lexusNx200t = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcLexusNx200t,
       grade: OemGrade.b,
-      notes: 'Special operating conditions (short cold trips, idling, dusty '
+      notes:
+          'Special operating conditions (short cold trips, idling, dusty '
           'roads, towing): every 6 months or 5,000 mi (8,000 km).',
     ),
     OemInterval(
@@ -1900,7 +1880,8 @@ const OemModelSchedule _lexusNx200t = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusNx200t,
       grade: OemGrade.b,
-      notes: 'Replaced at 40,000 mi and 80,000 mi — every 40,000 mi '
+      notes:
+          'Replaced at 40,000 mi and 80,000 mi — every 40,000 mi '
           '(64,000 km) (turbo engine).',
     ),
     OemInterval(
@@ -1909,7 +1890,8 @@ const OemModelSchedule _lexusNx200t = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusNx200t,
       grade: OemGrade.b,
-      notes: 'Replaced at 30,000 mi and 60,000 mi — every 30,000 mi '
+      notes:
+          'Replaced at 30,000 mi and 60,000 mi — every 30,000 mi '
           '(48,000 km).',
     ),
     OemInterval(
@@ -1918,7 +1900,8 @@ const OemModelSchedule _lexusNx200t = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusNx200t,
       grade: OemGrade.b,
-      notes: 'Replaced at 30,000 mi and 60,000 mi (48,000 km). Inspect more '
+      notes:
+          'Replaced at 30,000 mi and 60,000 mi (48,000 km). Inspect more '
           'often on dirt/dusty roads (special operating conditions).',
     ),
     OemInterval(
@@ -1927,7 +1910,8 @@ const OemModelSchedule _lexusNx200t = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusNx200t,
       grade: OemGrade.b,
-      notes: 'Replaced at 20,000 / 40,000 / 60,000 / 80,000 mi — every '
+      notes:
+          'Replaced at 20,000 / 40,000 / 60,000 / 80,000 mi — every '
           '20,000 mi (32,000 km).',
     ),
     OemInterval(
@@ -1944,7 +1928,8 @@ const OemModelSchedule _lexusNx200t = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusNx200t,
       grade: OemGrade.b,
-      notes: 'First replacement at 100,000 mi (160,000 km); Toyota Super '
+      notes:
+          'First replacement at 100,000 mi (160,000 km); Toyota Super '
           'Long-Life Coolant thereafter (~50,000 mi) per the guide\'s coolant '
           'note (thereafter figure not separately captured).',
     ),
@@ -2081,7 +2066,8 @@ const OemModelSchedule _mitsubishiEclipseCross = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcMitsuAuEclipseCross,
       grade: OemGrade.a,
-      notes: 'First 195,000 km / 10 years, thereafter every 120,000 km / 6 years '
+      notes:
+          'First 195,000 km / 10 years, thereafter every 120,000 km / 6 years '
           '(Mitsubishi Super Long Life Coolant).',
     ),
     OemInterval(
@@ -2090,7 +2076,8 @@ const OemModelSchedule _mitsubishiEclipseCross = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcMitsuAuEclipseCross,
       grade: OemGrade.c,
-      notes: 'Positionally implied: 4 column "R" markers at 45/90/135/180k; '
+      notes:
+          'Positionally implied: 4 column "R" markers at 45/90/135/180k; '
           'corroborated by the identical-template Lancer (clean 6 markers @45k). '
           'Confirm exact figure before display.',
     ),
@@ -2101,7 +2088,8 @@ const OemModelSchedule _mitsubishiEclipseCross = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcMitsuAuEclipseCross,
       grade: OemGrade.b,
-      notes: 'Counted column "R" markers: 7 evenly spaced at 30/60/90/120/150/'
+      notes:
+          'Counted column "R" markers: 7 evenly spaced at 30/60/90/120/150/'
           '180/210k = every 30,000 km (24 mo). Severe: inspect every 7,500 km.',
     ),
     OemInterval(
@@ -2197,7 +2185,8 @@ const OemModelSchedule _mitsubishiLancer = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcMitsuAuLancer,
       grade: OemGrade.a,
-      notes: 'First 120,000 km / 8 years, thereafter every 75,000 km / 5 years.',
+      notes:
+          'First 120,000 km / 8 years, thereafter every 75,000 km / 5 years.',
     ),
     OemInterval(
       service: 'Engine air filter',
@@ -2205,7 +2194,8 @@ const OemModelSchedule _mitsubishiLancer = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcMitsuAuLancer,
       grade: OemGrade.a,
-      notes: 'Column "R" markers: 6 evenly spaced at 45/90/135/180/225/270k = '
+      notes:
+          'Column "R" markers: 6 evenly spaced at 45/90/135/180/225/270k = '
           'every 45,000 km.',
     ),
     OemInterval(
@@ -2283,7 +2273,8 @@ const OemModelSchedule _mitsubishiOutlanderZmCoolant = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcMitsuAuOutlanderZm,
       grade: OemGrade.a,
-      notes: 'First 150,000 km / 8 years, thereafter every 75,000 km / 4 years '
+      notes:
+          'First 150,000 km / 8 years, thereafter every 75,000 km / 4 years '
           '(Mitsubishi Genuine Super Long Life Coolant Premium). Fills the ZM '
           'Outlander coolant gap from the 24MY entry.',
     ),
@@ -2324,7 +2315,8 @@ const OemModelSchedule _lexusRx350 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusRx350,
       grade: OemGrade.a,
-      notes: 'Every 12 mo / 10,000 mi (16,000 km), or when the oil maintenance '
+      notes:
+          'Every 12 mo / 10,000 mi (16,000 km), or when the oil maintenance '
           'reminder appears.',
     ),
     OemInterval(
@@ -2342,7 +2334,8 @@ const OemModelSchedule _lexusRx350 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusRx350,
       grade: OemGrade.a,
-      notes: 'Replaced at 40k/80k/120k mi — every 40,000 mi (64,000 km) '
+      notes:
+          'Replaced at 40k/80k/120k mi — every 40,000 mi (64,000 km) '
           '(turbo engine).',
     ),
     OemInterval(
@@ -2359,7 +2352,8 @@ const OemModelSchedule _lexusRx350 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusRx350,
       grade: OemGrade.a,
-      notes: 'Every 30,000 mi (48,000 km); inspect more often on dusty roads '
+      notes:
+          'Every 30,000 mi (48,000 km); inspect more often on dusty roads '
           '(special operating conditions).',
     ),
     OemInterval(
@@ -2378,7 +2372,8 @@ const OemModelSchedule _lexusRx350 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusRx350,
       grade: OemGrade.a,
-      notes: 'Footnote: initial at 100,000 mi (160,000 km) / 120 mo, then every '
+      notes:
+          'Footnote: initial at 100,000 mi (160,000 km) / 120 mo, then every '
           '50,000 mi (80,000 km) / 60 mo.',
     ),
   ],
@@ -2403,7 +2398,8 @@ const OemModelSchedule _lexusEs = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusEs,
       grade: OemGrade.a,
-      notes: 'Every 12 mo / 10,000 mi (16,000 km), or when the reminder appears.',
+      notes:
+          'Every 12 mo / 10,000 mi (16,000 km), or when the reminder appears.',
     ),
     OemInterval(
       service: 'Engine oil & filter',
@@ -2420,7 +2416,8 @@ const OemModelSchedule _lexusEs = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusEs,
       grade: OemGrade.a,
-      notes: 'Replaced at 120,000 mi (192,000 km) (naturally-aspirated engine).',
+      notes:
+          'Replaced at 120,000 mi (192,000 km) (naturally-aspirated engine).',
     ),
     OemInterval(
       service: 'Brake fluid',
@@ -2454,7 +2451,8 @@ const OemModelSchedule _lexusEs = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusEs,
       grade: OemGrade.a,
-      notes: 'Initial at 100,000 mi (160,000 km) / 120 mo, then every 50,000 mi '
+      notes:
+          'Initial at 100,000 mi (160,000 km) / 120 mo, then every 50,000 mi '
           '(80,000 km) / 60 mo.',
     ),
   ],
@@ -2479,7 +2477,8 @@ const OemModelSchedule _lexusLx600 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusLx600,
       grade: OemGrade.a,
-      notes: 'Every 12 mo / 10,000 mi (16,000 km), or when the reminder appears.',
+      notes:
+          'Every 12 mo / 10,000 mi (16,000 km), or when the reminder appears.',
     ),
     OemInterval(
       service: 'Engine oil & filter',
@@ -2498,7 +2497,8 @@ const OemModelSchedule _lexusLx600 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusLx600,
       grade: OemGrade.a,
-      notes: 'Guide note: initial at 100,000 mi (160,000 km) / 120 mo, then '
+      notes:
+          'Guide note: initial at 100,000 mi (160,000 km) / 120 mo, then '
           'every 50,000 mi (80,000 km).',
     ),
   ],
@@ -2528,7 +2528,8 @@ const OemModelSchedule _toyotaRav4 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaRav4,
       grade: OemGrade.a,
-      notes: 'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-16; with '
+      notes:
+          'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-16; with '
           '0W-20, every 5,000 mi (8,000 km) / 6 mo.',
     ),
     OemInterval(
@@ -2538,7 +2539,8 @@ const OemModelSchedule _toyotaRav4 = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcToyotaRav4,
       grade: OemGrade.a,
-      notes: 'Special operating conditions (dusty, short trips, idling, towing): '
+      notes:
+          'Special operating conditions (dusty, short trips, idling, towing): '
           'every 5,000 mi (8,000 km) / 6 mo regardless of oil grade.',
     ),
     OemInterval(
@@ -2573,7 +2575,8 @@ const OemModelSchedule _toyotaRav4 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaRav4,
       grade: OemGrade.a,
-      notes: 'Super Long-Life Coolant: initial at 100,000 mi (160,000 km) / '
+      notes:
+          'Super Long-Life Coolant: initial at 100,000 mi (160,000 km) / '
           '120 mo, then every 50,000 mi (80,000 km) / 60 mo.',
     ),
     OemInterval(
@@ -2582,7 +2585,8 @@ const OemModelSchedule _toyotaRav4 = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcToyotaRav4,
       grade: OemGrade.a,
-      notes: 'Normal = inspect; severe (towing / extensive idling) = replace at '
+      notes:
+          'Normal = inspect; severe (towing / extensive idling) = replace at '
           '60,000 mi (96,000 km).',
     ),
   ],
@@ -2607,7 +2611,8 @@ const OemModelSchedule _toyotaCamry = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaCamry,
       grade: OemGrade.a,
-      notes: 'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-16; with '
+      notes:
+          'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-16; with '
           '0W-20, every 5,000 mi (8,000 km) / 6 mo.',
     ),
     OemInterval(
@@ -2633,7 +2638,8 @@ const OemModelSchedule _toyotaCamry = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaCamry,
       grade: OemGrade.a,
-      notes: 'Replaced at 60,000 mi and 120,000 mi — every 60,000 mi '
+      notes:
+          'Replaced at 60,000 mi and 120,000 mi — every 60,000 mi '
           '(96,000 km) per this guide.',
     ),
     OemInterval(
@@ -2644,7 +2650,8 @@ const OemModelSchedule _toyotaCamry = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaCamry,
       grade: OemGrade.a,
-      notes: 'Initial at 100,000 mi (160,000 km) / 120 mo, then every 50,000 mi '
+      notes:
+          'Initial at 100,000 mi (160,000 km) / 120 mo, then every 50,000 mi '
           '(80,000 km) / 60 mo.',
     ),
     OemInterval(
@@ -2653,7 +2660,8 @@ const OemModelSchedule _toyotaCamry = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcToyotaCamry,
       grade: OemGrade.a,
-      notes: 'Normal = inspect; severe (towing / idling) = replace at 60,000 mi '
+      notes:
+          'Normal = inspect; severe (towing / idling) = replace at 60,000 mi '
           '(96,000 km).',
     ),
   ],
@@ -2677,7 +2685,8 @@ const OemModelSchedule _toyotaCorolla = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaCorolla,
       grade: OemGrade.a,
-      notes: 'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-16; with '
+      notes:
+          'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-16; with '
           '0W-20, every 5,000 mi (8,000 km) / 6 mo.',
     ),
     OemInterval(
@@ -2721,7 +2730,8 @@ const OemModelSchedule _toyotaCorolla = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaCorolla,
       grade: OemGrade.a,
-      notes: 'Initial at 100,000 mi (160,000 km) / 120 mo, then every 50,000 mi '
+      notes:
+          'Initial at 100,000 mi (160,000 km) / 120 mo, then every 50,000 mi '
           '(80,000 km) / 60 mo.',
     ),
     OemInterval(
@@ -2730,7 +2740,8 @@ const OemModelSchedule _toyotaCorolla = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcToyotaCorolla,
       grade: OemGrade.a,
-      notes: 'Normal = inspect; severe (towing / idling) = replace at 60,000 mi '
+      notes:
+          'Normal = inspect; severe (towing / idling) = replace at 60,000 mi '
           '(96,000 km).',
     ),
   ],
@@ -2760,7 +2771,8 @@ const OemModelSchedule _nissanAltima = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanAltima,
       grade: OemGrade.a,
-      notes: '2.5L: every 10,000 mi (16,000 km) / 12 mo (normal = severe). '
+      notes:
+          '2.5L: every 10,000 mi (16,000 km) / 12 mo (normal = severe). '
           '2.0T: every 7,500 mi (12,000 km) / 12 mo.',
     ),
     OemInterval(
@@ -2770,7 +2782,8 @@ const OemModelSchedule _nissanAltima = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanAltima,
       grade: OemGrade.a,
-      notes: 'Every 105,000 mi (168,000 km): 2.5L /126 mo, 2.0T /168 mo '
+      notes:
+          'Every 105,000 mi (168,000 km): 2.5L /126 mo, 2.0T /168 mo '
           '(normal = severe).',
     ),
     OemInterval(
@@ -2781,7 +2794,8 @@ const OemModelSchedule _nissanAltima = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanAltima,
       grade: OemGrade.a,
-      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+      notes:
+          'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
           '(120,000 km) / 60 mo (normal = severe).',
     ),
     OemInterval(
@@ -2791,7 +2805,8 @@ const OemModelSchedule _nissanAltima = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcNissanAltima,
       grade: OemGrade.a,
-      notes: 'Normal = inspect every 10,000 mi; severe = replace every 60,000 mi '
+      notes:
+          'Normal = inspect every 10,000 mi; severe = replace every 60,000 mi '
           '(96,000 km) / 72 mo. Genuine NISSAN CVT Fluid only.',
     ),
     OemInterval(
@@ -2801,7 +2816,8 @@ const OemModelSchedule _nissanAltima = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanAltima,
       grade: OemGrade.a,
-      notes: '2.5L: 20,000 mi (32,000 km) / 24 mo. 2.0T: 15,000 mi (24,000 km).',
+      notes:
+          '2.5L: 20,000 mi (32,000 km) / 24 mo. 2.0T: 15,000 mi (24,000 km).',
     ),
     OemInterval(
       service: 'Brake fluid',
@@ -2819,7 +2835,8 @@ const OemModelSchedule _nissanAltima = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanAltima,
       grade: OemGrade.a,
-      notes: 'Every 30,000 mi (48,000 km): 2.5L /36 mo, 2.0T /48 mo. Severe '
+      notes:
+          'Every 30,000 mi (48,000 km): 2.5L /36 mo, 2.0T /48 mo. Severe '
           '(dusty) = more frequently.',
     ),
   ],
@@ -2861,7 +2878,8 @@ const OemModelSchedule _nissanSentra = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanSentra,
       grade: OemGrade.a,
-      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+      notes:
+          'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
           '(120,000 km) / 60 mo.',
     ),
     OemInterval(
@@ -2870,7 +2888,8 @@ const OemModelSchedule _nissanSentra = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcNissanSentra,
       grade: OemGrade.a,
-      notes: 'Normal = inspect every 10,000 mi; severe = replace every 60,000 mi '
+      notes:
+          'Normal = inspect every 10,000 mi; severe = replace every 60,000 mi '
           '(96,000 km). Genuine NISSAN CVT Fluid only.',
     ),
     OemInterval(
@@ -2992,7 +3011,8 @@ const OemModelSchedule _infinitiQ50 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcInfinitiQ50,
       grade: OemGrade.a,
-      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+      notes:
+          'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
           '(120,000 km) / 60 mo (normal = severe).',
     ),
     OemInterval(
@@ -3052,7 +3072,8 @@ const OemModelSchedule _infinitiQx60 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcInfinitiQx60,
       grade: OemGrade.a,
-      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+      notes:
+          'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
           '(120,000 km) / 60 mo (normal = severe).',
     ),
     OemInterval(
@@ -3121,7 +3142,8 @@ const OemModelSchedule _infinitiQx80 = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcInfinitiQx80,
       grade: OemGrade.a,
-      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+      notes:
+          'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
           '(120,000 km) / 60 mo (normal = severe).',
     ),
     OemInterval(
@@ -3154,7 +3176,8 @@ const OemModelSchedule _infinitiQx80 = OemModelSchedule(
 const OemModelSchedule _genesisGasolineRange = OemModelSchedule(
   make: 'Genesis',
   model: 'G70 / G80 / GV70 / GV80 (gasoline)',
-  engine: 'Turbo & NA petrol (G70 2.0T/3.3T, G80 2.5T/3.5, GV70 2.5T/3.5, '
+  engine:
+      'Turbo & NA petrol (G70 2.0T/3.3T, G80 2.5T/3.5, GV70 2.5T/3.5, '
       'GV80 2.5T/3.5)',
   fuel: 'Petrol',
   generationNote:
@@ -3172,7 +3195,8 @@ const OemModelSchedule _genesisGasolineRange = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcGenesisCaSchedule,
       grade: OemGrade.a,
-      notes: 'Replaced at every service (10,000 km / 12 months) through the '
+      notes:
+          'Replaced at every service (10,000 km / 12 months) through the '
           '100,000 km complimentary schedule.',
     ),
     OemInterval(
@@ -3182,7 +3206,8 @@ const OemModelSchedule _genesisGasolineRange = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcGenesisCaSchedule,
       grade: OemGrade.a,
-      notes: 'Replace every 70,000 km / 84 months (all gasoline G70/G80/GV70/'
+      notes:
+          'Replace every 70,000 km / 84 months (all gasoline G70/G80/GV70/'
           'GV80 variants).',
     ),
     OemInterval(
@@ -3192,7 +3217,8 @@ const OemModelSchedule _genesisGasolineRange = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcGenesisCaSchedule,
       grade: OemGrade.a,
-      notes: 'Replace differential oil with LSD every 60,000 km / 72 months '
+      notes:
+          'Replace differential oil with LSD every 60,000 km / 72 months '
           '(AWD models).',
     ),
   ],
@@ -3219,7 +3245,8 @@ const OemModelSchedule _kiaPicanto = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcKiaPicantoAu,
       grade: OemGrade.a,
-      notes: 'R at every 15,000 km column (15/30/45…120k) = every 15,000 km / '
+      notes:
+          'R at every 15,000 km column (15/30/45…120k) = every 15,000 km / '
           '12 mo.',
     ),
     OemInterval(
@@ -3237,7 +3264,8 @@ const OemModelSchedule _kiaPicanto = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcKiaPicantoAu,
       grade: OemGrade.a,
-      notes: 'Replace every 150,000 km (1.2 MPI unleaded). Severe = "more '
+      notes:
+          'Replace every 150,000 km (1.2 MPI unleaded). Severe = "more '
           'frequently" (not quantified).',
     ),
     OemInterval(
@@ -3248,7 +3276,8 @@ const OemModelSchedule _kiaPicanto = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcKiaPicantoAu,
       grade: OemGrade.a,
-      notes: 'At first replace 180,000 km / 120 mo, after that replace every '
+      notes:
+          'At first replace 180,000 km / 120 mo, after that replace every '
           '30,000 km / 24 months.',
     ),
     OemInterval(
@@ -3316,7 +3345,8 @@ const OemModelSchedule _nissanPatrol = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanPatrolNz,
       grade: OemGrade.a,
-      notes: 'Note-3: first replacement 160,000 km / 96 mo, after first replace '
+      notes:
+          'Note-3: first replacement 160,000 km / 96 mo, after first replace '
           'every 80,000 km / 48 mo. Mixture-ratio check every 40,000 km / 24 mo.',
     ),
     OemInterval(
@@ -3334,7 +3364,8 @@ const OemModelSchedule _nissanPatrol = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanPatrolNz,
       grade: OemGrade.b,
-      notes: 'Single "R" at the 100,000 km service. Note-5: replace sooner if '
+      notes:
+          'Single "R" at the 100,000 km service. Note-5: replace sooner if '
           'plug gap exceeds 1.25 mm.',
     ),
     OemInterval(
@@ -3364,7 +3395,8 @@ const OemModelSchedule _nissanPatrol = OemModelSchedule(
 
 const OemModelSchedule _toyotaNzPetrol = OemModelSchedule(
   make: 'Toyota',
-  model: 'Conventional petrol range (incl. Hilux / Land Cruiser / Prado petrol)',
+  model:
+      'Conventional petrol range (incl. Hilux / Land Cruiser / Prado petrol)',
   engine: 'Conventional petrol (non-hybrid), excl. GR models',
   fuel: 'Petrol',
   generationNote:
@@ -3382,7 +3414,8 @@ const OemModelSchedule _toyotaNzPetrol = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaNzPetrol,
       grade: OemGrade.a,
-      notes: 'R at every service (15,000 km / 12 months) under normal '
+      notes:
+          'R at every service (15,000 km / 12 months) under normal '
           'conditions; severe shortens.',
     ),
     OemInterval(
@@ -3393,7 +3426,8 @@ const OemModelSchedule _toyotaNzPetrol = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaNzPetrol,
       grade: OemGrade.c,
-      notes: 'Sheet states "then every 75,000 km / 5 years" (Grade A for the '
+      notes:
+          'Sheet states "then every 75,000 km / 5 years" (Grade A for the '
           'subsequent interval); first replacement is positionally ~150,000 km '
           'in the coded grid (Grade C) — confirm before display.',
     ),
@@ -3461,7 +3495,8 @@ const OemModelSchedule _nissanRogue = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanRogue,
       grade: OemGrade.a,
-      notes: 'Every 60,000 mi (96,000 km) / 96 mo (turbo engine; normal = '
+      notes:
+          'Every 60,000 mi (96,000 km) / 96 mo (turbo engine; normal = '
           'severe).',
     ),
     OemInterval(
@@ -3472,7 +3507,8 @@ const OemModelSchedule _nissanRogue = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanRogue,
       grade: OemGrade.a,
-      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+      notes:
+          'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
           '(120,000 km) / 60 mo (normal = severe).',
     ),
     OemInterval(
@@ -3499,7 +3535,8 @@ const OemModelSchedule _nissanRogue = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcNissanRogue,
       grade: OemGrade.a,
-      notes: 'Normal = inspect every 7,500 mi; severe = replace every 60,000 mi '
+      notes:
+          'Normal = inspect every 7,500 mi; severe = replace every 60,000 mi '
           '(96,000 km). Genuine NISSAN CVT Fluid only.',
     ),
   ],
@@ -3550,7 +3587,8 @@ const OemModelSchedule _nissanKicks = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcNissanKicks,
       grade: OemGrade.a,
-      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+      notes:
+          'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
           '(120,000 km) / 60 mo (normal = severe).',
     ),
     OemInterval(
@@ -3578,7 +3616,8 @@ const OemModelSchedule _nissanKicks = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcNissanKicks,
       grade: OemGrade.a,
-      notes: 'Normal = inspect every 15,000 mi; severe = replace every 60,000 mi '
+      notes:
+          'Normal = inspect every 15,000 mi; severe = replace every 60,000 mi '
           '(96,000 km) / 72 mo. Genuine NISSAN CVT Fluid only.',
     ),
   ],
@@ -3606,7 +3645,8 @@ const OemModelSchedule _toyotaTacoma = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaTacoma,
       grade: OemGrade.a,
-      notes: 'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-20; if 0W-20 '
+      notes:
+          'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-20; if 0W-20 '
           'not used, every 5,000 mi (8,000 km) / 6 mo.',
     ),
     OemInterval(
@@ -3616,7 +3656,8 @@ const OemModelSchedule _toyotaTacoma = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcToyotaTacoma,
       grade: OemGrade.a,
-      notes: 'Special operating conditions (dusty, short trips, idling, towing): '
+      notes:
+          'Special operating conditions (dusty, short trips, idling, towing): '
           'every 5,000 mi (8,000 km) / 6 mo.',
     ),
     OemInterval(
@@ -3633,7 +3674,8 @@ const OemModelSchedule _toyotaTacoma = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaTacoma,
       grade: OemGrade.a,
-      notes: 'V6: "Replace spark plugs (2GR-FKS engine only)" at 60,000 mi '
+      notes:
+          'V6: "Replace spark plugs (2GR-FKS engine only)" at 60,000 mi '
           '(96,000 km). The 2.7L I4 (2TR-FE) is at the generic 120,000 mi '
           '(192,000 km) milestone.',
     ),
@@ -3645,7 +3687,8 @@ const OemModelSchedule _toyotaTacoma = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcToyotaTacoma,
       grade: OemGrade.a,
-      notes: 'Super Long-Life Coolant: initial at 100,000 mi (160,000 km) / '
+      notes:
+          'Super Long-Life Coolant: initial at 100,000 mi (160,000 km) / '
           '120 mo, then every 50,000 mi (80,000 km) / 60 mo.',
     ),
     OemInterval(
@@ -3654,7 +3697,8 @@ const OemModelSchedule _toyotaTacoma = OemModelSchedule(
       severity: OemSeverity.severe,
       source: _srcToyotaTacoma,
       grade: OemGrade.a,
-      notes: 'Normal = inspect; severe (towing / idling, "Special Operating '
+      notes:
+          'Normal = inspect; severe (towing / idling, "Special Operating '
           'Conditions") = replace at 60,000 mi (96,000 km).',
     ),
   ],
@@ -3709,7 +3753,8 @@ const OemModelSchedule _lexusLx600NonOil = OemModelSchedule(
       severity: OemSeverity.normal,
       source: _srcLexusLx600,
       grade: OemGrade.a,
-      notes: 'Replaced at 40k/80k mi = every 40,000 mi (64,000 km) '
+      notes:
+          'Replaced at 40k/80k mi = every 40,000 mi (64,000 km) '
           '(twin-turbo engine).',
     ),
     OemInterval(
@@ -3773,7 +3818,6 @@ const List<OemModelSchedule> kOemJapaneseSchedules = [
   _mitsubishiMirage,
   _mitsubishiPajeroSport,
   _mitsubishiPajero,
-  _mitsubishiAsx,
   _mitsubishiEclipseCross,
   _mitsubishiLancer,
   _mitsubishiOutlanderZmCoolant,
