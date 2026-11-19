@@ -235,6 +235,64 @@ internally-consistent engine plans, which corroborates authenticity.
   omitted. Wet-belt note: Peugeot later shortened PureTech belt intervals via
   service campaigns; the stored figures are the plan-sheet values as printed.
 
+## Fiat — Tipo (356), official Fiat Owner Handbook
+
+**Service system:** a fixed X-mark grid at **15,000 km / 1 yr** steps
+(`conditionBased: false`). Read from the **official Fiat/FCA English Owner
+Handbook**, "SCHEDULED SERVICING PLAN (Petrol versions)". The grid X marks do not
+survive text extraction, so the four relevant grid pages were **rendered to PNG
+(pymupdf) and read visually** — the same X-grid method the sibling corpora use —
+and the severe-condition figures were taken verbatim from the footnotes. **Grade A**.
+
+- **`Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)`**
+  - Document: *Fiat Tipo 5-door — Owner Handbook*, Publication 603.91.675, EN,
+    ed. 06.2018, pp. 180–185. Publisher: FCA / Fiat, on Fiat's own eLUM portal.
+  - URL: https://aftersales.fiat.com/eLumData/EN/00/357_TIPO5P/00_357_TIPO5P_603.91.675_EN_01_06.18_L_LG/00_357_TIPO5P_603.91.675_EN_01_06.18_L_LG.pdf
+  - Backs (petrol: 1.4 16V 95HP, 1.4 T-Jet 120HP, 1.6 E.TorQ 110HP):
+    - Engine oil & filter — grid at 15,000 km / 1 yr; **obligatory** every step
+      (15,000 km / 1 yr) on 1.6 E.TorQ and 1.4 16V 95HP E4; on 1.4 T-Jet / 1.4
+      16V 95HP E6 the 15,000 km / 1 yr step is *recommended*, 30,000 km / 2 yr
+      *obligatory*. Footnote 5: if < 10,000 km/yr, change every year.
+    - Spark plugs — **30,000 km** (1.4 T-Jet 120HP, 1.4 16V 95HP E4, 1.6 E.TorQ);
+      **60,000 km** (1.4 16V 95HP E6). Footnote 7 (severe): **every 15,000 km**
+      for 1.4 16V E4 / 1.6 E.TorQ in listed hot/dusty markets (Jordan, Bahrain,
+      Libya, etc. — same MENA band as Lebanon).
+    - Engine air cleaner — **30,000 km** (1.4 engines). Footnote 8 (severe):
+      **every 15,000 km** in dusty areas.
+    - Cabin filter ("passenger compartment cleaner") — recommended 15,000 km /
+      1 yr, obligatory 30,000 km / 2 yr; dusty (footnote 8) every 15,000 km.
+    - Brake fluid — footnote 10 verbatim: *"every two years, irrespective of the
+      mileage."*
+    - Timing belt (toothed, 1.4 belt engines) — footnote 4: max **120,000 km**,
+      every 6 yr; **severe** (dusty/extreme/urban/idling) max **60,000 km**,
+      every 4 yr.
+
+**Fiat Tipo gaps:** engine **coolant** — the plan lists only "check/top up fluid
+levels", no replacement interval printed → omitted. The **1.6 E.TorQ air-filter**
+grid dots were irregular/ambiguous on the render → only the clear 1.4-family
+30,000 km value was recorded.
+
+---
+
+## Land Rover — Range Rover (L405) / Sport (L494) service-interval baseline
+
+**Source:** `Land Rover SSM72769 TopIx Service Bulletin (JLR)` — an official
+Jaguar Land Rover TopIx technical bulletin (ref **SSM72769**, "Diesel Service
+Interval Indicator (SII) is Displayed Sooner than Expected", Category Engine,
+17-Jun-2016), hosted at topix.landrover.jlrext.com and mirrored by NHTSA at
+https://static.nhtsa.gov/odi/tsbs/2016/SB-10106286-9340.pdf (scanned image page,
+rendered to PNG and read visually).
+
+It states, verbatim, the published service interval: *"...the service indicator
+message is displayed ... when the mileage or time to service is below the
+**16,000 miles (26,000 km) or 12 month service interval**."* The bulletin's Cause
+says *"Service intervals for vehicles with **diesel** engines are variable..."* —
+so **petrol** follows this fixed 16,000 mi / 26,000 km / 12 month maximum. Added as
+a separate, more-specific Land Rover entry (`conditionBased: true`, Engine Oil &
+Filter 26,000 km / 12 mo, **Grade B** — read from a bulletin about the indicator,
+not the primary schedule table) so the existing general Land Rover entry is not
+rewritten. This fills the oil-item gap the general entry left open.
+
 ---
 
 ## Honest GAPS — makes/models NOT recorded (no OEM document opened)
@@ -254,7 +312,10 @@ conflicting figures. Each was searched; none yielded an openable, model-specific
   Only complimentary-maintenance coverage (5 yr / 60,000 mi) and third-party (KBB)
   figures (service ~16,000 mi, plugs ~32,000 mi) were found — **not OEM**, so
   **omitted**, and NOT copied from the Land Rover handbook (different make). No
-  single fixed odometer figure is published → honest gap (as with Land Rover).
+  single fixed odometer figure is published → honest gap. (The sibling full-size
+  JLR models publish a 16,000 mi / 26,000 km / 12 mo max — see the Land Rover
+  bulletin section — but that was NOT transferred to Jaguar; a Jaguar-specific
+  figure was not confirmed from an openable Jaguar document.)
 - **Škoda — Octavia / Kodiaq / Superb.** Only secondary sources (Haynes,
   CompleteCar, forums) and dealer fixed-price-plan brochures (no interval table).
   The official interval table lives in the owner's manual "Service Intervals"
@@ -279,17 +340,38 @@ conflicting figures. Each was searched; none yielded an openable, model-specific
   d'entretien was openable (Planète-Citroën / forum-citroen searches returned only
   third-party carnets and sales brochures). The Peugeot PureTech sheets were NOT
   copied across to Citroën (different make) → **omitted**.
-- **Fiat — Tipo / 500.** These are EU-market models for Lebanon; no openable
-  official Fiat maintenance table (the US Fiat 500 was discontinued 2019). Not
-  copied from the Stellantis US (Jeep/Dodge/RAM) books — different models/engines.
-  → **omitted**.
+- **Fiat — Tipo: NOW SOURCED** (Grade A, official Fiat handbook) — see the Fiat
+  section above. **Fiat 500 (312, 1.2 petrol) still a gap:** Fiat's eLUM portal
+  (aftersales.fiat.com) serves only the *Nuova 500* (332, electric) and 500L
+  libretti by model code; no openable petrol-500 (312) handbook was found (eLUM
+  otherwise resolves by VIN). The Tipo plan was NOT copied to the 500 → **omitted**.
+- **Dacia — Duster / Sandero.** Only third-party carnet aggregators (idgarages,
+  piecesetpneus, mecazen) with conflicting milestones (e.g. a "60,000 km" general
+  service, brake fluid "80,000 km" vs "48 months"); no official Dacia/Renault
+  carnet d'entretien PDF was openable → **omitted**.
+- **Tata — Nexon / Punch.** Tata's **official** owner's-manual PDFs exist on its
+  own host (cars.tatamotors.com/content/dam/.../owners-manual-nexon-new.pdf) but
+  the host's **TLS certificate has expired** (SEC_E_CERT_EXPIRED / ERR_CERT_DATE_
+  INVALID), so curl, WebFetch and the in-app browser all refuse it. A WAF also
+  returns HTTP 489 to direct clients. Third-party figures (service ~15,000 km/1 yr,
+  plugs 30–45k) conflict → **omitted** (OEM doc exists but is unreachable).
+- **Mahindra — Scorpio N / XUV.** Mahindra's **official** HTML owner's manual
+  (mvault-cloudfront.mahindra.com, "Maintenance Schedule Chart" p. 24) is behind a
+  **Cloudflare bot challenge** (HTTP 403 "Attention Required"), which must not be
+  bypassed. Third-party figures (~10,000 km / 12 mo) conflict on the free-service
+  steps → **omitted**.
+- **Proton — X70 / X50 / Saga.** No official owner's-manual or service-booklet PDF
+  located; only Malaysian motoring sites (paultan, wapcar, zigwheels) with cost
+  tables and a "6 months / 10,000 km" headline interval, no component table →
+  **omitted**.
 
 ### Priorities that WERE fully sourced
 **Grade A:** RAM 1500; Dodge Charger; Dodge Durango; Jeep Grand Cherokee; Jeep
 Wrangler (both engines); Jeep Compass; Jeep Cherokee (all engines); MINI (all
-models); Volvo (XC40/XC60/XC90/S60/S90 + V60/V90). Land Rover coolant (Grade A) +
-brake fluid (Grade B).
-**Grade B (official Peugeot plan d'entretien, forum-mirrored):** Peugeot 208
-(PureTech 100 BVM6 / 130 EAT8), 2008 (PureTech 82 BVM5), 5008 (PureTech 130 BVM6)
-— full normal + severe columns.
+models); Volvo (XC40/XC60/XC90/S60/S90 + V60/V90); **Fiat Tipo (petrol — full
+plan incl. severe)**. Land Rover coolant (Grade A) + brake fluid (Grade B).
+**Grade B:** Peugeot 208 (PureTech 100 BVM6 / 130 EAT8), 2008 (PureTech 82 BVM5),
+5008 (PureTech 130 BVM6) — official plan d'entretien, forum-mirrored, full normal
++ severe columns; **Land Rover Range Rover (L405) / Sport (L494) petrol oil/service
+baseline 26,000 km / 12 mo** (JLR TopIx bulletin SSM72769).
 Everything else above is an honest, documented gap.

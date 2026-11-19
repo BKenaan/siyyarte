@@ -1186,4 +1186,173 @@ const List<OemSchedule> kOemSchedulesEuroAmericanExtra = [
       // then every 25,000 km), no explicit replacement line — omitted, not guessed.
     ],
   ),
+
+  // ==========================================================================
+  // FIAT — Tipo (356), petrol. Read from the OFFICIAL Fiat/FCA English Owner
+  // Handbook (Pub. 603.91.675, 06.2018) hosted on aftersales.fiat.com (Fiat's
+  // own eLUM portal), "SCHEDULED SERVICING PLAN (Petrol versions)". The plan is a
+  // fixed X-mark grid at 15,000 km / 1 yr steps; each grid page was rendered to an
+  // image and the X marks read visually (Grade A — the method the sibling corpora
+  // use for X-grid tables). Footnotes gave the severe-condition figures verbatim.
+  // conditionBased: false (hard fixed table). Lebanon = severe/dusty, so the
+  // dusty-area footnote intervals are captured as OemSeverity.severe rows.
+  // ==========================================================================
+  OemSchedule(
+    make: 'Fiat',
+    model: 'Tipo',
+    yearStart: 2016,
+    yearEnd: 2024,
+    engine: '1.4 16V 95HP / 1.4 T-Jet 120HP / 1.6 E.TorQ 110HP',
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 15000,
+        intervalMonths: 12,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes:
+            'Service grid at 15,000 km / 1 yr steps. Oil change is "obligatory" '
+            'every grid step (15,000 km / 1 yr) on 1.6 E.TorQ and 1.4 16V 95HP '
+            'E4; on 1.4 T-Jet 120HP / 1.4 16V 95HP E6 the 15,000 km / 1 yr step '
+            'is "recommended" and 30,000 km / 2 yr "obligatory". Footnote: if '
+            'annual mileage < 10,000 km, change oil & filter every year.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 30000,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes:
+            '1.4 T-Jet 120HP, 1.4 16V 95HP E4 and 1.6 E.TorQ: every 30,000 km '
+            '(X at 30/60/90/120/150k). Mileage-based regardless of time. '
+            'Separate 60,000 km row below for the 1.4 16V 95HP E6.',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 60000,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes: '1.4 16V 95HP E6 version: every 60,000 km (X at 60k & 120k).',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 15000,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes:
+            'SEVERE (footnote 7): plugs every 15,000 km for 1.4 16V 95HP E4 / '
+            '1.6 E.TorQ when used in listed hot/dusty markets (incl. Jordan, '
+            'Bahrain, Libya — same MENA climate band as Lebanon).',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 30000,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes:
+            'Air cleaner cartridge every 30,000 km (X at 30/60/90/120/150k) on '
+            'the 1.4 engines.',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 15000,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes:
+            'SEVERE (footnote 8): "If the vehicle is used in dusty areas, change '
+            'this filter every 15,000 km." Lebanon = dusty.',
+      ),
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalKm: 15000,
+        intervalMonths: 12,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes:
+            '"Passenger compartment cleaner" recommended every 15,000 km / 1 yr '
+            '(obligatory 30,000 km / 2 yr).',
+      ),
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalKm: 15000,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes:
+            'SEVERE (footnote 8): dusty areas every 15,000 km — matches the '
+            'recommended step, so it becomes obligatory in dusty use.',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 24,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes:
+            'Footnote 10 verbatim: "The brake fluid replacement has to be done '
+            'every two years, irrespective of the mileage."',
+      ),
+      OemInterval(
+        service: 'Timing Belt',
+        intervalKm: 120000,
+        intervalMonths: 72,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes:
+            'Footnote 4: toothed timing belt max 120,000 km, replace every 6 yr '
+            'regardless of distance (1.4 16V 95HP & 1.4 T-Jet belt engines; the '
+            '1.6 E.TorQ is not belt-driven for timing).',
+      ),
+      OemInterval(
+        service: 'Timing Belt',
+        intervalKm: 60000,
+        intervalMonths: 48,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'Fiat Tipo Owner Handbook 603.91.675 EN (aftersales.fiat.com)',
+        notes:
+            'SEVERE (footnote 4): heavy conditions (dusty, extreme temps, urban, '
+            'long idling) max 60,000 km, replace every 4 years. Lebanon = severe.',
+      ),
+    ],
+  ),
+
+  // ==========================================================================
+  // LAND ROVER — Range Rover (L405) / Range Rover Sport (L494): concrete
+  // service/oil baseline. The general Land Rover entry above (coolant + brake
+  // fluid) omitted the oil item because JLR uses a variable Service Interval
+  // Indicator. This separate, more-specific entry adds the PUBLISHED MAXIMUM
+  // service interval, read verbatim from an official JLR TopIx bulletin
+  // (SSM72769): "...below the 16,000 miles (26,000 km) or 12 month service
+  // interval." The bulletin states only DIESEL SIIs are variable (DPF oil
+  // dilution), so PETROL follows this fixed 16,000 mi / 12 mo figure. Kept as a
+  // new entry so the existing Land Rover schedule is not rewritten.
+  // ==========================================================================
+  OemSchedule(
+    make: 'Land Rover',
+    model: 'Range Rover (L405) / Range Rover Sport (L494)',
+    yearStart: 2013,
+    yearEnd: 2022,
+    engine: 'Petrol (Service Interval Indicator)',
+    conditionBased: true,
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 26000,
+        intervalMonths: 12,
+        grade: OemGrade.b,
+        source: 'Land Rover SSM72769 TopIx Service Bulletin (JLR)',
+        notes:
+            'Published service interval, quoted verbatim: "16,000 miles '
+            '(26,000 km) or 12 month service interval" (Range Rover L405 / '
+            'Range Rover Sport L494). conditionBased: the SII can bring it '
+            'forward; the bulletin says only DIESEL intervals are variable '
+            '(DPF oil dilution), so petrol follows this fixed maximum. Recorded '
+            'as the concrete baseline per the app directive. Grade B: read from '
+            'an official JLR bulletin about the indicator, not the primary '
+            'maintenance-schedule table.',
+      ),
+    ],
+  ),
 ];
