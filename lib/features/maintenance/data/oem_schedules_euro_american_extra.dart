@@ -1355,4 +1355,264 @@ const List<OemSchedule> kOemSchedulesEuroAmericanExtra = [
       ),
     ],
   ),
+
+  // ==========================================================================
+  // LAND ROVER — per-model PETROL service intervals from the official
+  // "Land Rover Maintenance Plan" brochure (Jaguar Land Rover North America,
+  // 2022, doc 22 01 387). It lists two petrol service-interval bands under
+  // "FLEXIBLE SERVICE":
+  //   • 2 YEAR / 21,000 mi (~34,000 km): Evoque, Velar i4/i6, Discovery,
+  //     Discovery Sport, Defender i4/i6, Range Rover/Sport i4/i6.
+  //   • 1 YEAR / 16,000 mi (~26,000 km): all V8 petrol (incl. Defender V8,
+  //     Range Rover/Sport V8).
+  // conditionBased: true — "Flexible Service ... takes into account individual
+  // driving styles and conditions to determine when a service is due", so the
+  // figure is the published MAXIMUM; severe use (Lebanon) brings it forward.
+  // Grade B: a JLR service-plan brochure (states the interval band clearly) rather
+  // than the per-VIN owner handbook schedule; km is the ×1.6 mile conversion.
+  // Added as separate per-model entries; the general Land Rover entry above is
+  // unchanged. The older Range Rover L405 / Sport L494 oil entry (SSM72769,
+  // 16,000 mi) is a different generation/doc and is kept as-is.
+  // ==========================================================================
+  OemSchedule(
+    make: 'Land Rover',
+    model: 'Range Rover Evoque (petrol)',
+    yearStart: 2019,
+    yearEnd: 2024,
+    engine: 'i4 petrol (Ingenium 2.0 P200/P250/P300), Flexible Service',
+    conditionBased: true,
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 34000,
+        intervalMonths: 24,
+        grade: OemGrade.b,
+        source: 'Land Rover Maintenance Plan Brochure 22 01 387 (JLR NA 2022)',
+        notes:
+            'Petrol band "2 YEAR / 21,000 mi" (21,000 mi = ~34,000 km). '
+            'conditionBased (Flexible Service): severe use brings it forward. '
+            'Covers Evoque petrol i4 per the brochure\'s model list.',
+      ),
+    ],
+  ),
+
+  OemSchedule(
+    make: 'Land Rover',
+    model: 'Range Rover Velar (petrol)',
+    yearStart: 2017,
+    yearEnd: 2024,
+    engine: 'i4 / i6 petrol (Ingenium 2.0 / 3.0), Flexible Service',
+    conditionBased: true,
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 34000,
+        intervalMonths: 24,
+        grade: OemGrade.b,
+        source: 'Land Rover Maintenance Plan Brochure 22 01 387 (JLR NA 2022)',
+        notes:
+            'Petrol band "2 YEAR / 21,000 mi" (~34,000 km). Brochure lists '
+            '"Range Rover Velar i4" and "Range Rover Velar i6" in this band. '
+            'conditionBased (Flexible Service); severe use brings it forward.',
+      ),
+    ],
+  ),
+
+  OemSchedule(
+    make: 'Land Rover',
+    model: 'Discovery / Discovery Sport (petrol)',
+    yearStart: 2017,
+    yearEnd: 2024,
+    engine: 'i4 / i6 petrol (Ingenium), Flexible Service',
+    conditionBased: true,
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 34000,
+        intervalMonths: 24,
+        grade: OemGrade.b,
+        source: 'Land Rover Maintenance Plan Brochure 22 01 387 (JLR NA 2022)',
+        notes:
+            'Petrol band "2 YEAR / 21,000 mi" (~34,000 km). Brochure lists '
+            '"Discovery" and "Discovery Sport" in this band. conditionBased '
+            '(Flexible Service); severe use brings it forward.',
+      ),
+    ],
+  ),
+
+  OemSchedule(
+    make: 'Land Rover',
+    model: 'Defender (L663, petrol)',
+    yearStart: 2020,
+    yearEnd: 2024,
+    engine: 'i4 / i6 petrol and V8 petrol, Flexible Service',
+    conditionBased: true,
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 34000,
+        intervalMonths: 24,
+        grade: OemGrade.b,
+        source: 'Land Rover Maintenance Plan Brochure 22 01 387 (JLR NA 2022)',
+        notes:
+            'Defender i4 / i6 petrol: "2 YEAR / 21,000 mi" band (~34,000 km). '
+            'conditionBased (Flexible Service); severe use brings it forward. '
+            'V8 is the separate 1-yr/16k row below.',
+      ),
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 26000,
+        intervalMonths: 12,
+        grade: OemGrade.b,
+        source: 'Land Rover Maintenance Plan Brochure 22 01 387 (JLR NA 2022)',
+        notes:
+            'Defender V8 petrol: "1 YEAR / 16,000 mi" band (16,000 mi = '
+            '~26,000 km). conditionBased (Flexible Service). The brochure puts '
+            'all V8 petrol models on this shorter interval.',
+      ),
+    ],
+  ),
+
+  // ==========================================================================
+  // RENAULT — Duster (India / MENA, petrol): service/oil cadence only.
+  // From the official Renault India "New Duster Additional Warranty Terms &
+  // Conditions" (cdn.group.renault.com, version Mar-2026), which ties the
+  // Periodic Maintenance Schedule (PMS) to "1 year or 10,000 km, whichever
+  // occurs earlier" (illustrated with PMS at 10k/20k/30k/40k km steps). Only the
+  // service/oil CADENCE is stated in this document; component intervals (spark
+  // plugs, brake fluid, filters) are in the owner's-manual PMS table, which was
+  // NOT openable — recorded as a gap, not guessed. conditionBased: false.
+  // ==========================================================================
+  OemSchedule(
+    make: 'Renault',
+    model: 'Duster',
+    yearStart: 2020,
+    yearEnd: 2026,
+    engine: 'Petrol (TCe / naturally-aspirated), Renault India PMS',
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalKm: 10000,
+        intervalMonths: 12,
+        grade: OemGrade.b,
+        source: 'Renault India New Duster Warranty T&C (cdn.group.renault.com)',
+        notes:
+            'Periodic Maintenance Schedule cadence "1 year or 10,000 km, '
+            'whichever occurs earlier" (stated for PMS/warranty, illustrated at '
+            '10k/20k/30k/40k km steps). Service/oil interval only; the full '
+            'component PMS table was not openable. conditionBased: false.',
+      ),
+    ],
+  ),
+
+  // ==========================================================================
+  // CADILLAC — Escalade / Escalade ESV (6.2L V8 petrol). Read from the GENUINE
+  // GM owner manual PDF (2021, GM Canada bilingual FR/EN edition — km-native,
+  // obtained via a dealer mirror of the GM publication), "ENTRETIEN ET
+  // MAINTENANCE / Interventions supplémentaires requises". Two X-mark grids
+  // (normal + severe) at 12,000 km / 7,500 mi steps; rendered to PNG (pymupdf)
+  // and read visually, with footnotes taken verbatim. Oil uses the GM Engine Oil
+  // Life System (conditionBased). Lebanon = severe → the severe-only automatic-
+  // transmission-fluid change applies. Grade A (authentic GM publication, values
+  // read directly; km printed natively, no conversion).
+  // ==========================================================================
+  OemSchedule(
+    make: 'Cadillac',
+    model: 'Escalade / Escalade ESV',
+    yearStart: 2015,
+    yearEnd: 2024,
+    engine: '6.2L V8 petrol',
+    conditionBased: true,
+    intervals: [
+      OemInterval(
+        service: 'Engine Oil & Filter',
+        intervalMonths: 12,
+        grade: OemGrade.a,
+        source: 'Cadillac Escalade Owner Manual 2021 (GM, km-native)',
+        notes:
+            'GM Engine Oil Life System. "L\'huile moteur doit être vidangée et '
+            'le filtre remplacé au moins une fois par an" (at least once a year); '
+            'the indicator may extend to ~2 yr only in ideal conditions. '
+            'conditionBased — no fixed km; the inspection/tire-rotation visit is '
+            'every 12,000 km / 7,500 mi.',
+      ),
+      OemInterval(
+        service: 'Cabin Air Filter',
+        intervalKm: 36000,
+        intervalMonths: 24,
+        grade: OemGrade.a,
+        source: 'Cadillac Escalade Owner Manual 2021 (GM, km-native)',
+        notes:
+            'X at 36/72/108/144/180/216k; footnote 1: or every 2 years. Replace '
+            'more often in dense-traffic / poor-air / dusty areas (severe — no '
+            'separate number given).',
+      ),
+      OemInterval(
+        service: 'Engine Air Filter',
+        intervalKm: 72000,
+        intervalMonths: 48,
+        grade: OemGrade.a,
+        source: 'Cadillac Escalade Owner Manual 2021 (GM, km-native)',
+        notes:
+            'X at 72/144k; footnote 3: or every 4 years, inspect at each oil '
+            'change; replace more often in dusty conditions (severe).',
+      ),
+      OemInterval(
+        service: 'Spark Plugs',
+        intervalKm: 156000,
+        grade: OemGrade.a,
+        source: 'Cadillac Escalade Owner Manual 2021 (GM, km-native)',
+        notes:
+            'Replace spark plugs & inspect wires/boots at 156,000 km '
+            '(97,500 mi). Same in normal and severe tables.',
+      ),
+      OemInterval(
+        service: 'Coolant',
+        intervalKm: 240000,
+        intervalMonths: 60,
+        grade: OemGrade.a,
+        source: 'Cadillac Escalade Owner Manual 2021 (GM, km-native)',
+        notes:
+            'DEX-COOL: drain & refill at 240,000 km (150,000 mi); footnote 5: '
+            'or every 5 years, whichever first.',
+      ),
+      OemInterval(
+        service: 'Brake Fluid',
+        intervalMonths: 60,
+        grade: OemGrade.a,
+        source: 'Cadillac Escalade Owner Manual 2021 (GM, km-native)',
+        notes:
+            'Footnote 7: "Remplacer le liquide de frein tous les cinq ans" '
+            '(every 5 years). Not tied to a mileage in the grid.',
+      ),
+      OemInterval(
+        service: 'Accessory Drive Belt',
+        intervalKm: 240000,
+        intervalMonths: 120,
+        grade: OemGrade.a,
+        source: 'Cadillac Escalade Owner Manual 2021 (GM, km-native)',
+        notes:
+            'Visually inspect at 240,000 km; footnote 6: or every 10 years. '
+            'Replace if frayed/cracked.',
+      ),
+      OemInterval(
+        service: 'Transfer Case Fluid (4WD)',
+        intervalKm: 156000,
+        grade: OemGrade.a,
+        source: 'Cadillac Escalade Owner Manual 2021 (GM, km-native)',
+        notes: 'Replace transfer-case fluid at 156,000 km (4WD). Both tables.',
+      ),
+      OemInterval(
+        service: 'Automatic Transmission Fluid & Filter',
+        intervalKm: 72000,
+        severity: OemSeverity.severe,
+        grade: OemGrade.a,
+        source: 'Cadillac Escalade Owner Manual 2021 (GM, km-native)',
+        notes:
+            'SEVERE table only: replace auto-trans fluid & filter every 72,000 km '
+            '(X at 72/144k; 45,000 mi). The NORMAL table schedules no trans-fluid '
+            'change (fill-for-life). Lebanon = severe, so this applies.',
+      ),
+    ],
+  ),
 ];

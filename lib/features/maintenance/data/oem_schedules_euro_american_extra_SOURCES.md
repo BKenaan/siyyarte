@@ -295,6 +295,73 @@ rewritten. This fills the oil-item gap the general entry left open.
 
 ---
 
+## Land Rover — per-model PETROL service intervals (JLR NA Maintenance Plan)
+
+**Source:** `Land Rover Maintenance Plan Brochure 22 01 387 (JLR NA 2022)` — the
+official *Land Rover Maintenance Plan* brochure, Jaguar Land Rover North America,
+2022 (doc 22 01 387), https://www.landroverusa.com/content/dam/lrdx/pdfs/us/22_01_387_LR_Maint_Plan_Bro_v8.pdf
+(text-extractable). Under **"FLEXIBLE SERVICE"** it lists two petrol
+service-interval bands, verbatim:
+
+- **"2 YEAR / 21,000 mi"** (~34,000 km): Discovery, Discovery Sport, Range Rover
+  Evoque, Range Rover Velar i4, Range Rover Velar i6, Range Rover i4/i6, Range
+  Rover Sport i4/i6, **Defender i4 / i6**.
+- **"1 YEAR / 16,000 mi"** (~26,000 km): all V8 petrol — Range Rover V8, Range
+  Rover Sport V8, **Defender V8**.
+
+Recorded as per-model entries (Evoque, Velar, Discovery/Discovery Sport, Defender),
+each citing this brochure, `conditionBased: true` ("Flexible Service … takes into
+account individual driving styles and conditions"), **Grade B** (plan brochure that
+states the interval band, not the per-VIN owner-handbook table; km is the ×1.6
+mile conversion). The general Land Rover entry and the older L405/L494 SSM72769
+entry are unchanged — different docs/generations, cited separately. No blind copy:
+each model placed in the band the brochure's own model list puts it in.
+
+---
+
+## Renault — Duster (India/MENA), service cadence only
+
+**Source:** `Renault India New Duster Warranty T&C (cdn.group.renault.com)` —
+official Renault India *New Duster Additional Warranty Terms & Conditions*
+(version Mar-2026),
+https://cdn.group.renault.com/ren/in/renaultwarranty2026/RENAULT_NEW_DUSTER_ADDITIONAL_WARRANTY_TC.pdf
+It ties the Periodic Maintenance Schedule (PMS) to **"1 year or 10,000 km,
+whichever occurs earlier"** (illustrated with PMS at 10k/20k/30k/40k km steps).
+Only the **service/oil cadence** is stated in this document; the component PMS
+table (spark plugs, brake fluid, filters) lives in the owner's-manual PMS table,
+which was not openable → those are a gap, not guessed. Engine Oil & Filter
+10,000 km / 12 mo recorded, `conditionBased: false`, **Grade B**.
+
+---
+
+## Cadillac — Escalade / Escalade ESV (6.2L V8 petrol)
+
+**Source:** `Cadillac Escalade Owner Manual 2021 (GM, km-native)` — the authentic
+GM owner manual, 2021 **GM Canada bilingual (FR/EN) edition**, which prints the
+schedule in **kilometres natively**. Obtained as the genuine GM publication PDF via
+a dealer mirror (americancarcity.fr). The "Interventions supplémentaires requises"
+grids (normal + severe) are X-mark tables at 12,000 km / 7,500 mi steps; each page
+was **rendered to PNG (pymupdf) and read visually**, footnotes verbatim.
+**Grade A** (authentic GM document; values read directly; km native, not converted).
+
+- Backs (6.2L V8):
+  - Engine oil & filter — GM **Engine Oil Life System**: *"vidangée … au moins une
+    fois par an"* (at least once a year; indicator may extend to ~2 yr only in
+    ideal conditions). conditionBased; inspection/rotation visit every 12,000 km /
+    7,500 mi.
+  - Cabin air filter — **36,000 km** (X at 36/72/108/144/180/216k) / or 2 yr
+    (footnote 1); more often in dusty/dense traffic (severe).
+  - Engine air filter — **72,000 km** (X at 72/144k) / or 4 yr (footnote 3).
+  - Spark plugs — **156,000 km** (97,500 mi), normal and severe.
+  - Coolant (DEX-COOL) — **240,000 km** (150,000 mi) / or 5 yr (footnote 5).
+  - Brake fluid — **every 5 years** (footnote 7), no mileage.
+  - Accessory drive belt — inspect **240,000 km** / or 10 yr (footnote 6).
+  - Transfer case fluid (4WD) — **156,000 km**.
+  - **Severe only:** automatic transmission fluid & filter **72,000 km** (45,000 mi)
+    — the normal table schedules none (fill-for-life). Lebanon = severe.
+
+---
+
 ## Honest GAPS — makes/models NOT recorded (no OEM document opened)
 
 The GOLDEN RULE forced these out rather than filling them with secondary or
@@ -333,9 +400,17 @@ conflicting figures. Each was searched; none yielded an openable, model-specific
   (diesel banned). The 3008 PureTech sheet was NOT substituted from the 5008 sheet
   despite the shared engine, because the per-model tables proved to differ. →
   **omitted** for 301 and 3008.
-- **Renault — Megane / Duster / Captur / Koleos / Symbol.** No official Renault
-  maintenance schedule located; only third-party carnet aggregators (idgarages,
-  piecesetpneus) with conflicting figures → **omitted**.
+- **Renault — Duster: PARTLY SOURCED** (oil/service cadence 10,000 km / 1 yr, Grade
+  B — see the Renault section above). **Still gaps: Megane / Captur / Koleos /
+  Latitude / Symbol**, and the Duster's component intervals (plugs/brake/filters).
+  The Renault India PMS warranty doc gives only the service cadence; the component
+  table in the owner's-manual PMS was not openable. Megane/Captur/Koleos/Latitude
+  are not in the Renault India catalogue, and Renault MENA/FR served only
+  third-party carnet aggregators (idgarages, piecesetpneus) with conflicting
+  figures → those **omitted**.
+- **Cadillac — XT5.** The Escalade schedule above is 6.2L V8-specific and was NOT
+  copied to the XT5 (3.6L V6 / 2.0T — different plugs/intervals). No XT5-specific GM
+  owner manual was opened → **omitted**.
 - **Citroën — C3 / C5 Aircross.** Shares PSA PureTech, but no Citroën-branded plan
   d'entretien was openable (Planète-Citroën / forum-citroen searches returned only
   third-party carnets and sales brochures). The Peugeot PureTech sheets were NOT
@@ -369,9 +444,14 @@ conflicting figures. Each was searched; none yielded an openable, model-specific
 **Grade A:** RAM 1500; Dodge Charger; Dodge Durango; Jeep Grand Cherokee; Jeep
 Wrangler (both engines); Jeep Compass; Jeep Cherokee (all engines); MINI (all
 models); Volvo (XC40/XC60/XC90/S60/S90 + V60/V90); **Fiat Tipo (petrol — full
-plan incl. severe)**. Land Rover coolant (Grade A) + brake fluid (Grade B).
+plan incl. severe)**; **Cadillac Escalade / ESV (6.2L V8 — full km-native plan,
+normal + severe)**. Land Rover coolant (Grade A) + brake fluid (Grade B).
 **Grade B:** Peugeot 208 (PureTech 100 BVM6 / 130 EAT8), 2008 (PureTech 82 BVM5),
 5008 (PureTech 130 BVM6) — official plan d'entretien, forum-mirrored, full normal
 + severe columns; **Land Rover Range Rover (L405) / Sport (L494) petrol oil/service
-baseline 26,000 km / 12 mo** (JLR TopIx bulletin SSM72769).
+baseline 26,000 km / 12 mo** (JLR TopIx bulletin SSM72769); **Land Rover per-model
+petrol service intervals** — Evoque / Velar / Discovery / Discovery Sport 34,000 km
+/ 2 yr, Defender i4/i6 34,000 km / 2 yr, Defender V8 26,000 km / 1 yr (JLR NA
+Maintenance Plan brochure); **Renault Duster** oil/service cadence 10,000 km / 1 yr
+(Renault India PMS warranty T&C).
 Everything else above is an honest, documented gap.
