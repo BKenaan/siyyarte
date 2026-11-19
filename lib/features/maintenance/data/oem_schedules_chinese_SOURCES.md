@@ -230,6 +230,47 @@ confirmation before display).
     reducer oil 40k/24mo, coolant 80k/48mo. Zeekr 001 is NOT in this document →
     gap.
 
+### BYD Seagull (NEW)
+
+18. **BYD (official MEA-public site, byd.com) — "BYD SEAGULL Owner's Manual EN", "06 Maintenance" section** (Grade A)
+    `https://www.byd.com/material/byd-site/mea-public/after-sales/manual/maroc/byd-seagull/BYD%20SEAGULL%20Owner%E2%80%99s%20Manual%20EN.pdf`
+    BEV city car (sold as Dolphin Mini / Dolphin Surf in some markets). Prose
+    schedule: base inspection cadence 20,000 km / 12 months; **brake fluid**
+    replace every 2 years / 40,000 km; **drive-motor coolant** (organic acid)
+    replace every 4 years / 100,000 km; **cabin / activated-carbon / PM2.5
+    filter** is condition-based — check every 12 months / 20,000 km (every
+    6 months in severe conditions) and replace if needed; tyre rotation every
+    12,000 km. **No scheduled reducer/gearbox-oil change is published** for the
+    Seagull (gearbox oil appears only as a 0.55 L capacity spec), so none was
+    recorded — not copied from the larger BYD BEVs (whose Cyprus sheet lists a
+    48,000 km gearbox-oil change). The sibling `/maroc/` paths for Seal and
+    Dolphin returned 404; the Seal is already covered by the BYD Cyprus EV sheet.
+
+19. **BYD (official, byd.com) — "BYD SEAL 5 Owner's Manual - Left-hand Drive - EN" (250418), "06 Maintenance" table** (Grade A)
+    `https://www.byd.com/material/BYD%20SEAL%205%20Owner%27s%20Manual-Left-hand%20Drive-EN-250418.pdf`
+    **Seal 5 is a DM-i plug-in hybrid** (petrol engine confirmed in the manual —
+    engine oil, spark plugs, fuel filter, "driven by gasoline"), so `fuel:
+    'Plug-in hybrid'` with the full ICE item set. Prose intervals: engine oil +
+    filter 15,000 km / 12 mo; spark plugs 45,000 km; fuel filter 30,000 km /
+    24 mo; air filter 15,000 km / 24 mo; brake fluid 30,000 km / 24 mo; engine +
+    drive-motor coolant (organic acid) 90,000 km / 6 yr; EHS hybrid-transmission
+    / reducer gear oil + filter 60,000 km / 4 yr; charcoal-canister dust filter
+    30,000 km / 24 mo. Turbo and NA engine variants share the same figures.
+
+### MG item-level — retried, still a gap (NEW finding)
+
+- The MG periodical-maintenance PDFs on `mgcars.com` / `ex-prod.mgcars.com`
+  (Thai + EN) still fail: `www.mgcars.com` serves a Next.js SPA `__next_error__`
+  page, `ex-prod.mgcars.com` returns **HTTP 500**, the in-app browser gets
+  **404**, and none are in the Internet Archive. The official **MG Malaysia**
+  service page (`mgmalaysia.com/service/`) DOES print item intervals (brake
+  fluid 24/48,000 or 36/60,000 or 24/40,000 by table; coolant 48/96,000 or
+  48/80,000 or 60/100,000; spark plugs 18/30,000 then 60,000/90,000; CVT or
+  7-DCT fluid 48/80,000; e-drive transmission 48/96,000) **but every table is
+  unlabelled by model** — the page never says which is the HS or the ZS. Mapping
+  a table to a model would be a guess, so **nothing was recorded** for MG HS /
+  ZS item-level (the base 10,000 km / 6-month interval remains from MG Singapore).
+
 ---
 
 ## Coverage summary (what was sourced)
@@ -239,6 +280,8 @@ confirmation before display).
 | BYD | Atto 3/2, Dolphin, Seal (RWD/AWD), Seal U EV, Sealion (BEV) | item-level | ✓ | — |
 | BYD | Atto 3 (ZA booklet, BEV) | item-level | ✓ | — |
 | BYD | Song Plus DM-i (PHEV) | interval only | ✓ | — |
+| BYD | Seagull / Dolphin Mini (BEV) | item-level | ✓ | ✓ (cabin filter) |
+| BYD | Seal 5 DM-i (PHEV) | item-level | ✓ | — |
 | Chery | EQ7 (BEV) | item-level (partial) | ✓ | — |
 | Changan | Alsvin, CS15, CS35 Plus, CS55 Plus, X7, UNI-T, UNI-K | item-level (partial) | ✓ | — |
 | GWM/Haval | H6 petrol; H6 HEV/PHEV (DHT); H6 GT; H HEV (MY) | item-level | ✓ | ✓ (rear diff, air filter) |
@@ -275,8 +318,13 @@ confirmation before display).
   ~52 MB) only *defers* to that booklet without printing the numbers. Search
   snippets suggest MG5 EV brake fluid 2 yr, coolant 4 yr/96,000 km, e-drive
   transmission fluid 96,000 km — **not** confirmed against a fetched document, so
-  **not** recorded. **Action:** obtain an MG Periodical Maintenance Table PDF
-  from a working host (or MG Middle East importer), or manual upload.
+  **not** recorded. **Retried this round** (HS/ZS item-level): mgcars.com hosts
+  still fail (SPA / HTTP 500 / browser 404 / not in Wayback). `mgmalaysia.com/
+  service/` publishes the item intervals but **unlabelled by model** (see the
+  "MG item-level — retried" note above), so they cannot be attributed to the HS
+  or ZS without guessing and were not recorded. **Action:** obtain a per-model
+  MG Periodical Maintenance Table / Warranty & Maintenance booklet (GCC importer
+  or a working host) that names the model, or upload one.
 
 - **Chery Tiggo 7 Pro / Tiggo 8 Pro / Omoda C5 / Tiggo Cross (ICE) — RESOLVED
   (item-level).** Captured from Chery Malaysia official Service Schedule &

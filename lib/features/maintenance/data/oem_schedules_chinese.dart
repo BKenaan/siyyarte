@@ -165,6 +165,16 @@ const String _srcBydBrSongDmi =
     'schedule, eff. 01-09-2026 — '
     'https://www.byd.com/material/__CN/byd-site/br/manuais-p%C3%B3s-vendas/updates-01-09-2026/SONG%20Plus%20DM-i%20%282025_2026%29.pdf';
 
+const String _srcBydMeaSeagull =
+    'BYD (official, MEA public site) — "BYD SEAGULL Owner\'s Manual EN" — '
+    '"Maintenance Cycle and Items" / "06 Maintenance" section (prose intervals) — '
+    'https://www.byd.com/material/byd-site/mea-public/after-sales/manual/maroc/byd-seagull/BYD%20SEAGULL%20Owner%E2%80%99s%20Manual%20EN.pdf';
+
+const String _srcBydSeal5 =
+    'BYD (official, byd.com) — "BYD SEAL 5 Owner\'s Manual - Left-hand Drive - EN" '
+    '(250418) — "06 Maintenance" table (DM-i plug-in hybrid; prose intervals) — '
+    'https://www.byd.com/material/BYD%20SEAL%205%20Owner%27s%20Manual-Left-hand%20Drive-EN-250418.pdf';
+
 const String _srcCheryEgEq7 =
     'Chery Egypt (official, chery-eg.com) — "Chery New EQ7 Maintenance Schedule" '
     '(PDF) — https://chery-eg.com/media/maintenance_schedules/Maintanance_EQ7.pdf';
@@ -2191,6 +2201,193 @@ const OemModelSchedule _zeekr7x = OemModelSchedule(
 );
 
 // ---------------------------------------------------------------------------
+// BYD SEAGULL  (BEV city car, aka Dolphin Mini / Dolphin Surf in some markets.
+// From the official BYD MEA-public owner's manual "06 Maintenance" section,
+// which gives per-item prose intervals. Base inspection cadence 20,000 km /
+// 12 months. No scheduled reducer/gearbox-oil change is published for this
+// model (the gearbox-oil row appears only as a capacity spec), so none is
+// recorded — not copied from the larger BYD BEVs.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _bydSeagull = OemModelSchedule(
+  make: 'BYD',
+  model: 'Seagull (Dolphin Mini / Dolphin Surf)',
+  engine: 'Battery-electric',
+  fuel: 'Electric',
+  generationNote:
+      'BYD MEA official Seagull owner\'s manual. BEV item set. Base inspection '
+      'cadence 20,000 km / 12 months. Brake fluid and drive-motor coolant have '
+      'fixed replacement intervals; the cabin/activated-carbon filter is '
+      'condition-based (check-and-replace-if-needed). No scheduled reducer-gear '
+      'oil replacement is published for this model.',
+  intervals: [
+    OemInterval(
+      service: 'Scheduled inspection service (general)',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcBydMeaSeagull,
+      grade: OemGrade.a,
+      notes: 'Most inspection items are done every 12 months / 20,000 km '
+          '(HV-battery tray/shield, brake pads & discs, powertrain, charging '
+          'ports, etc.).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcBydMeaSeagull,
+      grade: OemGrade.a,
+      notes: 'Manual: "Replace it every 2 years or 40,000 km" (brake fluid '
+          'checked every 12 months / 20,000 km).',
+    ),
+    OemInterval(
+      service: 'Drive-motor coolant (organic-acid long-life)',
+      intervalKm: 100000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcBydMeaSeagull,
+      grade: OemGrade.a,
+      notes: 'Manual: "Replace the long-acting organic acid coolant every four '
+          'years or 100,000 km" (coolant level checked every 12 months / '
+          '20,000 km).',
+    ),
+    OemInterval(
+      service: 'Cabin filter (activated-carbon / PM2.5)',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      conditionBased: true,
+      severity: OemSeverity.normal,
+      source: _srcBydMeaSeagull,
+      grade: OemGrade.a,
+      notes: 'Condition-based: "Check every 12 months or 20,000 km, whichever '
+          'comes first, and replace if necessary." Baseline shown as the check '
+          'interval.',
+    ),
+    OemInterval(
+      service: 'Cabin filter (activated-carbon / PM2.5)',
+      intervalMonths: 6,
+      conditionBased: true,
+      severity: OemSeverity.severe,
+      source: _srcBydMeaSeagull,
+      grade: OemGrade.a,
+      notes: 'Manual: "In severe driving conditions, check it every six months '
+          'and replace if necessary." Lebanon = severe.',
+    ),
+    OemInterval(
+      service: 'Tyre rotation',
+      intervalKm: 12000,
+      severity: OemSeverity.normal,
+      source: _srcBydMeaSeagull,
+      grade: OemGrade.a,
+      notes: 'Manual recommends tyre rotation every 12,000 km.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// BYD SEAL 5 DM-i  (plug-in hybrid sedan; has a petrol engine, so the ICE item
+// set — engine oil, spark plugs, fuel filter, air filter — applies alongside
+// the hybrid-transmission and coolant items. From the official BYD Seal 5
+// owner's manual "06 Maintenance" table. Engine oil cadence 15,000 km /
+// 12 months.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _bydSeal5Dmi = OemModelSchedule(
+  make: 'BYD',
+  model: 'Seal 5 DM-i',
+  engine: 'DM-i plug-in hybrid (1.5L petrol, NA or turbo + EHS)',
+  fuel: 'Plug-in hybrid',
+  generationNote:
+      'BYD Seal 5 official owner\'s manual (LHD EN). DM-i PHEV: petrol engine '
+      '(oil/plugs/fuel+air filter) plus EHS hybrid transmission, reducer oil '
+      'and HV items. Intervals are prose "Replace every …" statements. The '
+      'turbocharged and naturally-aspirated engine variants share the same '
+      'figures below.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcBydSeal5,
+      grade: OemGrade.a,
+      notes: 'Manual: "Replace every 12 months or 15000 km" (both turbo and '
+          'NA engine variants).',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 45000,
+      severity: OemSeverity.normal,
+      source: _srcBydSeal5,
+      grade: OemGrade.a,
+      notes: 'Manual: "Replace every 45,000 km" (no time figure published).',
+    ),
+    OemInterval(
+      service: 'Fuel filter (non-integrated)',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcBydSeal5,
+      grade: OemGrade.a,
+      notes: 'Manual: "Every 24 months or 30,000 km".',
+    ),
+    OemInterval(
+      service: 'Air filter element',
+      intervalKm: 15000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcBydSeal5,
+      grade: OemGrade.a,
+      notes: 'Manual: "Replace every 24 months or 15,000 km thereafter; '
+          'additional inspection + replace if necessary under severe service".',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcBydSeal5,
+      grade: OemGrade.a,
+      notes: 'Manual: "Check during maintenance and replace every 2 years or '
+          '30,000 km".',
+    ),
+    OemInterval(
+      service: 'Engine + drive-motor coolant (organic-acid long-life)',
+      intervalKm: 90000,
+      intervalMonths: 72,
+      severity: OemSeverity.normal,
+      source: _srcBydSeal5,
+      grade: OemGrade.a,
+      notes: 'Manual: "Replace the long-acting organic acid coolant every '
+          '6 years or 90,000 km" (turbo and NA engines).',
+    ),
+    OemInterval(
+      service: 'EHS hybrid-transmission / reducer gear oil & filter',
+      intervalKm: 60000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcBydSeal5,
+      grade: OemGrade.a,
+      notes: 'Manual: EHS gear oil + filter assembly, and transmission / '
+          'front-drive reducer / rear-drive oil + transmission filter element, '
+          'all "every 4 years or 60,000 km".',
+    ),
+    OemInterval(
+      service: 'Charcoal canister dust filter (DMTL)',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcBydSeal5,
+      grade: OemGrade.a,
+      notes: 'Manual: "Every 2 years or 30,000 km, or upon frequent automatic '
+          'fuel-gun stopping during refueling".',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
 // The dataset.
 //
 // COVERAGE / GAPS (full detail in oem_schedules_chinese_SOURCES.md):
@@ -2201,9 +2398,12 @@ const OemModelSchedule _zeekr7x = OemModelSchedule(
 //     Deepal S07 BEV + S05 PHEV (Changan UK, time-based), GAC Aion Y (BEV),
 //     GAC GS3 1.5L Auto + GS3 Emzoom (ICE petrol), GWM Ora Good Cat (BEV, +
 //     severe), GWM Tank 500 HEV (+ severe), GWM Tank 300 (petrol), Zeekr X +
-//     Zeekr 7X (BEV).
-//   • Interval-only (item-level gap): MG (HS + EV range), Geely KSA range
-//     (+ fuel filter; Coolray now item-level), BYD Song Plus DM-i (PHEV cadence).
+//     Zeekr 7X (BEV), BYD Seagull / Dolphin Mini (BEV, + condition-based cabin
+//     filter severe), BYD Seal 5 DM-i (plug-in hybrid, full ICE item set).
+//   • Interval-only (item-level gap): MG HS/ZS item-level (mgcars.com hosts
+//     still dead; MG Malaysia prints the figures but UNLABELLED by model, so
+//     un-attributable), Geely KSA range (+ fuel filter; Coolray now item-level),
+//     BYD Song Plus DM-i (PHEV cadence).
 //   • COMPLETE GAPS — no reachable official schedule, nothing recorded:
 //     Chery Tiggo 2 / Tiggo 4 Pro (ICE; Malaysia has no guide, Chery Egypt media
 //     links not resolvable), Jetour X70/Dashing (no fetchable official table),
@@ -2222,6 +2422,8 @@ const List<OemModelSchedule> kOemChineseSchedules = [
   _bydEvRangeCyprus,
   _bydAtto3Za,
   _bydSongDmi,
+  _bydSeagull,
+  _bydSeal5Dmi,
   // Chery
   _cheryEq7,
   _cheryOmodaC5,
