@@ -386,16 +386,55 @@ miles in notes); Genesis/Kia/Nissan/Toyota here are metric-native.
 
 ---
 
+## Sources added in gap-fill pass 4 (OLX-Lebanon market scan)
+
+Targets actively listed for sale in Lebanon. Nissan via the USA schedule tool
+(miles, 1 mi = 1.6 km); Toyota Tacoma live from toyota.com; Lexus LX non-oil items
+re-read from the same guide with column-aware PyMuPDF + `pdftotext -table`.
+
+40. **Nissan 2023 Rogue** (`maintenance-schedules.nissanusa.com/.../2023/rogue/`,
+    1.5 VC-Turbo 3-cyl KR15DDT — the **US sibling of the X-Trail**, T33). Oil
+    12,000 km (7.5k mi)/12 mo; **spark plugs 96,000 km (60k mi)/96 mo** (turbo —
+    shorter than the NA Nissans' 105k mi); coolant first 168,000 km (105k mi)/84 mo
+    then 120,000 km (75k mi)/60 mo; brake fluid 24,000 km (15k mi)/24 mo normal,
+    12,000 km (7.5k mi)/12 mo severe; CVT inspect normal / replace 96,000 km
+    (60k mi) severe.
+
+41. **Nissan 2023 Kicks** (`.../2023/kicks/`, 1.6 NA HR16DE, CVT). Oil 12,000 km
+    (7.5k mi)/6 mo normal, 8,000 km (5k mi)/6 mo severe; spark plugs 168,000 km
+    (105k mi)/84 mo; coolant first 168,000 km/84 mo then 120,000 km/60 mo; brake
+    fluid 48,000 km (30k mi)/24 mo normal, 16,000 km (10k mi)/12 mo severe; CVT
+    inspect normal / replace 96,000 km (60k mi)/72 mo severe.
+
+42. **Toyota 2023 Tacoma** (toyota.com, 2.7 I4 2TR-FE / 3.5 V6 2GR-FKS petrol). Oil
+    16,000 km (10k mi)/12 mo with factory 0W-20, severe 8,000 km (5k mi)/6 mo;
+    engine air filter 48,000 km (30k mi); **spark plugs V6 (2GR-FKS) 96,000 km
+    (60k mi)** ("2GR-FKS engine only"; the 2.7 I4 is at the generic 120k-mi
+    milestone); coolant first 160,000 km (100k mi)/120 mo then 80,000 km (50k mi)/
+    60 mo; ATF inspect normal / replace 96,000 km (60k mi) under towing. Front/rear
+    differential & transfer oils are inspect-normal / replace-under-towing (the
+    severe replace intervals were not pinned cleanly — not recorded).
+
+43. **Lexus 2023 LX 600 — non-oil items (supplement to source 27).** The previously
+    illegible two-column pages were re-read with **column-aware PyMuPDF** (split by
+    page-midpoint x) cross-checked against `pdftotext -table`; both agree on the
+    30,000 mi service pattern. Brake fluid, engine air filter, cabin air filter and
+    transfer case oil all **every 30,000 mi (48,000 km)** (replaced at 30k/60k/90k);
+    spark plugs **every 40,000 mi (64,000 km)** (40k/80k, twin-turbo). ATF/diff are
+    inspect-normal / replace-under-towing — not recorded.
+
+---
+
 ## Coverage summary (what was sourced)
 
 | Make | Models/engines sourced | Normal | Severe |
 |------|------------------------|:------:|:------:|
-| Toyota | Hybrid range (S1); tropical PMS (S2); non-hybrid RAV4/Camry/Corolla (S28–30); **make-wide conventional petrol incl. Hilux/LC/Prado** (S39) | ✓ | partial |
-| Nissan | X-Trail; Qashqai; Almera/Sunny; Navara; Altima; Sentra; **Patrol Y62** (S38) | ✓ | ✓ |
+| Toyota | Hybrid range (S1); tropical PMS (S2); non-hybrid RAV4/Camry/Corolla (S28–30); **Tacoma** (S42); make-wide conventional petrol incl. Hilux/LC/Prado (S39) | ✓ | ✓ |
+| Nissan | X-Trail; Qashqai; Almera/Sunny; Navara; Altima; Sentra; Patrol Y62; **Rogue (US X-Trail); Kicks** (S40–41) | ✓ | ✓ |
 | Honda | General EU schedule (oil, air, plugs, coolant, brake, trans) | ✓ | partial |
 | Hyundai | Tucson/Santa Fe/Palisade HEV; Kona/Venue/Tucson MPI | ✓ | ✓ (= half) |
 | Mitsubishi | Outlander ZM (coolant filled); Triton; Mirage; Pajero Sport; Pajero; ASX; Eclipse Cross; Lancer | ✓ | ✓ |
-| **Lexus** | NX 200t (Grade B); RX 350, ES 250/350, LX 600 (Grade A, Wayback) | ✓ | ✓ (special-ops) |
+| **Lexus** | NX 200t (Grade B); RX 350, ES 250/350, **LX 600 (now incl. non-oil, S43)** (Grade A, Wayback) | ✓ | ✓ (special-ops) |
 | **Kia** | Sorento; Sportage; Cerato/Forte; Rio (Grade B); **Picanto JA (Grade A, Kia AU)** (S37) | ✓ | ✓ (Picanto + most) |
 | **Infiniti** | **Q50; QX60; QX80** (Grade A, Infiniti USA tool) (S33–35) | ✓ | ✓ (brake/oil) |
 | **Genesis** | **G70 / G80 / GV70 / GV80 gasoline** (Grade A, Genesis CA) (S36) | ✓ | — (doc is normal-schedule) |
@@ -423,10 +462,13 @@ miles in notes); Genesis/Kia/Nissan/Toyota here are metric-native.
   ES 250/350 and LX 600 (Grade A)** from the genuine Warranty & Services Guides,
   read via the **Wayback Machine** (the live `assets.sia.toyota.com` host 403s to
   both fetch and a rendered browser, but Wayback caches the real native-text PDFs —
-  sources 25–27). The LX records oil + coolant only (two-column pages illegible for
-  the rest). **Still gaps:** IS (no reachable guide — all IS snapshots missing from
-  Wayback and the live host is blocked); the LX's non-oil/coolant items. **Action:**
-  source an IS Warranty & Services Guide from a reachable host / upload.
+  sources 25–27). **Pass 4:** the LX 600's previously-illegible **non-oil items are
+  now FILLED** (source 43) — brake fluid, engine air filter, cabin air filter and
+  transfer case oil every 30,000 mi, spark plugs every 40,000 mi — re-read with
+  column-aware PyMuPDF + `pdftotext -table`. **Still gaps:** **IS** (no reachable
+  guide — all IS snapshots missing from Wayback, live host blocked); LX ATF/diff
+  (inspect-normal / replace-under-towing, interval not pinned). **Action:** source an
+  IS Warranty & Services Guide from a reachable host / upload.
 
 - **Toyota non-hybrid — MOSTLY FILLED (pass 2).** Non-hybrid **RAV4 (2.5), Camry
   (2.5) and Corolla (2.0)** are now recorded at **Grade A** from the per-model
@@ -456,9 +498,12 @@ miles in notes); Genesis/Kia/Nissan/Toyota here are metric-native.
   USA official schedule tool — sources 31–32, US-market). **Pass 3: Patrol Y62 is now
   FILLED** (Grade A/B) from the Nissan NZ capped-price service document (source 38:
   oil 10,000 km/12 mo; coolant first 160,000 km/96 mo then 80,000 km/48 mo; brake fluid
-  40,000 km/24 mo; plugs 100,000 km; air cleaner & diff 40,000 km). **Still gaps:** the
-  Patrol ATF/transfer replacement km (in un-captured notes); a current B18 Sentra
-  (2020+) would be more fleet-relevant than the B17 recorded.
+  40,000 km/24 mo; plugs 100,000 km; air cleaner & diff 40,000 km). **Pass 4 (OLX
+  scan):** **Rogue (T33, the US X-Trail sibling)** and **Kicks (P15)** added at Grade A
+  from the Nissan USA tool (sources 40–41). **Still gaps:** **Magnite** (India/MENA
+  small SUV — 404 on the Nissan SA and NZ hosts, absent from the US tool); the Patrol
+  ATF/transfer km; a current B18 Sentra (2020+) would be more fleet-relevant than the
+  B17 recorded. **Action:** source Magnite from Nissan India / a Gulf importer.
 
 - **Infiniti & Genesis — FILLED (pass 3).** Infiniti Q50, QX60, QX80 (Grade A, Infiniti
   USA schedule tool — sources 33–35) and Genesis G70/G80/GV70/GV80 gasoline (Grade A,

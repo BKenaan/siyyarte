@@ -3400,6 +3400,329 @@ const OemModelSchedule _toyotaNzPetrol = OemModelSchedule(
   ],
 );
 
+// ===========================================================================
+// GAP-FILL PASS 4 (added later, OLX-Lebanon market scan): Nissan Rogue (US
+// X-Trail sibling) and Kicks; Toyota Tacoma petrol; and the Lexus LX 600
+// non-oil items that were previously illegible (now read with column-aware
+// PyMuPDF + pdftotext -table on the same guide).
+//
+// Routes: Nissan USA schedule tool (miles, 1 mi = 1.6 km); Toyota Tacoma guide
+// fetched live from toyota.com. No value invented or cross-copied. Honest gap:
+// Nissan Magnite (India/MENA small SUV) is not on any reachable Nissan host
+// (404 on the SA CDN, absent from the US tool).
+// ===========================================================================
+
+const String _srcNissanRogue =
+    'Nissan USA — official per-model maintenance schedule tool, 2023 Rogue '
+    '(T33; 1.5L VC-Turbo 3-cyl KR15DDT — the US sibling of the X-Trail). '
+    'US-market; intervals in miles — '
+    'https://maintenance-schedules.nissanusa.com/maintenance-schedules/2023/rogue/components/';
+
+const String _srcNissanKicks =
+    'Nissan USA — official per-model maintenance schedule tool, 2023 Kicks '
+    '(P15; 1.6L NA HR16DE, CVT). US-market; intervals in miles — '
+    'https://maintenance-schedules.nissanusa.com/maintenance-schedules/2023/kicks/components/';
+
+const String _srcToyotaTacoma =
+    'Toyota — 2023 Tacoma Warranty & Maintenance Guide (2.7L 2TR-FE / 3.5L V6 '
+    '2GR-FKS petrol): Factory Scheduled Maintenance + Special Operating '
+    'Conditions (fetched live from toyota.com) — '
+    'https://www.toyota.com/content/dam/toyota/brochures/pdf/2023/T-MMS-23Tacoma.pdf';
+
+// ---------------------------------------------------------------------------
+// NISSAN (gap-fill pass 4 — Nissan USA schedule tool; US-market.
+// Intervals in miles; km = 1 mi = 1.6 km, with source mileage in each note.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _nissanRogue = OemModelSchedule(
+  make: 'Nissan',
+  model: 'Rogue (T33)',
+  yearStart: 2023,
+  engine: '1.5L VC-Turbo 3-cyl (KR15DDT)',
+  fuel: 'Petrol',
+  generationNote:
+      'Nissan USA 2023 Rogue schedule tool (US-market). The Rogue is the US '
+      'sibling of the X-Trail (T33). Turbo engine — note the shorter 60,000 mi '
+      'spark-plug interval vs the NA Nissans\' 105,000 mi.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 12000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcNissanRogue,
+      grade: OemGrade.a,
+      notes: 'Every 7,500 mi (12,000 km) / 12 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Spark plugs (iridium)',
+      intervalKm: 96000,
+      intervalMonths: 96,
+      severity: OemSeverity.normal,
+      source: _srcNissanRogue,
+      grade: OemGrade.a,
+      notes: 'Every 60,000 mi (96,000 km) / 96 mo (turbo engine; normal = '
+          'severe).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 168000,
+      intervalKm: 120000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcNissanRogue,
+      grade: OemGrade.a,
+      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+          '(120,000 km) / 60 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 24000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcNissanRogue,
+      grade: OemGrade.a,
+      notes: 'Every 15,000 mi (24,000 km) / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 12000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcNissanRogue,
+      grade: OemGrade.a,
+      notes: 'Severe: every 7,500 mi (12,000 km) / 12 mo.',
+    ),
+    OemInterval(
+      service: 'CVT fluid',
+      intervalKm: 96000,
+      severity: OemSeverity.severe,
+      source: _srcNissanRogue,
+      grade: OemGrade.a,
+      notes: 'Normal = inspect every 7,500 mi; severe = replace every 60,000 mi '
+          '(96,000 km). Genuine NISSAN CVT Fluid only.',
+    ),
+  ],
+);
+
+const OemModelSchedule _nissanKicks = OemModelSchedule(
+  make: 'Nissan',
+  model: 'Kicks (P15)',
+  yearStart: 2023,
+  engine: '1.6L NA (HR16DE), CVT',
+  fuel: 'Petrol',
+  generationNote:
+      'Nissan USA 2023 Kicks schedule tool (US-market). Same NA engine family '
+      'as the older Sentra B17 (105,000 mi plugs).',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 12000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcNissanKicks,
+      grade: OemGrade.a,
+      notes: 'Normal: every 7,500 mi (12,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcNissanKicks,
+      grade: OemGrade.a,
+      notes: 'Severe: every 5,000 mi (8,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Spark plugs (iridium)',
+      intervalKm: 168000,
+      intervalMonths: 84,
+      severity: OemSeverity.normal,
+      source: _srcNissanKicks,
+      grade: OemGrade.a,
+      notes: 'Every 105,000 mi (168,000 km) / 84 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 168000,
+      intervalKm: 120000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcNissanKicks,
+      grade: OemGrade.a,
+      notes: 'Initial at 105,000 mi (168,000 km) / 84 mo, then every 75,000 mi '
+          '(120,000 km) / 60 mo (normal = severe).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 48000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcNissanKicks,
+      grade: OemGrade.a,
+      notes: 'Every 30,000 mi (48,000 km) / 24 mo.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcNissanKicks,
+      grade: OemGrade.a,
+      notes: 'Severe: every 10,000 mi (16,000 km) / 12 mo.',
+    ),
+    OemInterval(
+      service: 'CVT fluid',
+      intervalKm: 96000,
+      intervalMonths: 72,
+      severity: OemSeverity.severe,
+      source: _srcNissanKicks,
+      grade: OemGrade.a,
+      notes: 'Normal = inspect every 15,000 mi; severe = replace every 60,000 mi '
+          '(96,000 km) / 72 mo. Genuine NISSAN CVT Fluid only.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// TOYOTA Tacoma (gap-fill pass 4 — 2023 Warranty & Maintenance Guide, petrol)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _toyotaTacoma = OemModelSchedule(
+  make: 'Toyota',
+  model: 'Tacoma',
+  yearStart: 2023,
+  engine: '3.5L V6 (2GR-FKS); 2.7L I4 (2TR-FE) spark-plug note',
+  fuel: 'Petrol',
+  generationNote:
+      'Toyota 2023 Tacoma (petrol). Factory Scheduled Maintenance (normal) + '
+      'Special Operating Conditions (severe). ATF / front & rear differential / '
+      'transfer oils are inspect-only under normal use; replaced under towing.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 16000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcToyotaTacoma,
+      grade: OemGrade.a,
+      notes: 'Every 10,000 mi (16,000 km) / 12 mo with factory 0W-20; if 0W-20 '
+          'not used, every 5,000 mi (8,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 8000,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcToyotaTacoma,
+      grade: OemGrade.a,
+      notes: 'Special operating conditions (dusty, short trips, idling, towing): '
+          'every 5,000 mi (8,000 km) / 6 mo.',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcToyotaTacoma,
+      grade: OemGrade.a,
+      notes: 'Replaced at every 30,000 mi (48,000 km) (30k/60k/90k).',
+    ),
+    OemInterval(
+      service: 'Spark plugs (3.5 V6, 2GR-FKS)',
+      intervalKm: 96000,
+      severity: OemSeverity.normal,
+      source: _srcToyotaTacoma,
+      grade: OemGrade.a,
+      notes: 'V6: "Replace spark plugs (2GR-FKS engine only)" at 60,000 mi '
+          '(96,000 km). The 2.7L I4 (2TR-FE) is at the generic 120,000 mi '
+          '(192,000 km) milestone.',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      firstKm: 160000,
+      intervalKm: 80000,
+      intervalMonths: 60,
+      severity: OemSeverity.normal,
+      source: _srcToyotaTacoma,
+      grade: OemGrade.a,
+      notes: 'Super Long-Life Coolant: initial at 100,000 mi (160,000 km) / '
+          '120 mo, then every 50,000 mi (80,000 km) / 60 mo.',
+    ),
+    OemInterval(
+      service: 'Automatic transmission fluid',
+      intervalKm: 96000,
+      severity: OemSeverity.severe,
+      source: _srcToyotaTacoma,
+      grade: OemGrade.a,
+      notes: 'Normal = inspect; severe (towing / idling, "Special Operating '
+          'Conditions") = replace at 60,000 mi (96,000 km).',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// LEXUS LX 600 non-oil supplement (gap-fill pass 4). Supplements the LX 600
+// entry above (oil + coolant), which had the rest noted illegible. These were
+// now read from the SAME 2023 LX 600 guide using column-aware PyMuPDF plus
+// `pdftotext -table`, which agree on the 30,000 mi service pattern.
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _lexusLx600NonOil = OemModelSchedule(
+  make: 'Lexus',
+  model: 'LX 600 (J310)',
+  yearStart: 2023,
+  engine: '3.5L twin-turbo V6 (F33A-FTS)',
+  fuel: 'Petrol',
+  generationNote:
+      'Supplements the LX 600 oil+coolant entry above with the previously-'
+      'illegible non-oil items, read column-aware from the same 2023 LX 600 '
+      'Warranty & Services Guide. ATF / differential oils are inspect-only '
+      'normal / replace under towing (not recorded here).',
+  intervals: [
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcLexusLx600,
+      grade: OemGrade.a,
+      notes: 'Replaced at 30k/60k/90k mi = every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Engine air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcLexusLx600,
+      grade: OemGrade.a,
+      notes: 'Replaced at 30k/60k/90k mi = every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcLexusLx600,
+      grade: OemGrade.a,
+      notes: 'Replaced at 30k/60k/90k mi = every 30,000 mi (48,000 km).',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 64000,
+      severity: OemSeverity.normal,
+      source: _srcLexusLx600,
+      grade: OemGrade.a,
+      notes: 'Replaced at 40k/80k mi = every 40,000 mi (64,000 km) '
+          '(twin-turbo engine).',
+    ),
+    OemInterval(
+      service: 'Transfer case oil',
+      intervalKm: 48000,
+      severity: OemSeverity.normal,
+      source: _srcLexusLx600,
+      grade: OemGrade.a,
+      notes: 'Replaced at 30k/60k/90k mi = every 30,000 mi (48,000 km).',
+    ),
+  ],
+);
+
 // ---------------------------------------------------------------------------
 // The dataset.
 //
@@ -3408,15 +3731,17 @@ const OemModelSchedule _toyotaNzPetrol = OemModelSchedule(
 //     and now Picanto (Grade A, Kia AU owner's manual). Seltos remains a gap
 //     (its Kia AU manual URL 404s / has moved).
 //   • Lexus carries NX 200t (Grade B) plus RX 350, ES 250/350 and LX 600
-//     (Grade A, via Wayback). IS remains a gap (no reachable guide).
-//   • Toyota carries non-hybrid Corolla, Camry, RAV4 (Grade A, US guides) and a
-//     make-wide conventional-petrol NZ sheet that covers Hilux / Land Cruiser /
-//     Prado petrol (oil + coolant only). Per-model Hilux/LC/Prado spark-plug and
-//     transmission figures remain gaps.
-//   • Nissan carries Altima, Sentra (Grade A) and now Patrol Y62 (Grade A/B,
-//     Nissan NZ capped-price doc).
+//     (Grade A, via Wayback) — the LX 600 now with its non-oil items filled.
+//     IS remains a gap (no reachable guide).
+//   • Toyota carries non-hybrid Corolla, Camry, RAV4, Tacoma (Grade A, US
+//     guides) and a make-wide conventional-petrol NZ sheet (Hilux / Land
+//     Cruiser / Prado petrol, oil + coolant only). Per-model Hilux/LC/Prado
+//     spark-plug and transmission figures remain gaps.
+//   • Nissan carries Altima, Sentra, Patrol Y62, and now Rogue (US X-Trail
+//     sibling) and Kicks (Grade A). Magnite remains a gap (not on reachable
+//     Nissan hosts).
 //   • Infiniti (Q50, QX60, QX80) and Genesis (G70/G80/GV70/GV80 gasoline) are
-//     now covered (Grade A). GV/sedan EV variants were excluded.
+//     covered (Grade A). GV/sedan EV variants were excluded.
 //   • Mitsubishi carries Eclipse Cross, Lancer and the filled Outlander ZM
 //     coolant. Honda per-model (Civic/Accord/CR-V) still relies on the make-wide
 //     Maintenance-Minder schedule already recorded.
@@ -3474,4 +3799,9 @@ const List<OemModelSchedule> kOemJapaneseSchedules = [
   _infinitiQx60,
   _infinitiQx80,
   _genesisGasolineRange,
+  // Pass 4 (OLX market scan)
+  _nissanRogue,
+  _nissanKicks,
+  _toyotaTacoma,
+  _lexusLx600NonOil,
 ];
