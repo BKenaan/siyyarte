@@ -238,6 +238,42 @@ const String _srcGeelyClBook =
     '/ Cityray, engine 4G15TD) — '
     'https://www.geely.cl/content/uploads/2026/03/Geely-Warranty-book-all-models.pdf';
 
+const String _srcGacMyAionY =
+    'GAC Malaysia (official distributor, gacmotor.com.my) — "GAC Preventive '
+    'Maintenance Schedule Pricing — AION Y PLUS (EV)" (valid 31 Jan 2026; '
+    'columns 5/20/40…200 ×1000 km, dot = perform) — '
+    'https://gacmotor.com.my/wp-content/uploads/2025/08/AION-Y-PMS.pdf';
+
+const String _srcGacMyGs3 =
+    'GAC Malaysia (official distributor, gacmotor.com.my) — "GAC Preventive '
+    'Maintenance Schedule Pricing — GAC GS3 (1.5L Auto) & GS3 EMZOOM (7 WDCT)" '
+    '(valid 31 Jan 2026; columns 5/10/20…100 ×1000 km, dot = perform; sparse '
+    'rows cross-checked against the Total Price row) — '
+    'https://gacmotor.com.my/wp-content/uploads/2025/08/GAC-GS3-EMZOOM-PMS.pdf';
+
+const String _srcGwmMyGoodCat =
+    'GWM Malaysia (official) — "ORA Good Cat & GT Warranty & Maintenance '
+    'Booklet" — "Maintenance Schedule" R/I grid (15,000 km ⇄ 12 months) + '
+    '"Maintenance Schedule for Severe Driving Conditions" (shorten by half) — '
+    'https://www.gwm.com.my/content/dam/gwm/pages/my/en/exclusive-service/pdf/maintenance-ora-good-cat-and-gt.pdf';
+
+const String _srcGwmMyTank500 =
+    'GWM Malaysia (official) — "TANK 500 Warranty & Maintenance Booklet" — '
+    '"Periodical Maintenance Schedule (GWM TANK 500 HEV)" R/I grid (10,000 km ⇄ '
+    '6 months) + severe-conditions table (shorten by half) — '
+    'https://www.gwm.com.my/content/dam/gwm/pages/my/en/exclusive-service/pdf/maintenance-tank500.pdf';
+
+const String _srcGwmMyTank300 =
+    'GWM Malaysia (official) — "GWM TANK 300 Maintenance Schedule" (petrol, '
+    'per-interval parts/price table, 10,000 km ⇄ 6 months) — '
+    'https://www.gwm.com.my/content/dam/gwm/pages/my/en/exclusive-service/pdf/maintenance-tank300.pdf';
+
+const String _srcZeekrMy =
+    'Zeekr Malaysia (official, zeekrlife.com) — "Service Maintenance Schedule" '
+    '(per-model ✓ grid, 20,000 km ⇄ 1 year columns to 160,000 km / 8 years; '
+    'covers Zeekr 009, 7X and X) — '
+    'https://assets.zeekrlife.com/assets/my/Service%20Maintenance%20Schedule.pdf';
+
 // ---------------------------------------------------------------------------
 // BYD  (battery-electric unless noted)
 // ---------------------------------------------------------------------------
@@ -1458,6 +1494,703 @@ const OemModelSchedule _geelyCoolrayItems = OemModelSchedule(
 );
 
 // ---------------------------------------------------------------------------
+// GAC / AION  (from GAC Malaysia official "Preventive Maintenance Schedule
+// Pricing" charts. Aion Y Plus is a BEV (EV item set). GS3 1.5L Auto and GS3
+// Emzoom are petrol — different engines/transmissions, so different spark-plug
+// and transmission intervals; recorded separately, nothing copied across. Dot
+// = "perform"; sparse rows were cross-checked against the printed Total Price
+// row. First service 5,000 km / 3 months, then the base cadence below.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _gacAionYBev = OemModelSchedule(
+  make: 'GAC (Aion)',
+  model: 'Aion Y Plus',
+  engine: 'Battery-electric',
+  fuel: 'Electric',
+  generationNote:
+      'GAC Malaysia PMS pricing chart for Aion Y Plus (EV). Columns '
+      '5/20/40…200 ×1000 km at 3/12/24…120 months. Base interval 20,000 km / '
+      '12 months (first 5,000 km / 3 months). BEV item set; intervals confirmed '
+      'by decomposing the Total Price row.',
+  intervals: [
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGacMyAionY,
+      grade: OemGrade.a,
+      notes: 'Change Brake Fluid at 40/80/120/160/200 ×1000 km → every '
+          '40,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Coolant',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGacMyAionY,
+      grade: OemGrade.a,
+      notes: 'Change Coolant at 40/80/120/160/200 ×1000 km → every 40,000 km / '
+          '24 months.',
+    ),
+    OemInterval(
+      service: 'Reduction gear (reducer) oil',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      severity: OemSeverity.normal,
+      source: _srcGacMyAionY,
+      grade: OemGrade.a,
+      notes: 'Change Reduction Gear Oil at 60/120/180 ×1000 km → every '
+          '60,000 km / 36 months.',
+    ),
+    OemInterval(
+      service: 'A/C (cabin) filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGacMyAionY,
+      grade: OemGrade.a,
+      notes: 'Replace Air-Cond Filter at every 20,000 km service.',
+    ),
+    OemInterval(
+      service: 'EV high-voltage battery usage check',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGacMyAionY,
+      grade: OemGrade.a,
+      notes: 'Inspect EV Battery Usage + cooling system at every 20,000 km '
+          'service (inspection, not replacement).',
+    ),
+  ],
+);
+
+const OemModelSchedule _gacGs3Auto = OemModelSchedule(
+  make: 'GAC',
+  model: 'GS3 (1.5L Auto)',
+  engine: 'Petrol 1.5L NA + automatic',
+  fuel: 'Petrol',
+  generationNote:
+      'GAC Malaysia PMS pricing chart for GS3 1.5L Auto. Columns 5/10/20…100 '
+      '×1000 km at 3/6/12…60 months; base 10,000 km / 6 months (first 5,000 km '
+      '/ 3 months). Only rows readable unambiguously from the grid + Total '
+      'Price decomposition are recorded; transmission-fluid and fuel-filter '
+      'cells were not clearly resolvable and are omitted.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.a,
+      notes: 'Change Engine Oil + Replace Oil Filter at every service.',
+    ),
+    OemInterval(
+      service: 'Air filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.a,
+      notes: 'Replace Air Filter at 20/40/60/80/100 → every 20,000 km / '
+          '12 months.',
+    ),
+    OemInterval(
+      service: 'A/C (cabin) filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.a,
+      notes: 'Replace Air-Cond Filter at 20/40/60/80/100 → every 20,000 km.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.a,
+      notes: 'Replace Spark Plugs at 40 & 80 ×1000 km → every 40,000 km / '
+          '24 months.',
+    ),
+    OemInterval(
+      service: 'Engine coolant',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.a,
+      notes: 'Change Coolant Fluid at 40 & 80 ×1000 km → every 40,000 km / '
+          '24 months.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.a,
+      notes: 'Change Brake Fluid at 40 & 80 ×1000 km → every 40,000 km / '
+          '24 months.',
+    ),
+    OemInterval(
+      service: 'Drive (accessory) belt',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      firstKm: 60000,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.b,
+      notes: 'Replace Drive Belt shown at 60,000 km (only occurrence in the '
+          '100,000 km table) → first-change baseline.',
+    ),
+  ],
+);
+
+const OemModelSchedule _gacGs3Emzoom = OemModelSchedule(
+  make: 'GAC',
+  model: 'GS3 Emzoom',
+  engine: 'Petrol 1.5T + 7-speed wet DCT',
+  fuel: 'Petrol',
+  generationNote:
+      'GAC Malaysia PMS pricing chart for GS3 Emzoom (7 WDCT). Columns '
+      '5/10/20…100 ×1000 km; base 10,000 km / 6 months. Turbo engine with wet '
+      'DCT — spark-plug and transmission intervals differ from the NA GS3 Auto. '
+      'Engine-cluster items (coolant, spark plugs) appear once at 60,000 km in '
+      'the 100,000 km table (baseline); verified against the Total Price row.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.a,
+      notes: 'Change Engine Oil + Replace Oil Filter + oil-pan washer at every '
+          'service.',
+    ),
+    OemInterval(
+      service: 'Air filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.a,
+      notes: 'Replace Air Filter at 20/40/60/80/100 → every 20,000 km / '
+          '12 months.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.a,
+      notes: 'Change Brake Fluid at 40 & 80 ×1000 km → every 40,000 km / '
+          '24 months.',
+    ),
+    OemInterval(
+      service: 'Transmission (wet DCT) fluid, gasket & filter',
+      intervalKm: 50000,
+      intervalMonths: 30,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.a,
+      notes: 'Change Transmission Fluid + gasket + filter at 50 & 100 ×1000 km '
+          '→ every 50,000 km / 30 months (filter & valve also done at first '
+          '5,000 km service).',
+    ),
+    OemInterval(
+      service: 'Engine coolant + intercooler coolant',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      firstKm: 60000,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.b,
+      notes: 'Change Engine Coolant + Intercooler Coolant shown at 60,000 km '
+          '(only occurrence in the 100,000 km table) → first-change baseline.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      firstKm: 60000,
+      severity: OemSeverity.normal,
+      source: _srcGacMyGs3,
+      grade: OemGrade.b,
+      notes: 'Replace Spark Plugs shown at 60,000 km (only occurrence in the '
+          '100,000 km table; turbo) → first-change baseline.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// GWM ORA / TANK  (from GWM Malaysia official Warranty & Maintenance Booklets.
+// Ora Good Cat is a BEV (EV item set); Tank 500 is a 4WD HEV. Both booklets
+// print a normal R/I schedule AND a "shorten by half" severe table — Lebanon
+// meets GWM's severe definition (dust, short trips, heat), so the severe rows
+// are recorded as the explicit half-interval the booklet states. Sparse rows
+// were pinned against the every-service row used as a column ruler.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _gwmOraGoodCat = OemModelSchedule(
+  make: 'GWM (Ora)',
+  model: 'Ora Good Cat',
+  engine: 'Battery-electric',
+  fuel: 'Electric',
+  generationNote:
+      'GWM Malaysia Ora Good Cat warranty & maintenance booklet. Schedule grid '
+      'columns 1/15/30…150 ×1000 km at 1/12/24…120 months; base service '
+      '15,000 km / 12 months. BEV item set. The booklet also gives a severe '
+      '"shorten by half" table (items A/C filter, brake fluid, coolant, '
+      'transmission/reducer oil) — Lebanon = severe.',
+  intervals: [
+    OemInterval(
+      service: 'A/C (cabin) filter',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyGoodCat,
+      grade: OemGrade.a,
+      notes: 'R at every service (15/30/…/150 ×1000 km) → 15,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyGoodCat,
+      grade: OemGrade.a,
+      notes: 'R at 30/60/90/120/150 ×1000 km → every 30,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 15000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcGwmMyGoodCat,
+      grade: OemGrade.b,
+      notes: 'Severe table "shorten by half" → 15,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Coolant',
+      intervalKm: 60000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyGoodCat,
+      grade: OemGrade.a,
+      notes: 'R at 60/120 ×1000 km → every 60,000 km / 48 months.',
+    ),
+    OemInterval(
+      service: 'Coolant',
+      intervalKm: 30000,
+      intervalMonths: 24,
+      severity: OemSeverity.severe,
+      source: _srcGwmMyGoodCat,
+      grade: OemGrade.b,
+      notes: 'Severe table "shorten by half" → 30,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Reduction gear (reducer) oil',
+      intervalKm: 60000,
+      intervalMonths: 48,
+      firstKm: 45000,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyGoodCat,
+      grade: OemGrade.a,
+      notes: 'Transmission oil R at 45 & 105 ×1000 km → first at 45,000 km, '
+          'then every 60,000 km / 48 months.',
+    ),
+    OemInterval(
+      service: 'A/C (cabin) filter',
+      intervalKm: 7500,
+      intervalMonths: 6,
+      severity: OemSeverity.severe,
+      source: _srcGwmMyGoodCat,
+      grade: OemGrade.b,
+      notes: 'Severe table "shorten by half" → 7,500 km / 6 months.',
+    ),
+  ],
+);
+
+const OemModelSchedule _gwmTank500Hev = OemModelSchedule(
+  make: 'GWM (Tank)',
+  model: 'Tank 500 HEV',
+  engine: '2.0T HEV (4WD, body-on-frame)',
+  fuel: 'Hybrid',
+  generationNote:
+      'GWM Malaysia Tank 500 HEV warranty & maintenance booklet, "Periodical '
+      'Maintenance Schedule". Grid columns 10/20/30…100 ×1000 km at 6/12/18…60 '
+      'months; base 10,000 km / 6 months. Body-on-frame 4WD, so it carries '
+      'transfer-case + front/rear differential fluids. Coolant, spark plug and '
+      'transmission fluid each appear once in the 100,000 km table → recorded '
+      'as first-change baselines. Severe table shortens items by half.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.a,
+      notes: 'R at every service.',
+    ),
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 5000,
+      intervalMonths: 3,
+      severity: OemSeverity.severe,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.b,
+      notes: 'Severe table "shorten by half" → 5,000 km / 3 months.',
+    ),
+    OemInterval(
+      service: 'Air filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.a,
+      notes: 'I/R alternating → R at 20/40/60/80/100 → every 20,000 km / '
+          '12 months.',
+    ),
+    OemInterval(
+      service: 'A/C (cabin) filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.a,
+      notes: 'R at 20/40/60/80/100 → every 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.a,
+      notes: 'R at 40 & 80 ×1000 km → every 40,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.severe,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.b,
+      notes: 'Severe table "shorten by half" → 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Fuel filter element',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.a,
+      notes: 'R at 20/40/60/80/100 → every 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Powertrain coolant',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      firstKm: 60000,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.b,
+      notes: 'R shown once at 60,000 km in the 100,000 km table → first-change '
+          'baseline.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 80000,
+      intervalMonths: 48,
+      firstKm: 80000,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.b,
+      notes: 'R shown once at 80,000 km in the 100,000 km table (HEV) → '
+          'first-change baseline.',
+    ),
+    OemInterval(
+      service: 'Transmission fluid & pressure filter',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      firstKm: 60000,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.b,
+      notes: 'R shown once at 60,000 km in the 100,000 km table → first-change '
+          'baseline.',
+    ),
+    OemInterval(
+      service: 'Transfer case fluid',
+      intervalKm: 50000,
+      intervalMonths: 30,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.a,
+      notes: 'R at 50 & 100 ×1000 km → every 50,000 km / 30 months.',
+    ),
+    OemInterval(
+      service: 'Front & rear differential fluid',
+      intervalKm: 50000,
+      intervalMonths: 30,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank500,
+      grade: OemGrade.a,
+      notes: 'Front and rear diff fluid each R at 50 & 100 ×1000 km → every '
+          '50,000 km / 30 months.',
+    ),
+  ],
+);
+
+const OemModelSchedule _gwmTank300Petrol = OemModelSchedule(
+  make: 'GWM (Tank)',
+  model: 'Tank 300',
+  engine: 'Petrol 2.0T (4WD, body-on-frame); oil 5W30 6L',
+  fuel: 'Petrol',
+  generationNote:
+      'GWM Malaysia "GWM TANK 300 Maintenance Schedule" (petrol). Per-interval '
+      'parts/price table, columns 10,000–100,000 km at 6–60 months; base '
+      '10,000 km / 6 months. Which service each item falls on was read from the '
+      'shaded cells of the rendered table. Coolant, transmission fluid and '
+      'spark plugs appear once in the 100,000 km table → first-change '
+      'baselines. This sheet prints no severe column.',
+  intervals: [
+    OemInterval(
+      service: 'Engine oil & filter',
+      intervalKm: 10000,
+      intervalMonths: 6,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank300,
+      grade: OemGrade.a,
+      notes: 'Engine Oil 5W30 (6L) + drain washer + filter at every service.',
+    ),
+    OemInterval(
+      service: 'Air filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank300,
+      grade: OemGrade.a,
+      notes: 'At 20/40/60/80/100 ×1000 km → every 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'A/C (cabin) filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank300,
+      grade: OemGrade.a,
+      notes: 'At 20/40/60/80/100 ×1000 km → every 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Fuel filter element',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank300,
+      grade: OemGrade.a,
+      notes: 'At 20/40/60/80/100 ×1000 km → every 20,000 km / 12 months.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank300,
+      grade: OemGrade.a,
+      notes: 'At 40 & 80 ×1000 km → every 40,000 km / 24 months.',
+    ),
+    OemInterval(
+      service: 'Powertrain coolant',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      firstKm: 60000,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank300,
+      grade: OemGrade.b,
+      notes: 'Shown once at 60,000 km in the 100,000 km table → first-change '
+          'baseline.',
+    ),
+    OemInterval(
+      service: 'Transmission fluid',
+      intervalKm: 60000,
+      intervalMonths: 36,
+      firstKm: 60000,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank300,
+      grade: OemGrade.b,
+      notes: 'Shown once at 60,000 km in the 100,000 km table → first-change '
+          'baseline.',
+    ),
+    OemInterval(
+      service: 'Spark plugs',
+      intervalKm: 80000,
+      intervalMonths: 48,
+      firstKm: 80000,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank300,
+      grade: OemGrade.b,
+      notes: 'Shown once at 80,000 km in the 100,000 km table → first-change '
+          'baseline.',
+    ),
+    OemInterval(
+      service: 'Transfer case fluid',
+      intervalKm: 50000,
+      intervalMonths: 30,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank300,
+      grade: OemGrade.a,
+      notes: 'At 50 & 100 ×1000 km → every 50,000 km / 30 months.',
+    ),
+    OemInterval(
+      service: 'Front & rear differential fluid',
+      intervalKm: 50000,
+      intervalMonths: 30,
+      severity: OemSeverity.normal,
+      source: _srcGwmMyTank300,
+      grade: OemGrade.a,
+      notes: 'Front and rear diff fluid each at 50 & 100 ×1000 km → every '
+          '50,000 km / 30 months.',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// ZEEKR  (Geely premium BEVs, from Zeekr Malaysia official per-model Service
+// Maintenance Schedule. ✓ grid, columns 20,000 km / 1 year … 160,000 km /
+// 8 years. The X uses a 20,000 km / 1-year base inspection; the 7X uses a
+// 40,000 km / 2-year base inspection — recorded per model, not copied. Zeekr
+// 001 is NOT in this document → left as a gap. BEV item set only.)
+// ---------------------------------------------------------------------------
+
+const OemModelSchedule _zeekrX = OemModelSchedule(
+  make: 'Zeekr',
+  model: 'X (Premium RWD / Flagship AWD)',
+  engine: 'Battery-electric',
+  fuel: 'Electric',
+  generationNote:
+      'Zeekr Malaysia Service Maintenance Schedule — Zeekr X. Base maintenance '
+      'inspection + cabin filter every 20,000 km / 1 year. Reducer oil is Rear '
+      'only on Premium (RWD), Front+Rear on Flagship (AWD); interval is the '
+      'same. BEV item set.',
+  intervals: [
+    OemInterval(
+      service: 'Maintenance inspection',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcZeekrMy,
+      grade: OemGrade.b,
+      notes: '✓ at every 20,000 km / 1-year column.',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 20000,
+      intervalMonths: 12,
+      severity: OemSeverity.normal,
+      source: _srcZeekrMy,
+      grade: OemGrade.b,
+      notes: '✓ at every 20,000 km / 1-year column.',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcZeekrMy,
+      grade: OemGrade.b,
+      notes: '✓ at 40/80/120/160 ×1000 km → every 40,000 km / 2 years.',
+    ),
+    OemInterval(
+      service: 'Coolant',
+      intervalKm: 80000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcZeekrMy,
+      grade: OemGrade.b,
+      notes: '✓ at 80 & 160 ×1000 km → every 80,000 km / 4 years.',
+    ),
+    OemInterval(
+      service: 'Reducer lubricant oil',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcZeekrMy,
+      grade: OemGrade.b,
+      notes: '✓ at 40/80/120/160 ×1000 km → every 40,000 km / 2 years '
+          '(Rear on RWD; Front+Rear on AWD).',
+    ),
+  ],
+);
+
+const OemModelSchedule _zeekr7x = OemModelSchedule(
+  make: 'Zeekr',
+  model: '7X (RWD / AWD)',
+  engine: 'Battery-electric (800V)',
+  fuel: 'Electric',
+  generationNote:
+      'Zeekr Malaysia Service Maintenance Schedule — Zeekr 7X. Longer base '
+      'cadence than the X: maintenance inspection + cabin filter + brake fluid '
+      '+ reducer oil every 40,000 km / 2 years (the 20,000 km / 1-year column '
+      'is blank). Reducer is Rear on RWD, Front+Rear on AWD. BEV item set.',
+  intervals: [
+    OemInterval(
+      service: 'Maintenance inspection',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcZeekrMy,
+      grade: OemGrade.b,
+      notes: '✓ at 40/80/120/160 ×1000 km → every 40,000 km / 2 years.',
+    ),
+    OemInterval(
+      service: 'Cabin air filter',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcZeekrMy,
+      grade: OemGrade.b,
+      notes: '✓ at 40/80/120/160 ×1000 km → every 40,000 km / 2 years '
+          '(replace sooner if airflow drops or odour).',
+    ),
+    OemInterval(
+      service: 'Brake fluid',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcZeekrMy,
+      grade: OemGrade.b,
+      notes: '✓ at 40/80/120/160 ×1000 km → every 40,000 km / 2 years.',
+    ),
+    OemInterval(
+      service: 'Coolant',
+      intervalKm: 80000,
+      intervalMonths: 48,
+      severity: OemSeverity.normal,
+      source: _srcZeekrMy,
+      grade: OemGrade.b,
+      notes: '✓ at 80 & 160 ×1000 km → every 80,000 km / 4 years.',
+    ),
+    OemInterval(
+      service: 'Reducer lubricant oil',
+      intervalKm: 40000,
+      intervalMonths: 24,
+      severity: OemSeverity.normal,
+      source: _srcZeekrMy,
+      grade: OemGrade.b,
+      notes: '✓ at 40/80/120/160 ×1000 km → every 40,000 km / 2 years '
+          '(Rear on RWD; Front+Rear on AWD).',
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
 // The dataset.
 //
 // COVERAGE / GAPS (full detail in oem_schedules_chinese_SOURCES.md):
@@ -1465,7 +2198,10 @@ const OemModelSchedule _geelyCoolrayItems = OemModelSchedule(
 //     Tiggo 7 Pro / Tiggo 8 Pro / Tiggo Cross (ICE petrol, Chery Malaysia),
 //     Changan ICE range, GWM/Haval H6 (petrol + DHT hybrid/PHEV + GT + Malaysia
 //     HEV), JAC JS4 (ICE petrol), Geely Coolray (ICE petrol, full item set),
-//     Deepal S07 BEV + S05 PHEV (Changan UK, time-based).
+//     Deepal S07 BEV + S05 PHEV (Changan UK, time-based), GAC Aion Y (BEV),
+//     GAC GS3 1.5L Auto + GS3 Emzoom (ICE petrol), GWM Ora Good Cat (BEV, +
+//     severe), GWM Tank 500 HEV (+ severe), GWM Tank 300 (petrol), Zeekr X +
+//     Zeekr 7X (BEV).
 //   • Interval-only (item-level gap): MG (HS + EV range), Geely KSA range
 //     (+ fuel filter; Coolray now item-level), BYD Song Plus DM-i (PHEV cadence).
 //   • COMPLETE GAPS — no reachable official schedule, nothing recorded:
@@ -1473,7 +2209,11 @@ const OemModelSchedule _geelyCoolrayItems = OemModelSchedule(
 //     links not resolvable), Jetour X70/Dashing (no fetchable official table),
 //     JAC JS6 (only JS4 was published), Avatr 11/12, Voyah (Free/Dreamer EREV,
 //     Courage BEV — powertrain known but no reachable schedule), Seres/Aito
-//     M5/M7 (EREV + BEV variants — no reachable schedule). Per the GOLDEN RULE
+//     M5/M7 (EREV + BEV variants — no reachable schedule), Deepal S07 REEV,
+//     Nio ET5/ES6 + XPeng G6/G9 (app-based; no reachable interval table),
+//     Wuling (only news figures), Hongqi HS5/H5 (official manual references a
+//     schedule but prints no extractable interval table), GAC GS8 (no PMS
+//     published), Zeekr 001 (not in the Zeekr MY schedule). Per the GOLDEN RULE
 //     no figures were invented or copied across brands/models for these.
 // ---------------------------------------------------------------------------
 
@@ -1505,4 +2245,15 @@ const List<OemModelSchedule> kOemChineseSchedules = [
   // Geely
   _geelyKsaRange,
   _geelyCoolrayItems,
+  // GAC / Aion
+  _gacAionYBev,
+  _gacGs3Auto,
+  _gacGs3Emzoom,
+  // GWM Ora / Tank
+  _gwmOraGoodCat,
+  _gwmTank500Hev,
+  _gwmTank300Petrol,
+  // Zeekr
+  _zeekrX,
+  _zeekr7x,
 ];

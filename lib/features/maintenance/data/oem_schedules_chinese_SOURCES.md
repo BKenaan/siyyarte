@@ -186,6 +186,50 @@ confirmation before display).
     20,000 km). Upgrades the interval-only Geely entry for Coolray; Emgrand not
     tabulated here → Emgrand item-level remains a gap.
 
+### GAC / Aion (NEW)
+
+15. **GAC Malaysia (official distributor, gacmotor.com.my) — "GAC Preventive Maintenance Schedule Pricing"** (Grade A/B)
+    - Aion Y Plus (EV): `https://gacmotor.com.my/wp-content/uploads/2025/08/AION-Y-PMS.pdf`
+    - GS3 1.5L Auto & GS3 Emzoom (7 WDCT): `https://gacmotor.com.my/wp-content/uploads/2025/08/GAC-GS3-EMZOOM-PMS.pdf`
+    Dot = "perform"; sparse rows cross-checked against the printed Total Price
+    row. **Aion Y Plus (BEV):** brake fluid 40k/24mo, coolant 40k/24mo, reducer
+    (reduction gear) oil 60k/36mo, A/C filter 20k/12mo, EV-battery check 20k/12mo
+    (base 20,000 km / 12 months, first 5,000 km / 3 months). **GS3 1.5L Auto
+    (petrol):** oil+filter 10k/6mo, air + A/C filter 20k/12mo, spark plugs 40k,
+    coolant 40k, brake fluid 40k, drive belt 60k (first). **GS3 Emzoom (1.5T
+    WDCT, petrol):** oil+filter 10k/6mo, air filter 20k, brake fluid 40k, DCT
+    fluid/gasket/filter 50k/30mo, coolant + spark plugs 60k (baseline). GS8 has
+    no PMS on gacmotor.com.my → gap.
+
+### GWM Ora / Tank (NEW)
+
+16. **GWM Malaysia (official) — Ora Good Cat & Tank 500/300 maintenance booklets** (Grade A; severe rows Grade B)
+    - Ora Good Cat (BEV): `https://www.gwm.com.my/content/dam/gwm/pages/my/en/exclusive-service/pdf/maintenance-ora-good-cat-and-gt.pdf`
+    - Tank 500 HEV: `https://www.gwm.com.my/content/dam/gwm/pages/my/en/exclusive-service/pdf/maintenance-tank500.pdf`
+    - Tank 300 (petrol): `https://www.gwm.com.my/content/dam/gwm/pages/my/en/exclusive-service/pdf/maintenance-tank300.pdf`
+    **Ora Good Cat (BEV):** base 15,000 km / 12 months; A/C filter 15k/12mo,
+    brake fluid 30k/24mo, coolant 60k/48mo, reducer oil first 45k then 60k/48mo.
+    Booklet's SEVERE table "shorten by half" → recorded severe rows (Lebanon =
+    severe): brake fluid 15k/12mo, coolant 30k/24mo, A/C filter 7.5k/6mo.
+    **Tank 500 HEV (4WD):** base 10k/6mo; air + A/C filter + fuel filter
+    20k/12mo, brake fluid 40k/24mo, powertrain coolant + transmission fluid
+    first 60k, spark plug first 80k, transfer-case + front/rear diff fluid
+    50k/30mo; severe "shorten by half" recorded for oil/air/brake. **Tank 300
+    (petrol 2.0T 4WD):** base 10k/6mo; air + A/C + fuel filter 20k/12mo, brake
+    fluid 40k/24mo, coolant + transmission first 60k, spark plugs first 80k,
+    transfer-case + diff fluids 50k/30mo (this sheet prints no severe column).
+
+### Zeekr (NEW)
+
+17. **Zeekr Malaysia (official, zeekrlife.com) — "Service Maintenance Schedule"** (Grade B)
+    `https://assets.zeekrlife.com/assets/my/Service%20Maintenance%20Schedule.pdf`
+    ✓ grid, columns 20,000 km / 1 year … 160,000 km / 8 years; covers Zeekr 009,
+    7X and X. **Zeekr X (BEV):** inspection + cabin filter 20k/12mo, brake fluid
+    40k/24mo, coolant 80k/48mo, reducer oil 40k/24mo (Rear on RWD, F+R on AWD).
+    **Zeekr 7X (BEV):** longer base — inspection + cabin filter + brake fluid +
+    reducer oil 40k/24mo, coolant 80k/48mo. Zeekr 001 is NOT in this document →
+    gap.
+
 ---
 
 ## Coverage summary (what was sourced)
@@ -204,12 +248,19 @@ confirmation before display).
 | MG | HS, ZS EV, MG5 EV, MG4 EV, S5 EV | interval only | ✓ | — |
 | Geely | Coolray (New/Lite/Cityray) — full item set | item-level | ✓ | — |
 | Geely | Emgrand, Azkarra, Tugella, GX3 Pro, A1 | interval + fuel filter | ✓ | — |
+| GAC (Aion) | Aion Y Plus (BEV) | item-level | ✓ | — |
+| GAC | GS3 1.5L Auto; GS3 Emzoom (ICE petrol) | item-level | ✓ | — |
+| GWM (Ora) | Ora Good Cat (BEV) | item-level | ✓ | ✓ (shorten by half) |
+| GWM (Tank) | Tank 500 HEV; Tank 300 (petrol) | item-level | ✓ | ✓ (Tank 500) |
+| Zeekr | X (BEV); 7X (BEV) | item-level | ✓ | — |
 | **Chery Tiggo 2 / Tiggo 4 Pro (ICE)** | **none** | — | — | — |
 | **Jetour X70 / Dashing** | **none** | — | — | — |
 | **JAC JS6** | **none** | — | — | — |
 | **Avatr 11/12** | **none** | — | — | — |
 | **Voyah (Free/Dreamer EREV, Courage BEV)** | **none** | — | — | — |
 | **Seres / Aito M5, M7 (EREV + BEV)** | **none** | — | — | — |
+| **Nio ET5/ES6; XPeng G6/G9** | **none** | — | — | — |
+| **Wuling; Hongqi HS5/H5; GAC GS8; Zeekr 001** | **none** | — | — | — |
 
 ---
 
@@ -296,6 +347,36 @@ confirmation before display).
   not itemised there and are not recorded. **Action:** fetch a BYD DM-i
   owner's-manual "Maintenance Cycle and Items" table (Seal U DM-i / Song Plus
   DM-i / Qin / Han DM).
+
+- **Nio (ET5 / ES6) & XPeng (G6 / G9) — gap.** These premium BEVs schedule
+  service through the app / service centre; no official importer *interval table*
+  was reachable. XPeng Malaysia's ESM page lists reducer oil, A/C filter and
+  brake fluid as replacement items but prints no intervals; third-party guides
+  suggest ~40k brake/coolant and ~80k reducer but are **not** official and were
+  **not** recorded. The Nio/XPeng owner manuals (fetched/indexed) describe how to
+  check/refill fluids but do not tabulate replacement intervals. **Action:**
+  obtain a Nio/XPeng official service-schedule sheet (importer) per model.
+
+- **Wuling — gap.** Only Indonesian news figures were found (e.g. Air EV rear-
+  axle oil ~20k/12mo, brake fluid ~30k/18mo) — not an official document, so not
+  recorded. **Action:** obtain the Wuling owner's service book (Air EV / Bingo /
+  Almaz) for the official table.
+
+- **Hongqi (HS5 / H5) — gap.** The official FAW Hongqi owner's manual (hongqi-
+  ksa.com, fetched) has a "10-2 Maintenance" section but only states that
+  intervals follow "the maintenance schedule" (mileage/time whichever first) —
+  it prints **no extractable periodic-maintenance interval table** (likely a
+  separate service booklet / image). Third-party Russian figures (oil 10k, plugs
+  30k, brake 40k/2yr, cabin 20k/2yr, belt 100k) were **not** recorded. **Action:**
+  obtain the FAW Hongqi maintenance booklet with the interval grid.
+
+- **GAC GS8 — gap.** gacmotor.com.my publishes PMS charts for Aion Y, GS3,
+  Emkoo and M8 but not GS8 (404). **Action:** source a GAC GS8 PMS chart or
+  owner's-manual schedule.
+
+- **Zeekr 001 — gap.** The Zeekr Malaysia Service Maintenance Schedule (source
+  17) covers 009, 7X and X but not the 001. **Action:** obtain the 001-specific
+  Zeekr schedule.
 
 - **General:** several makes host their schedules as JS-rendered SPA pages
   (`mgcars.com`) or behind Cloudflare (`manualslib.com`), and some importer PDF
